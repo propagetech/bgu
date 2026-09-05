@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Bellandur Ganesha Utsava</title>
+    <meta
+      name="description"
+      content="Bellandur Ganesha Utsava is a 5-day community festival by Sri Vinayaka Seva Mandali and Classic Boys in Bellandur, Bengaluru."
+    />
+    <meta name="theme-color" content="#6B0F1E" />
+    <link rel="icon" href="imgs/logo-en.svg" type="image/svg+xml" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("bgu-theme") || "dark";
+          var l = localStorage.getItem("bgu-lang") || "en";
+          document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+          document.documentElement.setAttribute("data-lang", l === "kn" ? "kn" : "en");
+          document.documentElement.setAttribute("lang", l === "kn" ? "kn" : "en");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body data-asset-base="" data-page="home">
+    <a class="sr-only" href="#reel-home">Skip to content</a>
+
+    <nav class="top-nav" aria-label="Site">
+      <a class="nav-link" href="#reel-home">BGU</a>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Language">
+          <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-set-lang="kn" aria-pressed="false">ಕನ್ನಡ</button>
+        </div>
+        <button type="button" class="theme-toggle" id="theme-toggle" data-i18n="theme.toLight">
+          Light
+        </button>
+        <a class="nav-link" href="resources/" data-i18n="nav.resources">Resources</a>
+      </div>
+    </nav>
+
+    <div class="dots" id="reel-dots" aria-label="Section navigation"></div>
+
+    <main class="reels" id="reels" aria-label="Bellandur Ganesha Utsava">
+      <section class="reel is-active" id="reel-home" data-label="Home">
+        <div class="reel-inner">
+          <img
+            class="brand-mark"
+            data-brand-logo
+            src="imgs/logo-en.svg"
+            width="3762"
+            height="3762"
+            alt="Bellandur Ganesha Utsava logo"
+          />
+          <p class="lang-sub" data-i18n="home.sub" lang="kn">ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ</p>
+          <h1 data-i18n="home.title">Bellandur Ganesha Utsava</h1>
+          <p data-i18n="home.lead">
+            A prominent 5-day community festival in Bellandur, Bengaluru, known for
+            one of the tallest and richest Ganesha idols in the area.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#reel-dates" data-i18n="home.ctaDates">See dates</a>
+            <a class="btn btn-ghost" href="#reel-donate" data-i18n="home.ctaDonate">Donate</a>
+          </div>
+        </div>
+        <p class="swipe-hint" aria-hidden="true" data-i18n="home.swipe">Swipe up</p>
+      </section>
+
+      <section class="reel" id="reel-about" data-label="About">
+        <div class="reel-inner">
+          <p class="eyebrow" data-i18n="about.eyebrow">About</p>
+          <h2 data-i18n="about.title">Two decades of devotion</h2>
+          <p data-i18n="about.body">
+            Organised by Sri Vinayaka Seva Mandali and Classic Boys, Bellandur
+            Ganesha Utsava draws massive local crowds for daily rituals and the
+            grand procession. Celebrated for over twenty years in Bellandur.
+          </p>
+          <div class="placeholder-box">
+            <strong data-i18n="about.orgTitle">Organised by</strong>
+            <span data-i18n="about.orgBody">Sri Vinayaka Seva Mandali &amp; Classic Boys</span>
+          </div>
+          <div class="placeholder-box">
+            <strong data-i18n="about.venueTitle">Location</strong>
+            <span data-i18n="about.venueBody"
+              >Near Shri Venkateshwara Swamy Temple, 12th B Cross Rd, Bellandur,
+              Bengaluru, Karnataka 560103</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="reel" id="reel-dates" data-label="Dates">
+        <div class="reel-inner">
+          <p class="eyebrow" data-i18n="dates.eyebrow">Dates</p>
+          <h2 data-i18n="dates.title">5-day festival</h2>
+          <div class="placeholder-box">
+            <strong data-i18n="dates.boxTitle">Exact dates TBA</strong>
+            <span data-i18n="dates.boxBody">
+              Five days starting from Ganesh Chaturthi. Add the official calendar
+              dates here when published.
+            </span>
+          </div>
+          <ul class="program-list" aria-label="Festival day outline">
+            <li>
+              <span class="slot" data-i18n="dates.d1slot">Day 1</span>
+              <span class="title" data-i18n="dates.d1title"
+                >Ganesh Chaturthi opening &amp; first rituals</span
+              >
+            </li>
+            <li>
+              <span class="slot" data-i18n="dates.d2slot">Days 2 to 4</span>
+              <span class="title" data-i18n="dates.d2title">Daily poojas and community rituals</span>
+            </li>
+            <li>
+              <span class="slot" data-i18n="dates.d3slot">Day 5</span>
+              <span class="title" data-i18n="dates.d3title"
+                >Grand procession and visarjan</span
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="reel" id="reel-programmes" data-label="Programmes">
+        <div class="reel-inner">
+          <p class="eyebrow" data-i18n="prog.eyebrow">Programmes</p>
+          <h2 data-i18n="prog.title">What to expect</h2>
+          <p data-i18n="prog.body">
+            Daily rituals around a landmark Ganesha idol, community gatherings,
+            and a grand visarjan procession. Detailed programme slots below are
+            placeholders.
+          </p>
+          <ul class="program-list">
+            <li>
+              <span class="slot" data-i18n="prog.s1slot">Idol</span>
+              <span class="title" data-i18n="prog.s1title"
+                >One of the tallest and richest Ganesha idols in the area</span
+              >
+            </li>
+            <li>
+              <span class="slot" data-i18n="prog.s2slot">Daily</span>
+              <span class="title" data-i18n="prog.s2title">Poojas, aarti, and community rituals</span>
+            </li>
+            <li>
+              <span class="slot" data-i18n="prog.s3slot">Crowds</span>
+              <span class="title" data-i18n="prog.s3title">Massive local turnout across five days</span>
+            </li>
+            <li>
+              <span class="slot" data-i18n="prog.s4slot">Finale</span>
+              <span class="title" data-i18n="prog.s4title">Grand procession and visarjan</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="reel" id="reel-photos" data-label="Photos">
+        <div class="reel-inner">
+          <p class="eyebrow" data-i18n="photos.eyebrow">Gallery</p>
+          <h2 data-i18n="photos.title">Photos &amp; videos</h2>
+          <p data-i18n="photos.body">
+            Follow @bellanduru_ganesha_utsava on Instagram, browse the photo album,
+            or watch Facebook videos.
+          </p>
+          <a
+            class="photo-link"
+            href="https://photos.app.goo.gl/xPj6zXSLkxEbc4sx5"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="label" data-i18n="photos.label">Open photo album</span>
+          </a>
+          <div class="cta-row">
+            <a
+              class="btn btn-primary"
+              href="https://www.instagram.com/bellanduru_ganesha_utsava/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-i18n="photos.instagram"
+              >Instagram</a
+            >
+            <a
+              class="btn btn-ghost"
+              href="https://photos.app.goo.gl/xPj6zXSLkxEbc4sx5"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-i18n="photos.cta"
+              >View album</a
+            >
+            <a
+              class="btn btn-ghost"
+              href="https://www.facebook.com/bellandurganeshautsava/videos/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-i18n="photos.facebook"
+              >Facebook videos</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="reel" id="reel-donate" data-label="Donate">
+        <div class="reel-inner">
+          <p class="eyebrow" data-i18n="donate.eyebrow">Support</p>
+          <h2 data-i18n="donate.title">Donate</h2>
+          <p data-i18n="donate.body">
+            Support Sri Vinayaka Seva Mandali and Classic Boys with pooja
+            arrangements, the idol, and community seva. Scan the QR once it is
+            published.
+          </p>
+          <div
+            class="qr-frame"
+            role="img"
+            aria-label="Donation QR code placeholder"
+            data-i18n="donate.qr"
+            data-i18n-html="true"
+          >
+            QR code<br />placeholder
+          </div>
+          <div class="placeholder-box">
+            <strong data-i18n="donate.boxTitle">UPI / bank details</strong>
+            <span data-i18n="donate.boxBody"
+              >Placeholder for UPI ID, account name, and receipt contact.</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <section class="reel" id="reel-resources" data-label="Resources">
+        <div class="reel-inner">
+          <p class="eyebrow" data-i18n="res.eyebrow">Brand</p>
+          <h2 data-i18n="res.title">Logos &amp; assets</h2>
+          <p data-i18n="res.body">
+            Download English and Kannada logo files for posters, invites, and
+            social posts.
+          </p>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="resources/" data-i18n="res.cta">Open resources</a>
+            <a class="btn btn-ghost" href="#reel-home" data-i18n="res.top">Back to top</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/main.js" defer></script>
+  </body>
+</html>
