@@ -18,9 +18,9 @@
       "home.ctaDonate": "Donate",
       "home.swipe": "Swipe up",
       "about.eyebrow": "About",
-      "about.title": "Two decades of devotion",
+      "about.title": "10th year of devotion",
       "about.body":
-        "Organised by Sri Vinayaka Seva Mandali and Classic Boys, Bellandur Ganesha Utsava draws massive local crowds for daily rituals and the grand procession. Celebrated for over twenty years in Bellandur.",
+        "Organised by Sri Vinayaka Seva Mandali and Classic Boys, Bellandur Ganesha Utsava draws massive local crowds for daily rituals and the grand procession. This is the 10th year of the festival in Bellandur.",
       "about.orgTitle": "Organised by",
       "about.orgBody": "Sri Vinayaka Seva Mandali & Classic Boys",
       "about.venueTitle": "Location",
@@ -106,9 +106,9 @@
       "home.ctaDonate": "ದಾನ",
       "home.swipe": "ಮೇಲಕ್ಕೆ ಸ್ವೈಪ್",
       "about.eyebrow": "ಪರಿಚಯ",
-      "about.title": "ಎರಡು ದಶಕಗಳ ಭಕ್ತಿ",
+      "about.title": "೧೦ನೇ ವರ್ಷದ ಭಕ್ತಿ",
       "about.body":
-        "ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಆಯೋಜಿಸುವ ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವವು ದೈನಂದಿನ ಆಚರಣೆಗಳು ಮತ್ತು ವಿಶಾಲ ಮೆರವಣಿಗೆಗಾಗಿ ದೊಡ್ಡ ಸ್ಥಳೀಯ ಜನಸಂದಣಿಯನ್ನು ಸೆಳೆಯುತ್ತದೆ. ಇಪ್ಪತ್ತು ವರ್ಷಗಳಿಗೂ ಹೆಚ್ಚು ಕಾಲ ಆಚರಿಸಲಾಗುತ್ತಿದೆ.",
+        "ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಆಯೋಜಿಸುವ ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವವು ದೈನಂದಿನ ಆಚರಣೆಗಳು ಮತ್ತು ವಿಶಾಲ ಮೆರವಣಿಗೆಗಾಗಿ ದೊಡ್ಡ ಸ್ಥಳೀಯ ಜನಸಂದಣಿಯನ್ನು ಸೆಳೆಯುತ್ತದೆ. ಇದು ಬೆಳಂದೂರಿನಲ್ಲಿ ಉತ್ಸವದ ೧೦ನೇ ವರ್ಷ.",
       "about.orgTitle": "ಆಯೋಜಕರು",
       "about.orgBody": "ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್",
       "about.venueTitle": "ಸ್ಥಳ",
@@ -239,11 +239,15 @@
       }
     });
 
-    var logo = document.querySelector("[data-brand-logo]");
-    if (logo) {
-      logo.setAttribute("src", assetBase() + (next === "kn" ? "imgs/logo-kn.svg" : "imgs/logo-en.svg"));
-      logo.setAttribute("alt", pack["home.title"] || "Bellandur Ganesh Utsava");
-    }
+    var logo = document.querySelectorAll("[data-brand-logo]");
+    logo.forEach(function (el) {
+      el.setAttribute("src", assetBase() + (next === "kn" ? "imgs/logo-kn.svg" : "imgs/logo-en.svg"));
+      if (el.closest(".nav-brand")) {
+        el.setAttribute("alt", "");
+      } else {
+        el.setAttribute("alt", pack["home.title"] || "Bellandur Ganesha Utsava");
+      }
+    });
 
     if (document.body.getAttribute("data-page") === "resources") {
       document.title = pack["doc.resourcesTitle"];
@@ -354,6 +358,18 @@
           button.removeAttribute("aria-current");
         }
       });
+
+      var isAway = index > 0;
+      document.body.classList.toggle("is-away-home", isAway);
+      var navBrand = document.getElementById("nav-brand");
+      if (navBrand) {
+        navBrand.setAttribute("aria-hidden", isAway ? "false" : "true");
+        if (isAway) {
+          navBrand.removeAttribute("tabindex");
+        } else {
+          navBrand.setAttribute("tabindex", "-1");
+        }
+      }
     }
 
     function nearestIndex() {
