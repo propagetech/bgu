@@ -64,6 +64,20 @@
       "donate.qr": "QR code\nplaceholder",
       "donate.boxTitle": "UPI / bank details",
       "donate.boxBody": "Placeholder for UPI ID, account name, and receipt contact.",
+      "faq.eyebrow": "FAQ",
+      "faq.title": "Common questions",
+      "faq.q1": "Who organises Bellandur Ganesha Utsava?",
+      "faq.a1":
+        "Organised by Sri Vinayaka Seva Mandali and Classic Boys, Bellandur Ganesha Utsava draws massive local crowds for daily rituals and the grand procession. This is the 10th year of the festival in Bellandur.",
+      "faq.q2": "Where is Bellandur Ganesha Utsava held?",
+      "faq.a2":
+        "Near Shri Venkateshwara Swamy Temple, 12th B Cross Rd, Bellandur, Bengaluru, Karnataka 560103",
+      "faq.q3": "How long is the festival?",
+      "faq.a3":
+        "Five days starting from Ganesh Chaturthi. Add the official calendar dates here when published.",
+      "faq.q4": "What can visitors expect?",
+      "faq.a4":
+        "Daily rituals around a landmark Ganesha idol, community gatherings, and a grand visarjan procession. Detailed programme slots below are placeholders.",
       "res.eyebrow": "Brand",
       "res.title": "Logos & assets",
       "res.body":
@@ -129,10 +143,13 @@
       "dot.Programmes": "Programmes",
       "dot.Photos": "Photos",
       "dot.Donate": "Donate",
+      "dot.FAQ": "FAQ",
       "dot.Resources": "Resources",
-      "doc.title": "Bellandur Ganesha Utsava",
-      "doc.resourcesTitle": "Resources | Bellandur Ganesha Utsava",
-      "doc.editorTitle": "Logo editor | Bellandur Ganesha Utsava"
+      "doc.title": "Bellandur Ganesha Utsava 2026 | 10th Year Festival in Bengaluru",
+      "doc.resourcesTitle": "Logo Resources | Bellandur Ganesha Utsava",
+      "doc.editorTitle": "Logo editor | Bellandur Ganesha Utsava",
+      "doc.description":
+        "Bellandur Ganesha Utsava is a prominent 5-day community festival by Sri Vinayaka Seva Mandali and Classic Boys in Bellandur, Bengaluru. 10th year: daily rituals, landmark Ganesha idol, and grand visarjan."
     },
     kn: {
       "nav.resources": "ಸಂಪನ್ಮೂಲಗಳು",
@@ -193,6 +210,20 @@
       "donate.qr": "QR ಕೋಡ್\nತಾತ್ಕಾಲಿಕ",
       "donate.boxTitle": "UPI / ಬ್ಯಾಂಕ್ ವಿವರಗಳು",
       "donate.boxBody": "UPI ID, ಖಾತೆ ಹೆಸರು ಮತ್ತು ರಸೀದಿ ಸಂಪರ್ಕಕ್ಕೆ ತಾತ್ಕಾಲಿಕ ಸ್ಥಳ.",
+      "faq.eyebrow": "ಪ್ರಶ್ನೆಗಳು",
+      "faq.title": "ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳು",
+      "faq.q1": "ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವವನ್ನು ಯಾರು ಆಯೋಜಿಸುತ್ತಾರೆ?",
+      "faq.a1":
+        "ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಆಯೋಜಿಸುವ ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವವು ದೈನಂದಿನ ಆಚರಣೆಗಳು ಮತ್ತು ವಿಶಾಲ ಮೆರವಣಿಗೆಗಾಗಿ ದೊಡ್ಡ ಸ್ಥಳೀಯ ಜನಸಂದಣಿಯನ್ನು ಸೆಳೆಯುತ್ತದೆ. ಇದು ಬೆಳಂದೂರಿನಲ್ಲಿ ಉತ್ಸವದ ೧೦ನೇ ವರ್ಷ.",
+      "faq.q2": "ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ ಎಲ್ಲಿ ನಡೆಯುತ್ತದೆ?",
+      "faq.a2":
+        "ಶ್ರೀ ವೆಂಕಟೇಶ್ವರ ಸ್ವಾಮಿ ದೇವಸ್ಥಾನದ ಹತ್ತಿರ, ೧೨ನೇ ಬಿ ಕ್ರಾಸ್ ರಸ್ತೆ, ಬೆಳಂದೂರು, ಬೆಂಗಳೂರು, ಕರ್ನಾಟಕ ೫೬೦೧೦೩",
+      "faq.q3": "ಉತ್ಸವ ಎಷ್ಟು ದಿನ?",
+      "faq.a3":
+        "ಗಣೇಶ ಚತುರ್ಥಿಯಿಂದ ಆರಂಭವಾಗುವ ಐದು ದಿನಗಳು. ಅಧಿಕೃತ ಕ್ಯಾಲೆಂಡರ್ ದಿನಾಂಕಗಳನ್ನು ಪ್ರಕಟವಾದಾಗ ಸೇರಿಸಿ.",
+      "faq.q4": "ಭೇಟಿ ನೀಡುವವರು ಏನನ್ನು ನಿರೀಕ್ಷಿಸಬಹುದು?",
+      "faq.a4":
+        "ವಿಶೇಷ ಗಣೇಶ ಮೂರ್ತಿಯ ಸುತ್ತ ದೈನಂದಿನ ಆಚರಣೆಗಳು, ಸಮುದಾಯ ಸೇರುವಿಕೆ ಮತ್ತು ವಿಸರ್ಜನೆ ಮೆರವಣಿಗೆ. ಕೆಳಗಿನ ವಿವರಗಳು ತಾತ್ಕಾಲಿಕ.",
       "res.eyebrow": "ಬ್ರಾಂಡ್",
       "res.title": "ಲೋಗೋ ಮತ್ತು ಸಂಪತ್ತು",
       "res.body":
@@ -258,10 +289,13 @@
       "dot.Programmes": "ಕಾರ್ಯಕ್ರಮ",
       "dot.Photos": "ಚಿತ್ರಗಳು",
       "dot.Donate": "ದಾನ",
+      "dot.FAQ": "ಪ್ರಶ್ನೆಗಳು",
       "dot.Resources": "ಸಂಪನ್ಮೂಲ",
-      "doc.title": "ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ",
-      "doc.resourcesTitle": "ಸಂಪನ್ಮೂಲಗಳು | ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ",
-      "doc.editorTitle": "ಲೋಗೋ ಸಂಪಾದಕ | ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ"
+      "doc.title": "ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ ೨೦೨೬ | ೧೦ನೇ ವರ್ಷದ ಉತ್ಸವ",
+      "doc.resourcesTitle": "ಲೋಗೋ ಸಂಪನ್ಮೂಲಗಳು | ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ",
+      "doc.editorTitle": "ಲೋಗೋ ಸಂಪಾದಕ | ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ",
+      "doc.description":
+        "ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವವು ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಆಯೋಜಿಸುವ ೫ ದಿನಗಳ ಸಮುದಾಯ ಉತ್ಸವ. ೧೦ನೇ ವರ್ಷ: ದೈನಂದಿನ ಆಚರಣೆಗಳು, ವಿಶೇಷ ಮೂರ್ತಿ ಮತ್ತು ವಿಸರ್ಜನೆ."
     }
   };
 
@@ -335,6 +369,11 @@
       document.body.getAttribute("data-page")
     ];
     document.title = pack[pageKey] || pack["doc.title"];
+
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc && pack["doc.description"] && !pageKey) {
+      desc.setAttribute("content", pack["doc.description"]);
+    }
 
     syncControls();
     refreshDotLabels();
