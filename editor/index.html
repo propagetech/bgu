@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Logo editor | Bellandur Ganesha Utsava</title>
+    <meta
+      name="description"
+      content="Recolour and lay out the Bellandur Ganesha Utsava logo in your browser, then download it as a print-ready vector PDF, PNG or SVG."
+    />
+    <meta name="theme-color" content="#6B0F1E" />
+    <link rel="icon" href="../imgs/logo-en.svg" type="image/svg+xml" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("bgu-theme") || "dark";
+          var l = localStorage.getItem("bgu-lang") || "en";
+          document.documentElement.setAttribute("data-theme", t === "light" ? "light" : "dark");
+          document.documentElement.setAttribute("data-lang", l === "kn" ? "kn" : "en");
+          document.documentElement.setAttribute("lang", l === "kn" ? "kn" : "en");
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="editor.css" />
+  </head>
+  <body data-asset-base="../" data-page="editor">
+    <nav class="top-nav" aria-label="Site">
+      <a class="nav-brand is-visible" href="../" aria-label="Home">
+        <img data-brand-logo src="../imgs/logo-en.svg" width="3762" height="3762" alt="" />
+      </a>
+      <div class="controls">
+        <div class="seg" role="group" aria-label="Language">
+          <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-set-lang="kn" aria-pressed="false">ಕನ್ನಡ</button>
+        </div>
+        <button type="button" class="theme-toggle" id="theme-toggle" data-i18n="theme.toLight">
+          Light
+        </button>
+      </div>
+    </nav>
+
+    <main class="page">
+      <div class="editor-shell">
+        <aside class="panel" aria-label="Logo controls">
+          <div class="editor-head">
+            <div>
+              <h1 data-i18n="ed.title">Logo editor</h1>
+              <p data-i18n="ed.lead">Recolour, size and place the mark, then download it.</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" id="lbl-lockup" data-i18n="ed.lockup">Lockup</span>
+            <div class="seg seg--full" role="group" aria-labelledby="lbl-lockup" id="ctl-lockup">
+              <button type="button" data-lockup="english" aria-pressed="true">English</button>
+              <button type="button" data-lockup="kannada" aria-pressed="false">ಕನ್ನಡ</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" id="lbl-crown" data-i18n="ed.crown">Crown circle</span>
+            <div class="seg seg--full" role="group" aria-labelledby="lbl-crown" id="ctl-crown">
+              <button type="button" data-crown="center" aria-pressed="true" data-i18n="ed.crownCentre">
+                Centre
+              </button>
+              <button type="button" data-crown="all" aria-pressed="false" data-i18n="ed.crownAll">
+                All three
+              </button>
+              <button type="button" data-crown="none" aria-pressed="false" data-i18n="ed.crownNone">
+                None
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" data-i18n="ed.colourway">Colourway</span>
+            <div class="swatches" id="ctl-scheme"></div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" data-i18n="ed.colours">Colours</span>
+            <div class="colours">
+              <label class="colour"
+                ><span data-i18n="ed.cSun">Sun</span
+                ><input type="color" id="c-sun" value="#D4AF37"
+              /></label>
+              <label class="colour"
+                ><span data-i18n="ed.cEdge">Sun edge</span
+                ><input type="color" id="c-edge" value="#C41E3A"
+              /></label>
+              <label class="colour"
+                ><span data-i18n="ed.cDisc">Disc</span
+                ><input type="color" id="c-disc" value="#F8EAC0"
+              /></label>
+              <label class="colour"
+                ><span data-i18n="ed.cInk">Line art</span
+                ><input type="color" id="c-ink" value="#6B0F1E"
+              /></label>
+              <label class="colour"
+                ><span data-i18n="ed.cAccent">Accent</span
+                ><input type="color" id="c-accent" value="#C41E3A"
+              /></label>
+            </div>
+            <p class="field-note" data-i18n="ed.coloursNote">
+              Presets ship the approved ramps. Touch a picker and the gradients are
+              derived from your colour instead.
+            </p>
+          </div>
+
+          <div class="field">
+            <span class="field-label" id="lbl-bg" data-i18n="ed.background">Background</span>
+            <div class="seg seg--full" role="group" aria-labelledby="lbl-bg" id="ctl-bg">
+              <button type="button" data-bg="transparent" aria-pressed="true" data-i18n="ed.bgNone">
+                None
+              </button>
+              <button type="button" data-bg="#FFF8EC" aria-pressed="false" data-i18n="ed.bgPaper">
+                Paper
+              </button>
+              <button type="button" data-bg="#6B0F1E" aria-pressed="false" data-i18n="ed.bgCherry">
+                Cherry
+              </button>
+              <button type="button" data-bg="#D4AF37" aria-pressed="false" data-i18n="ed.bgGold">
+                Gold
+              </button>
+            </div>
+            <label class="colour"
+              ><span data-i18n="ed.bgCustom">Custom background</span
+              ><input type="color" id="c-bg" value="#140407"
+            /></label>
+          </div>
+
+          <div class="field">
+            <label for="ctl-board" data-i18n="ed.artboard">Artboard</label>
+            <select id="ctl-board"></select>
+            <div class="row" id="ctl-custom-board" hidden>
+              <label class="colour"
+                ><span data-i18n="ed.width">Width</span
+                ><input type="number" id="board-w" min="1" step="1" value="1080"
+              /></label>
+              <label class="colour"
+                ><span data-i18n="ed.height">Height</span
+                ><input type="number" id="board-h" min="1" step="1" value="1080"
+              /></label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="ctl-size" data-i18n="ed.size">Size</label>
+            <input type="range" id="ctl-size" min="20" max="160" step="1" value="78" />
+            <div class="row">
+              <button type="button" class="btn btn--ghost" id="btn-fit" data-i18n="ed.fit">Fit</button>
+              <button type="button" class="btn btn--ghost" id="btn-centre" data-i18n="ed.centre">
+                Centre
+              </button>
+            </div>
+            <p class="field-note" data-i18n="ed.dragNote">Drag the mark on the artboard to place it.</p>
+          </div>
+
+          <div class="field">
+            <label for="ctl-png" data-i18n="ed.pngSize">PNG size</label>
+            <select id="ctl-png"></select>
+          </div>
+
+          <div class="field">
+            <span class="field-label" data-i18n="ed.download">Download</span>
+            <button type="button" class="btn" id="btn-pdf" data-i18n="ed.pdf">PDF for print</button>
+            <div class="row">
+              <button type="button" class="btn btn--ghost" id="btn-png">PNG</button>
+              <button type="button" class="btn btn--ghost" id="btn-svg">SVG</button>
+            </div>
+            <p class="field-note" data-i18n="ed.pdfNote">
+              The PDF is real vector art, so it stays sharp at any size. PDF pages have
+              no transparency: with no background the mark prints on bare paper.
+            </p>
+          </div>
+
+          <p class="field-note">
+            <a class="back-link" href="../resources/" data-i18n="ed.backResources"
+              >Back to resources</a
+            >
+          </p>
+        </aside>
+
+        <section class="stage" aria-label="Preview">
+          <div class="stage-frame">
+            <div class="artboard" id="artboard" data-transparent="true"></div>
+          </div>
+          <div class="stage-meta">
+            <span id="stage-dims"></span>
+            <span id="stage-scheme"></span>
+          </div>
+          <p class="stage-status" id="status" role="status"></p>
+        </section>
+      </div>
+    </main>
+
+    <script src="../js/main.js" defer></script>
+    <script src="svg2pdf.js" defer></script>
+    <script src="editor.js" defer></script>
+  </body>
+</html>

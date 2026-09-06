@@ -86,6 +86,43 @@
       "res.sheetBody": "One sheet with every colourway, for quick reference.",
       "res.note":
         "Use these files for festival communication only. Keep clear space around the mark and do not recolour the emblem outside the provided variants.",
+      "ed.title": "Logo editor",
+      "ed.lead": "Recolour, size and place the mark, then download it.",
+      "ed.lockup": "Lockup",
+      "ed.crown": "Crown circle",
+      "ed.crownCentre": "Centre",
+      "ed.crownAll": "All three",
+      "ed.crownNone": "None",
+      "ed.colourway": "Colourway",
+      "ed.colours": "Colours",
+      "ed.cSun": "Sun",
+      "ed.cEdge": "Sun edge",
+      "ed.cDisc": "Disc",
+      "ed.cInk": "Line art",
+      "ed.cAccent": "Accent",
+      "ed.coloursNote":
+        "Presets ship the approved ramps. Touch a picker and the gradients are derived from your colour instead.",
+      "ed.background": "Background",
+      "ed.bgNone": "None",
+      "ed.bgPaper": "Paper",
+      "ed.bgCherry": "Cherry",
+      "ed.bgGold": "Gold",
+      "ed.bgCustom": "Custom background",
+      "ed.artboard": "Artboard",
+      "ed.width": "Width",
+      "ed.height": "Height",
+      "ed.size": "Size",
+      "ed.fit": "Fit",
+      "ed.centre": "Centre",
+      "ed.dragNote": "Drag the mark on the artboard to place it.",
+      "ed.pngSize": "PNG size",
+      "ed.download": "Download",
+      "ed.pdf": "PDF for print",
+      "ed.pdfNote":
+        "The PDF is real vector art, so it stays sharp at any size. PDF pages have no transparency: with no background the mark prints on bare paper.",
+      "ed.backResources": "Back to resources",
+      "res.editorTitle": "Open the logo editor",
+      "res.editorBody": "Recolour the mark, set a canvas size and download a print-ready PDF.",
       "dot.Home": "Home",
       "dot.About": "About",
       "dot.Dates": "Dates",
@@ -94,7 +131,8 @@
       "dot.Donate": "Donate",
       "dot.Resources": "Resources",
       "doc.title": "Bellandur Ganesha Utsava",
-      "doc.resourcesTitle": "Resources | Bellandur Ganesha Utsava"
+      "doc.resourcesTitle": "Resources | Bellandur Ganesha Utsava",
+      "doc.editorTitle": "Logo editor | Bellandur Ganesha Utsava"
     },
     kn: {
       "nav.resources": "ಸಂಪನ್ಮೂಲಗಳು",
@@ -177,6 +215,43 @@
       "res.sheetBody": "ಎಲ್ಲಾ ಬಣ್ಣದ ರೂಪಗಳು ಒಂದೇ ಹಾಳೆಯಲ್ಲಿ, ತ್ವರಿತ ಉಲ್ಲೇಖಕ್ಕೆ.",
       "res.note":
         "ಈ ಕಡತಗಳನ್ನು ಉತ್ಸವ ಸಂವಹನಕ್ಕೆ ಮಾತ್ರ ಬಳಸಿ. ಗುರುತಿನ ಸುತ್ತ ಸ್ಪಷ್ಟ ಸ್ಥಳಾವಕಾಶ ಇರಿಸಿ ಮತ್ತು ನೀಡಲಾದ ರೂಪಗಳ ಹೊರಗೆ ಬಣ್ಣ ಬದಲಿಸಬೇಡಿ.",
+      "ed.title": "ಲೋಗೋ ಸಂಪಾದಕ",
+      "ed.lead": "ಬಣ್ಣ, ಗಾತ್ರ ಮತ್ತು ಸ್ಥಾನ ಬದಲಿಸಿ, ನಂತರ ಡೌನ್\u200cಲೋಡ್ ಮಾಡಿ.",
+      "ed.lockup": "ಲಾಕಪ್",
+      "ed.crown": "ಕಿರೀಟದ ವೃತ್ತ",
+      "ed.crownCentre": "ಮಧ್ಯ",
+      "ed.crownAll": "ಮೂರೂ",
+      "ed.crownNone": "ಯಾವುದೂ ಇಲ್ಲ",
+      "ed.colourway": "ಬಣ್ಣದ ಶೈಲಿ",
+      "ed.colours": "ಬಣ್ಣಗಳು",
+      "ed.cSun": "ಸೂರ್ಯ",
+      "ed.cEdge": "ಸೂರ್ಯನ ಅಂಚು",
+      "ed.cDisc": "ಬಿಂಬ",
+      "ed.cInk": "ರೇಖಾಚಿತ್ರ",
+      "ed.cAccent": "ಒತ್ತು ಬಣ್ಣ",
+      "ed.coloursNote":
+        "ಸಿದ್ಧ ಶೈಲಿಗಳು ಅನುಮೋದಿತ ಬಣ್ಣಗಳನ್ನು ಹೊಂದಿವೆ. ಪಿಕರ್ ಬದಲಿಸಿದರೆ ನಿಮ್ಮ ಬಣ್ಣದಿಂದ ಗ್ರೇಡಿಯಂಟ್ ರಚನೆಯಾಗುತ್ತದೆ.",
+      "ed.background": "ಹಿನ್ನೆಲೆ",
+      "ed.bgNone": "ಇಲ್ಲ",
+      "ed.bgPaper": "ಕಾಗದ",
+      "ed.bgCherry": "ಚೆರ್ರಿ",
+      "ed.bgGold": "ಚಿನ್ನ",
+      "ed.bgCustom": "ಸ್ವಂತ ಹಿನ್ನೆಲೆ",
+      "ed.artboard": "ಆರ್ಟ್\u200cಬೋರ್ಡ್",
+      "ed.width": "ಅಗಲ",
+      "ed.height": "ಎತ್ತರ",
+      "ed.size": "ಗಾತ್ರ",
+      "ed.fit": "ಹೊಂದಿಸಿ",
+      "ed.centre": "ಮಧ್ಯಕ್ಕೆ",
+      "ed.dragNote": "ಲೋಗೋವನ್ನು ಎಳೆದು ಸ್ಥಾನ ಬದಲಿಸಿ.",
+      "ed.pngSize": "PNG ಗಾತ್ರ",
+      "ed.download": "ಡೌನ್\u200cಲೋಡ್",
+      "ed.pdf": "ಮುದ್ರಣಕ್ಕೆ PDF",
+      "ed.pdfNote":
+        "PDF ನಿಜವಾದ ವೆಕ್ಟರ್ ಆಗಿದೆ, ಯಾವುದೇ ಗಾತ್ರದಲ್ಲಿ ಸ್ಪಷ್ಟವಾಗಿರುತ್ತದೆ. PDF ಪುಟಗಳಿಗೆ ಪಾರದರ್ಶಕತೆ ಇಲ್ಲ: ಹಿನ್ನೆಲೆ ಇಲ್ಲದಿದ್ದರೆ ಬರಿಯ ಕಾಗದದ ಮೇಲೆ ಮುದ್ರಿತವಾಗುತ್ತದೆ.",
+      "ed.backResources": "ಸಂಪನ್ಮೂಲಗಳಿಗೆ ಹಿಂತಿರುಗಿ",
+      "res.editorTitle": "ಲೋಗೋ ಸಂಪಾದಕ ತೆರೆಯಿರಿ",
+      "res.editorBody": "ಬಣ್ಣ ಬದಲಿಸಿ, ಕ್ಯಾನ್ವಾಸ್ ಗಾತ್ರ ಆರಿಸಿ, ಮುದ್ರಣ ಸಿದ್ಧ PDF ಡೌನ್\u200cಲೋಡ್ ಮಾಡಿ.",
       "dot.Home": "ಮುಖ್ಯ",
       "dot.About": "ಪರಿಚಯ",
       "dot.Dates": "ದಿನಾಂಕ",
@@ -185,7 +260,8 @@
       "dot.Donate": "ದಾನ",
       "dot.Resources": "ಸಂಪನ್ಮೂಲ",
       "doc.title": "ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ",
-      "doc.resourcesTitle": "ಸಂಪನ್ಮೂಲಗಳು | ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ"
+      "doc.resourcesTitle": "ಸಂಪನ್ಮೂಲಗಳು | ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ",
+      "doc.editorTitle": "ಲೋಗೋ ಸಂಪಾದಕ | ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ"
     }
   };
 
@@ -255,11 +331,10 @@
       }
     });
 
-    if (document.body.getAttribute("data-page") === "resources") {
-      document.title = pack["doc.resourcesTitle"];
-    } else {
-      document.title = pack["doc.title"];
-    }
+    var pageKey = { resources: "doc.resourcesTitle", editor: "doc.editorTitle" }[
+      document.body.getAttribute("data-page")
+    ];
+    document.title = pack[pageKey] || pack["doc.title"];
 
     syncControls();
     refreshDotLabels();

@@ -831,6 +831,13 @@ body[data-page="resources"] .nav-brand {
   border-bottom: 1px solid var(--border-soft);
 }
 
+.editor-cta-body {
+  margin: 0 0 var(--space-3);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
 .asset-grid {
   display: grid;
   gap: var(--space-4);

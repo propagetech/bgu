@@ -54,6 +54,7 @@ and it is a small change.
 compare the edit independently of the recolour.
 
 The same three colourways plus eleven more finishes are in `../variants/`.
+To recolour and lay the mark out in a browser, see `../editor/`.
 
 ## Provenance
 
