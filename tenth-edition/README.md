@@ -5,13 +5,15 @@ with the requested edits applied and recoloured to cherry red + gold.
 
 ## Edits applied
 
-1. **Crown dots removed.** The black / red / black circle cluster above the
-   headdress arcs is gone from both lockups. Two black dots came out of the `ink`
-   layer and the red centre dot out of the `text` layer.
-2. **White keyline halos patched.** Each dot sat in a white keyline that was a gap
-   in the traced sun. Left alone it would have shown as three white blobs. A
-   `dotpatch` layer sits above the sun ring and below the disc, filled from a
-   user-space copy of the ring gradient so it blends with no seam.
+1. **Crown circle: centre only.** The original had a black / red / black cluster
+   above the headdress arcs. The two flanking black dots are gone (they came out
+   of the `ink` layer); the red centre circle stays, at the middle top.
+2. **White keyline patched.** Each circle sat in a white keyline that is a notch
+   in the traced disc outline, not a subpath of its own. Left alone the two
+   removed dots would have shown as white blobs. A `dotpatch` layer sits above
+   the sun ring and below the disc, painted with the same sun gradient. The sun
+   gradient is `userSpaceOnUse`, so the patch resolves it identically to the ring
+   path and leaves no seam.
 3. **Bottom ornament kept** in both. See the note below.
 4. **Recoloured** to cherry red + gold.
 
@@ -39,15 +41,19 @@ and it is a small change.
 
 ## Files
 
-- `*.svg` - the deliverable. Four layers: `ring`, `dotpatch`, `head`, `ink`, `text`.
+- `*.svg` - the deliverable. Layers: `ring`, `dotpatch`, `head`, `ink`, `text`.
   Verified rendering in-browser.
-- `png/` - transparent, trimmed, ~1820px.
+- `png/` - transparent, trimmed, ~1660px.
 - `contact-sheet.png` - all six side by side.
-- `scripts/` - `build10.py` regenerates everything from `../vector/*-original.svg`;
-  `pathlib2.py` is the path normaliser it uses.
+- `scripts/build10.py` - regenerates the SVGs from `../vector/*-original.svg`.
+  `CROWN` selects `"all"`, `"center"` (shipped) or `"none"` for the crown circles.
+  `render.py` rasterises them, `contact_sheet.py` builds the sheet.
+  `pathlib2.py` is the path normaliser `build10.py` uses.
 
-`*-original-nodots` is the original orange/yellow colourway with the dots removed,
-kept so you can compare the edit independently of the recolour.
+`*-original` is the original orange / yellow colourway, same edit, kept so you can
+compare the edit independently of the recolour.
+
+The same three colourways plus eleven more finishes are in `../variants/`.
 
 ## Provenance
 
