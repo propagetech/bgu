@@ -612,26 +612,36 @@ body.is-away-home .brand-mark {
 }
 
 .qr-frame {
-  width: min(58vw, 12rem);
-  aspect-ratio: 1;
+  width: min(58vw, 14rem);
   margin: 0 auto var(--space-5);
-  display: grid;
-  place-items: center;
+  padding: var(--space-3);
   border-radius: var(--radius);
-  border: 2px dashed var(--border);
-  background:
-    linear-gradient(135deg, var(--surface), var(--surface-strong)),
-    repeating-linear-gradient(
-      -45deg,
-      transparent,
-      transparent 8px,
-      var(--border-soft) 8px,
-      var(--border-soft) 16px
-    );
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.35;
-  padding: var(--space-4);
+  border: 1.5px solid var(--border-soft);
+  background: #fff;
+  text-align: center;
+}
+
+.qr-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: calc(var(--radius) - 6px);
+}
+
+.qr-frame figcaption {
+  margin-top: var(--space-3);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cherry-800);
+  font-family: var(--font-display);
+}
+
+[data-lang="kn"] .qr-frame figcaption {
+  font-family: "Noto Sans Kannada", "Baloo Tamma 2", sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: none;
 }
 
 .photo-link {

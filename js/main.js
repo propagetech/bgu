@@ -60,10 +60,11 @@
       "donate.eyebrow": "Support",
       "donate.title": "Donate",
       "donate.body":
-        "Support Sri Vinayaka Seva Mandali and Classic Boys with pooja arrangements, the idol, and community seva. Scan the QR once it is published.",
-      "donate.qr": "QR code\nplaceholder",
-      "donate.boxTitle": "UPI / bank details",
-      "donate.boxBody": "Placeholder for UPI ID, account name, and receipt contact.",
+        "Support Sri Vinayaka Seva Mandali and Classic Boys with pooja arrangements, the idol, and community seva. Scan the QR to pay via UPI.",
+      "donate.qrAlt": "UPI donation QR for Sri Vinayaka Seva Mandali",
+      "donate.qrCaption": "Scan to pay",
+      "donate.boxTitle": "UPI details",
+      "donate.boxBody": "VPA: 9845111817@kbl · Sri Vinayaka Seva Mandali",
       "faq.eyebrow": "FAQ",
       "faq.title": "Common questions",
       "faq.q1": "Who organises Bellandur Ganesha Utsava?",
@@ -206,10 +207,11 @@
       "donate.eyebrow": "ಬೆಂಬಲ",
       "donate.title": "ದಾನ",
       "donate.body":
-        "ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಅವರ ಪೂಜಾ ವ್ಯವಸ್ಥೆ, ಮೂರ್ತಿ ಮತ್ತು ಸಮುದಾಯ ಸೇವೆಗೆ ಬೆಂಬಲಿಸಿ. QR ಪ್ರಕಟವಾದ ನಂತರ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
-      "donate.qr": "QR ಕೋಡ್\nತಾತ್ಕಾಲಿಕ",
-      "donate.boxTitle": "UPI / ಬ್ಯಾಂಕ್ ವಿವರಗಳು",
-      "donate.boxBody": "UPI ID, ಖಾತೆ ಹೆಸರು ಮತ್ತು ರಸೀದಿ ಸಂಪರ್ಕಕ್ಕೆ ತಾತ್ಕಾಲಿಕ ಸ್ಥಳ.",
+        "ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಅವರ ಪೂಜಾ ವ್ಯವಸ್ಥೆ, ಮೂರ್ತಿ ಮತ್ತು ಸಮುದಾಯ ಸೇವೆಗೆ ಬೆಂಬಲಿಸಿ. UPI ಮೂಲಕ ಪಾವತಿಸಲು QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ.",
+      "donate.qrAlt": "ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ UPI ದಾನ QR",
+      "donate.qrCaption": "ಪಾವತಿಸಲು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+      "donate.boxTitle": "UPI ವಿವರಗಳು",
+      "donate.boxBody": "VPA: 9845111817@kbl · ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ",
       "faq.eyebrow": "ಪ್ರಶ್ನೆಗಳು",
       "faq.title": "ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳು",
       "faq.q1": "ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವವನ್ನು ಯಾರು ಆಯೋಜಿಸುತ್ತಾರೆ?",
@@ -352,6 +354,13 @@
         el.innerHTML = pack[key].replace(/\n/g, "<br />");
       } else {
         el.textContent = pack[key];
+      }
+    });
+
+    document.querySelectorAll("[data-i18n-alt]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-alt");
+      if (key && pack[key] != null) {
+        el.setAttribute("alt", pack[key]);
       }
     });
 
