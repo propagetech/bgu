@@ -48,6 +48,63 @@ Recolour is done at the PDF content-stream level (`k` CMYK operators rewritten a
   same PDFs rasterise perfectly. To get lockup SVGs, open the PDF in Illustrator
   and Save As SVG. The mark SVGs are clean (5 paths) and verified in-browser.
 
+## The brush-stroke sun, on its own
+
+`scripts/extract_sun.py` lifts the sun out of the original PDF as true vector:
+742 filled paths in three tonal layers (`sun-outer`, `sun-mid`, `sun-disc`),
+no tracing anywhere. The same drawing appears in both the 6th and the 8th
+edition files (742 and 740 paths, same shape, different placement), so there
+is only one native brush sun.
+
+| File | What it is |
+|---|---|
+| `svg/sun-brush.svg` | the whole sun, colours as authored |
+| `svg/sun-ring.svg` | the brush ring, solid centre dropped |
+| `svg/sun-ring-<scheme>.svg` | the ring in each house scheme |
+| `svg/sun-face.svg` | **gap-free background**: the sun with the elephant face in it |
+| `svg/sun-face-plain.svg` | the same, without the edition vignette |
+| `svg/sun-face-plain-<scheme>.svg` | that, in each house scheme |
+
+Two things to know before reusing it:
+
+- **It is cut around the Ganesha.** The mark's line art is knocked OUT of the
+  brush paths, so the ring on its own has elephant-shaped gaps in it. That is
+  what `sun-face.svg` is for, below.
+- **It is not the 10th-edition sun.** The 10th edition uses a later redraw. We
+  checked: rasterise the traced 10th-edition ring against this one and search
+  over scale, rotation and offset, and the best overlap is IoU 0.33 (identical
+  art would score above 0.85). This brush covers about 30% more area and is
+  more open and calligraphic. Swapping it into `editor/art/` changes the mark;
+  it does not sharpen the current one.
+
+### Filling the gaps: `sun-face.svg`
+
+The 8th-edition file carries the sun and the elephant face on one page, already
+in register. Keep both, drop the Kannada wordmark, and every gap is filled by
+construction rather than by fitting: no alignment guesswork, no seams. The
+result is a complete circular background with an empty disc in the middle,
+ready for whatever mark or lettering goes on top.
+
+Three things are cleaned up on the way through:
+
+- **Extraction artefacts.** Three lone `re` rectangles come through the parser
+  that do not render in the source. The artwork is lines and cubics only, so a
+  path that is a single rectangle is dropped.
+- **A vestigial "GANESH".** The solid disc still carries a knock-out of a Latin
+  wordmark from an earlier version, showing as hairline seams. Splitting that
+  one path into its 237 subpaths fills the holes and leaves the brushed edge
+  untouched.
+- **The wordmark.** The Kannada lettering sits in a known central box and the
+  face never does, so a box test separates them.
+
+`sun-face.svg` keeps the skydiver holding an "8th" balloon, as authored.
+`sun-face-plain.svg` drops that vignette, which is the one to use anywhere the
+edition number would be wrong.
+
+These are masters, around 370KB each and not on the publish list in
+`build.sh`. Anything that ships to the browser wants a pass through an SVG
+optimiser first.
+
 ## What still has to be redrawn for the 10th edition
 
 These originals do NOT contain the 10th-edition design. Still outstanding:
@@ -64,3 +121,5 @@ Ganesha mark in the same design lineage.
 ## Regenerating
 
 `scripts/recolor.py` rebuilds `pdf/` from `../original-files/` for any scheme.
+`scripts/extract_sun.py` rebuilds the `svg/sun-*.svg` set from the same source.
+Both need only PyMuPDF.
