@@ -1,0 +1,869 @@
+/* ==========================================================================
+   Bellandur Ganesha Utsava -- v2
+
+   A reduction, not a transplant. The potbellyaudio.com structure that seeded
+   this page was built around an absence: a studio under NDA that cannot show
+   its work, so it performs typographically to fill the space. Ghost words, a
+   waveform standing in for a showreel, a language marquee, an intro wipe,
+   sheets sliding over one another.
+
+   This festival has the opposite problem. A landmark idol, a lit pandal, a
+   night procession. What survived from that structure is what is structural:
+   the ink/paper sheet alternation with diagonal and rounded seams, the
+   indexed detail rows, one statement band. What was cut was performance:
+   the stacking (which measurably covered content before it could be read),
+   the ghost words, the marquee, the abstract waveform, the intro overlay.
+
+   The repo holds no photographs of the festival, only the mark. So the mark
+   is the material: used large and cropped as the hero's visual, never faked
+   into a photo thumbnail. Photo frames are sized 3:2 so real images can take
+   over as the hero material without a redesign.
+
+   Palette is the BGU cherry and gold system from css/main.css. Pure gold
+   #d9b441 fails AA as body text on cream, so --accent-deep (#9a6418, 4.78:1
+   on #fff8ec) carries it on the paper sheets.
+
+   Type by register:
+     statement  Cinzel 700 / 900   (display, all caps)
+     label      Baloo Tamma 2 800  (micro caps, stats, row keys)
+     body       Baloo Tamma 2 400  (running copy)
+     emphasis   Baloo Tamma 2 700  (titles inside rows, links, captions)
+     kannada    Noto Sans Kannada 700, Baloo Tamma 2 for running copy
+   The repo shipped only 700 and 800, which forced every paragraph to be bold.
+   The 400 is instantiated from the upstream Baloo Tamma 2 variable font at
+   the same release (1.700) as those two statics, so all three cuts share one
+   set of metrics: 1000 upem, 460 x-height, identical cmap.
+   Every face here is OFL 1.1. The licences ship next to the faces they
+   cover, in fonts-web/OFL-BalooTamma2.txt, OFL-Cinzel.txt and
+   OFL-NotoSansKannada.txt, so the deployed payload carries its own terms.
+   Noto Sans Kannada ships here at 700 only, so the two Kannada display lines
+   set their weight explicitly rather than inheriting 400 and being faked.
+   ========================================================================== */
+
+@font-face { font-family:"Cinzel"; font-style:normal; font-weight:700; font-display:swap; src:url("../fonts-web/Cinzel-700.woff2") format("woff2"); }
+@font-face { font-family:"Cinzel"; font-style:normal; font-weight:900; font-display:swap; src:url("../fonts-web/Cinzel-900.woff2") format("woff2"); }
+@font-face { font-family:"Baloo Tamma 2"; font-style:normal; font-weight:400; font-display:swap; src:url("../fonts-web/BalooTamma2-400.woff2") format("woff2"); }
+@font-face { font-family:"Baloo Tamma 2"; font-style:normal; font-weight:700; font-display:swap; src:url("../fonts-web/BalooTamma2-700.woff2") format("woff2"); }
+@font-face { font-family:"Baloo Tamma 2"; font-style:normal; font-weight:800; font-display:swap; src:url("../fonts-web/BalooTamma2-800.woff2") format("woff2"); }
+@font-face { font-family:"Noto Sans Kannada"; font-style:normal; font-weight:700; font-display:swap; src:url("../fonts-web/NotoSansKannada-700.woff2") format("woff2"); }
+
+:root {
+  --ink: #1a0508;
+  --ink-raise: #2a080f;
+  --cherry: #6b0f1e;
+  --cherry-deep: #3a0a12;
+  --paper: #fff8ec;
+  --paper-raise: #fffdf7;
+
+  --accent: #d9b441;
+  --accent-lift: #efd489;
+  --accent-deep: #9a6418;
+
+  --on-dark: #fff8ec;
+  --on-dark-mute: #d9c4a0;
+  --on-light: #3a0a12;
+  --on-light-mute: #6b0f1e;
+
+  --line-dark: rgba(255, 248, 236, 0.18);
+  --line-light: rgba(58, 10, 18, 0.16);
+
+  --font-display: "Cinzel", "Times New Roman", Georgia, serif;
+  --font-label: "Baloo Tamma 2", "Noto Sans Kannada", system-ui, sans-serif;
+  --font-body: "Baloo Tamma 2", "Noto Sans Kannada", system-ui, sans-serif;
+  --font-kn: "Noto Sans Kannada", "Baloo Tamma 2", system-ui, sans-serif;
+
+  --wrap: 1280px;
+  --pad-x: clamp(20px, 5vw, 56px);
+  --pad-y: clamp(64px, 9vw, 112px);
+
+  --r-card: 20px;
+  --r-pill: 999px;
+
+  color-scheme: dark;
+}
+
+/* ---- Reset -------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--on-dark);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, p, figure, blockquote { margin: 0; }
+/* height:auto matters: the logos carry 3762x3762 width/height attributes, so
+   capping width alone leaves them 3762px tall. */
+img { max-width: 100%; height: auto; display: block; }
+ul { margin: 0; padding: 0; list-style: none; }
+
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--accent); color: var(--ink); }
+
+section { scroll-margin-top: 76px; }
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.kn { font-family: var(--font-kn); }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  background: var(--accent);
+  color: var(--ink);
+  padding: 14px 22px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.skip-link:focus { left: 0; }
+
+@keyframes bgurise  { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes bgublink { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ---- Nav ---------------------------------------------------------------- */
+
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0 var(--pad-x);
+  background: rgba(26, 5, 8, 0.9);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.site-nav__logo { display: flex; align-items: center; gap: 12px; }
+.site-nav__logo img { height: 42px; margin: 13px 0; width: auto; }
+.site-nav__wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.site-nav__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 30px);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+}
+
+.site-nav__link {
+  color: var(--on-dark-mute);
+  padding: 6px 2px;
+  text-transform: uppercase;
+  transition: color 0.25s ease;
+}
+.site-nav__link:hover { color: var(--accent); }
+
+.site-nav__cta {
+  display: inline-flex;
+  align-items: center;
+  background: var(--accent);
+  color: var(--ink);
+  padding: 12px 26px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: background 0.25s ease;
+}
+.site-nav__cta:hover { background: var(--accent-lift); }
+
+/* ---- Shared layout ------------------------------------------------------ */
+
+.wrap {
+  position: relative;
+  width: 100%;
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: var(--pad-y) var(--pad-x);
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.eyebrow--dark  { color: var(--accent); }
+.eyebrow--light { color: var(--accent-deep); }
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(28px, 4vw, 46px);
+  line-height: 1.12;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.lede {
+  font-size: 17px;
+  line-height: 1.8;
+  max-width: 60ch;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: clamp(40px, 6vw, 76px);
+}
+.split .lede + .pill-row { margin-top: 28px; }
+
+/* Sheets: ink and paper alternating, joined by seams. No stacking. Sections
+   simply follow one another, so nothing covers content that has not been
+   read yet. */
+.sheet { position: relative; overflow: hidden; }
+
+.sheet--dark  { background: var(--ink);  color: var(--on-dark); }
+.sheet--paper { background: var(--paper); color: var(--on-light); }
+
+.sheet--dark .lede  { color: var(--on-dark-mute); }
+.sheet--paper .lede { color: var(--on-light-mute); }
+
+.seam-down {
+  clip-path: polygon(0 4vw, 100% 0, 100% 100%, 0 100%);
+  margin-top: -4vw;
+}
+.seam-up {
+  clip-path: polygon(0 0, 100% 4vw, 100% 100%, 0 100%);
+  margin-top: -4vw;
+}
+.seam-down > .wrap,
+.seam-up > .wrap { padding-top: calc(40px + 4vw); }
+
+.seam-round {
+  border-radius: 40px 40px 0 0;
+  margin-top: -40px;
+}
+
+/* Pills */
+.pill {
+  display: inline-block;
+  padding: 16px 32px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.pill--accent { background: var(--accent); color: var(--ink); }
+.pill--accent:hover { background: var(--accent-lift); }
+
+.pill--ink { background: var(--cherry); color: var(--on-dark); }
+.pill--ink:hover { background: var(--cherry-deep); }
+
+.pill--ghost-dark { border: 1px solid rgba(255, 248, 236, 0.34); color: var(--on-dark); }
+.pill--ghost-dark:hover { border-color: var(--accent); color: var(--accent); }
+
+.pill--ghost-light { border: 1px solid var(--line-light); color: var(--on-light); }
+.pill--ghost-light:hover { border-color: var(--on-light); background: rgba(58, 10, 18, 0.05); }
+
+.pill-row { display: flex; flex-wrap: wrap; gap: 14px; }
+
+/* Indexed rows: the strongest pattern carried over from the reference. */
+.rows { display: flex; flex-direction: column; }
+
+.row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 24px;
+  padding: 26px 0;
+  border-top: 1px solid var(--line-dark);
+}
+.row:last-child { border-bottom: 1px solid var(--line-dark); }
+.sheet--paper .row { border-color: var(--line-light); }
+
+.row__key {
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  padding-top: 4px;
+  color: var(--accent);
+}
+.sheet--paper .row__key { color: var(--accent-deep); }
+
+.row__title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+
+.row__text { font-size: 15px; line-height: 1.75; }
+.sheet--dark .row__text  { color: var(--on-dark-mute); }
+.sheet--paper .row__text { color: var(--on-light-mute); }
+
+/* ---- Hero --------------------------------------------------------------- */
+/* The mark is the material. Not a watermark and not a fake photograph: it is
+   the one piece of real, owned, distinctive artwork this festival has, so it
+   is used at full strength as the hero's visual anchor. */
+
+.hero {
+  background:
+    radial-gradient(ellipse 80% 60% at 78% 30%, rgba(196, 30, 58, 0.55), transparent 62%),
+    linear-gradient(180deg, var(--cherry-deep), var(--ink) 78%);
+}
+
+.hero .wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  padding-top: clamp(48px, 7vw, 88px);
+  padding-bottom: clamp(48px, 7vw, 88px);
+}
+
+.hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 26px;
+  animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.hero__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  animation: bgublink 2.6s ease-in-out infinite;
+}
+
+.hero__eyebrow span:last-child {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--on-dark-mute);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(34px, 5.4vw, 68px);
+  line-height: 1.06;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.08s both;
+}
+.hero__title em { font-style: normal; color: var(--accent); }
+
+.hero__kn {
+  font-family: var(--font-kn);
+  font-size: clamp(16px, 1.7vw, 22px);
+  line-height: 1.6;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--accent-lift);
+  margin-top: 18px;
+  animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.14s both;
+}
+
+.hero__sub {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--on-dark-mute);
+  max-width: 46ch;
+  margin-top: 24px;
+  animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+}
+
+.hero__cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 34px;
+  animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.26s both;
+}
+.hero__cta .pill { padding: 18px 36px; font-size: 13px; }
+
+.hero__mark {
+  animation: bgurise 1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.18s both;
+}
+.hero__mark img {
+  width: 100%;
+  max-width: 420px;
+  margin-left: auto;
+  filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.5));
+}
+
+/* ---- When: the five days ------------------------------------------------ */
+/* Promoted to second, immediately after the hero. For a festival site the
+   date is the single most valuable thing on the page. Each day carries an
+   empty slot for its calendar date and timings, so publishing them later is
+   a content edit and not a layout change. */
+
+.when__head {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: clamp(28px, 4vw, 64px);
+  align-items: end;
+  margin-bottom: 48px;
+}
+
+.when__notice {
+  border: 1px solid var(--line-dark);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--r-card) var(--r-card) 0;
+  padding: 22px 26px;
+  background: var(--ink-raise);
+}
+.when__notice strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.when__notice span { font-size: 15px; line-height: 1.7; color: var(--on-dark-mute); }
+
+.days { display: flex; flex-direction: column; }
+
+.day {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 180px;
+  gap: 28px;
+  align-items: baseline;
+  padding: 26px 0;
+  border-top: 1px solid var(--line-dark);
+}
+.day:last-child { border-bottom: 1px solid var(--line-dark); }
+
+.day--finale .day__num,
+.day--finale .day__title { color: var(--accent); }
+
+.day__num {
+  font-family: var(--font-label);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--on-dark-mute);
+}
+
+.day__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(19px, 2.1vw, 25px);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.day__note { font-size: 14px; line-height: 1.7; color: var(--on-dark-mute); margin-top: 6px; }
+
+/* Empty until the calendar is published. Styled as a waiting slot rather
+   than hidden, so the page states plainly what is still to come. */
+.day__when {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--on-dark-mute);
+  opacity: 0.65;
+  text-align: right;
+}
+
+/* ---- Facts strip -------------------------------------------------------- */
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 0 clamp(28px, 4vw, 56px);
+  margin-top: 56px;
+}
+
+.fact { padding: 22px 0 0; border-top: 2px solid var(--accent-deep); }
+.sheet--dark .fact { border-color: var(--accent); }
+
+.fact__num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 38px;
+  line-height: 1;
+  color: var(--cherry);
+}
+.sheet--dark .fact__num { color: var(--accent); }
+
+.fact__label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--on-light-mute);
+  margin-top: 12px;
+}
+.sheet--dark .fact__label { color: var(--on-dark-mute); }
+
+/* ---- Photo frames ------------------------------------------------------- */
+/* There are no festival photographs in this repo, so these are not dressed
+   up as thumbnails: no play button, no fake still. Each frame carries the
+   mark as ornament and links to where the pictures actually live. The 3:2
+   ratio is the point. Drop an <img> in and the section becomes a real
+   gallery with no other change. */
+
+.frames {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 22px;
+}
+
+.frame__box {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  border: 1px solid var(--line-dark);
+  background:
+    radial-gradient(ellipse 65% 65% at 50% 40%, rgba(239, 212, 137, 0.18), transparent 62%),
+    linear-gradient(158deg, var(--cherry), var(--cherry-deep));
+  transition: transform 0.35s ease, border-color 0.35s ease;
+}
+.frame__box:hover { transform: translateY(-4px); border-color: var(--accent); }
+
+.frame__box img {
+  width: 40%;
+  max-width: 132px;
+  opacity: 0.9;
+  transition: transform 0.4s ease;
+}
+.frame__box:hover img { transform: scale(1.04); }
+
+.frame__caption { font-size: 16px; font-weight: 700; margin-top: 16px; }
+
+.frame__where {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 5px;
+}
+
+/* ---- Statement band ----------------------------------------------------- */
+
+.band {
+  margin-top: 72px;
+  border: 1px solid var(--line-light);
+  border-radius: var(--r-card);
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 5vw, 56px);
+  text-align: center;
+}
+.sheet--dark .band { border-color: var(--line-dark); }
+
+.band__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(24px, 3vw, 40px);
+  line-height: 1.16;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.band__title .stroke {
+  color: var(--ink);
+  background: var(--accent);
+  padding: 0 0.1em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+.sheet--dark .band__title .stroke { background: none; color: var(--accent); padding: 0; }
+
+.band__text {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--on-light-mute);
+  margin: 22px auto 0;
+  max-width: 54ch;
+}
+.sheet--dark .band__text { color: var(--on-dark-mute); }
+
+/* ---- Segments ----------------------------------------------------------- */
+
+.segment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 0 clamp(28px, 4vw, 56px);
+  margin-top: 40px;
+}
+
+.segment { padding: 24px 0; border-top: 1px solid var(--line-light); }
+.sheet--dark .segment { border-color: var(--line-dark); }
+.segment__title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.segment__text { font-size: 14px; line-height: 1.7; color: var(--on-light-mute); }
+.sheet--dark .segment__text { color: var(--on-dark-mute); }
+
+/* ---- About -------------------------------------------------------------- */
+
+.about__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 210px) minmax(min(100%, 340px), 1fr);
+  gap: clamp(32px, 5vw, 68px);
+  align-items: start;
+}
+
+.about__portrait {
+  border-radius: var(--r-card);
+  overflow: hidden;
+  border: 1px solid var(--line-light);
+  background: linear-gradient(160deg, var(--paper-raise), #f7e7c8);
+  padding: 20px;
+}
+
+.about__caption {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--on-light-mute);
+  margin-top: 14px;
+}
+
+.about__body p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--on-light-mute);
+  margin-bottom: 16px;
+  max-width: 60ch;
+}
+.about__body .pill-row { margin-top: 28px; }
+
+/* ---- Seva: donate and contact ------------------------------------------- */
+
+.seva__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+  color: var(--on-dark-mute);
+  margin-top: 32px;
+}
+.seva__lines a { color: var(--on-dark); font-weight: 700; padding: 3px 0; }
+.seva__lines a:hover { color: var(--accent); }
+.seva__lines .addr { line-height: 1.7; }
+
+.seva__actions { align-self: start; }
+.seva__actions .pill-row { flex-direction: column; align-items: flex-start; }
+.seva__actions .pill { padding: 18px 38px; font-size: 13px; }
+
+.qr-frame {
+  display: inline-block;
+  background: var(--paper);
+  border-radius: var(--r-card);
+  padding: 18px 18px 12px;
+  margin-bottom: 26px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+.qr-frame img { width: clamp(150px, 20vw, 200px); border-radius: 8px; }
+.qr-frame figcaption {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--on-light-mute);
+  margin-top: 12px;
+}
+
+.volunteer { margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--line-dark); }
+
+.volunteer__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 21px;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.volunteer__text {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--on-dark-mute);
+  margin-bottom: 20px;
+  max-width: 50ch;
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+
+.site-footer { background: var(--ink); border-top: 1px solid var(--line-dark); }
+
+.site-footer__inner {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 40px var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.site-footer__logo { height: 38px; width: auto; opacity: 0.9; }
+
+.site-footer__tagline {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-dark-mute);
+}
+
+.site-footer__social {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.site-footer__social a {
+  border: 1px solid var(--line-dark);
+  border-radius: var(--r-pill);
+  padding: 9px 18px;
+  color: var(--on-dark-mute);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.site-footer__social a:hover { color: var(--accent); border-color: var(--accent); }
+
+.site-footer__signoff {
+  font-family: var(--font-kn);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.site-footer__copyright { font-size: 12px; font-weight: 400; color: var(--on-dark-mute); }
+
+/* ---- Tablet ------------------------------------------------------------- */
+
+@media (max-width: 1000px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .hero__mark { order: -1; }
+  .hero__mark img { max-width: 250px; margin: 0; }
+  .day { grid-template-columns: 84px minmax(0, 1fr); }
+  .day__when { grid-column: 2; text-align: left; opacity: 0.75; }
+}
+
+@media (max-width: 900px) {
+  .about__grid { grid-template-columns: 1fr; }
+  .about__portrait { max-width: 220px; }
+}
+
+/* ---- Phone -------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .site-nav__link { display: none; }
+  .site-nav__wordmark { display: none; }
+
+  .hero__title { font-size: 9.6vw; line-height: 1.08; }
+  .hero__cta { flex-direction: column; width: 100%; }
+  .hero__cta .pill { text-align: center; }
+
+  .headline { font-size: 7.8vw; line-height: 1.14; }
+
+  .lede,
+  .about__body p,
+  .band__text,
+  .volunteer__text,
+  .segment__text,
+  .row__text,
+  .day__note,
+  .seva__lines { font-size: 14px; }
+
+  .day { grid-template-columns: 1fr; gap: 6px; }
+  .day__when { grid-column: 1; }
+
+  .fact__num { font-size: 32px; }
+
+  .seva__actions .pill-row { width: 100%; }
+  .seva__actions .pill { width: 100%; text-align: center; }
+
+  .band { margin-top: 48px; }
+
+  .site-footer__inner { flex-direction: column; align-items: flex-start; gap: 18px; }
+
+  /* Detail rows collapse; tap the title to expand the description. */
+  .row {
+    cursor: pointer;
+    padding: 18px 0;
+    grid-template-columns: 28px 1fr;
+    gap: 14px;
+  }
+
+  .row__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 0;
+  }
+
+  .row__title::after {
+    content: "+";
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .row.is-open .row__title::after { content: "\2212"; }
+  .row.is-open .row__title { margin-bottom: 8px; }
+
+  .row__text { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .row.is-open .row__text { max-height: 400px; }
+}

@@ -19,6 +19,7 @@ PUBLIC=(
   assets/logos
   resources
   editor
+  v2
 )
 
 # Paths inside the above that must NOT ship (build tooling, notes).
