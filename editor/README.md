@@ -15,13 +15,46 @@ JavaScript and CSS plus the two artwork files. Serve the site and open
 - Size the mark with the slider and drag it into place
 - Download **PDF**, **PNG** or **SVG**
 
+## The shape of the page
+
+The editor is an instrument, not a document, and it holds to two rules at every
+size:
+
+1. **The artwork never leaves the screen.** The page itself does not scroll.
+   `.editor` is a `100dvh` grid of three rows: the space the site nav floats
+   over, the stage, and the tray. Opening a tool takes height *from the stage*
+   rather than covering it, so the mark shrinks to make room and you watch the
+   edit happen. `layout()` fits the board to `.stage-frame`, and a
+   `ResizeObserver` on that frame re-fits it on every frame of the sheet
+   animation, so the artwork tracks the controls exactly.
+2. **Export is always one tap away.** It is the fifth, primary slot in the dock,
+   which is fixed. You never scroll, or hunt, to download.
+
+Nineteen controls were grouped into four tools plus Export, named for what you
+are changing rather than for the widget: **Mark** (lockup, crown circles),
+**Colour** (colourway, the five pickers), **Canvas** (artboard, background),
+**Place** (size, fit, centre), **Export** (PDF, PNG, SVG, PNG size). A
+colourway swatch is a miniature of the mark itself, so the choice previews its
+own result.
+
+The tray goes where the space is. Tall windows get it along the bottom; wide
+ones lay each sheet's fields out in two columns so the tray is shorter and the
+artwork bigger; a landscape phone, which has width to spare and almost no
+height, moves the whole tray to the right-hand side. It is one object answering
+the shape of the window, not three layouts.
+
+Verified at 320x568, 360x640, 375x812, 390x844, 414x896, 768x1024, 844x390,
+932x430, 1024x768, 1280x800, 1440x900 and 1920x1080, in both themes and both
+languages: the page never scrolls, the dock is always on screen, and the
+artwork is never covered by the controls.
+
 ## Files
 
 | File | What it is |
 |---|---|
 | `index.html` | the page |
 | `editor.css` | editor shell only; tokens, fonts and the nav come from `../css/main.css` |
-| `editor.js` | state, controls, PNG and SVG export |
+| `editor.js` | state, the tool dock, layout fitting, PNG and SVG export |
 | `svg2pdf.js` | the PDF writer, standalone and reusable |
 | `art/*.svg` | base artwork, generated |
 | `scripts/build_editor_art.py` | regenerates `art/` from `../vector/` |

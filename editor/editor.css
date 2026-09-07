@@ -1,282 +1,73 @@
-/* Logo editor shell. Tokens, fonts and the nav come from ../css/main.css. */
+/* Logo editor. Tokens, fonts and the nav come from ../css/main.css.
+ *
+ * The shell is an instrument, not a document: the page itself never scrolls.
+ * A fixed three-row grid gives the artwork every pixel the controls are not
+ * using, so the mark is on screen while it is being edited and the export
+ * action is always one tap away.
+ */
 
-.editor-shell {
-  max-width: 84rem;
-  margin: 0 auto;
-  padding: var(--space-6) var(--space-4) var(--space-7);
-  display: grid;
-  gap: var(--space-5);
-}
-
-/* One column: the preview leads, the controls follow it. */
-.editor-shell > .stage {
-  order: -1;
-}
-
-@media (min-width: 62rem) {
-  .editor-shell {
-    grid-template-columns: 20rem minmax(0, 1fr);
-    align-items: start;
-    gap: var(--space-6);
-  }
-
-  .editor-shell > .stage {
-    order: 0;
-  }
-}
-
-.editor-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-3);
-  margin-bottom: var(--space-2);
-}
-
-.editor-head h1 {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: var(--heading);
-  margin: 0;
-}
-
-.editor-head p {
-  margin: 0;
-  font-size: 0.92rem;
-  color: var(--text-muted);
-}
-
-/* ---------- control panel ---------- */
-
-.panel {
-  display: grid;
-  gap: var(--space-5);
-  align-content: start;
-}
-
-@media (min-width: 62rem) {
-  .panel {
-    position: sticky;
-    top: var(--space-5);
-    max-height: calc(100vh - var(--space-8));
-    overflow-y: auto;
-    padding-right: var(--space-2);
-    scrollbar-width: thin;
-  }
-}
-
-.field {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.field > label:not(.colour),
-.field > .field-label {
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--accent-soft);
-}
-
-.field-note {
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  opacity: 0.8;
-  line-height: 1.45;
-}
-
-.seg--full {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  width: 100%;
-}
-
-.seg--full button {
-  min-width: 0;
-}
-
-.swatches {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
-  gap: var(--space-2);
-}
-
-.swatch {
-  appearance: none;
-  display: grid;
-  gap: 0.35rem;
-  justify-items: start;
-  padding: 0.4rem 0.45rem 0.5rem;
-  border-radius: 0.7rem;
-  border: 1px solid var(--border-soft);
-  background: var(--surface);
-  color: var(--text-muted);
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  font-weight: 700;
-  line-height: 1.2;
-  cursor: pointer;
-  text-align: left;
-}
-
-.swatch[aria-pressed="true"] {
-  border-color: var(--accent);
-  color: var(--heading);
-  background: var(--surface-strong);
-}
-
-.swatch:focus-visible {
-  outline: 3px solid var(--accent-soft);
-  outline-offset: 2px;
-}
-
-.swatch .chips {
-  display: flex;
-  width: 100%;
-  height: 1.15rem;
-  border-radius: 0.3rem;
+html.editor-lock,
+html.editor-lock body {
+  height: 100%;
   overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  overscroll-behavior: none;
 }
 
-.swatch .chips span {
-  flex: 1;
-}
-
-.colours {
+.editor {
+  /* Gold reads beautifully on the dark ground but drops to 2.6:1 on cream, so
+   * the light theme gets a deeper bronze for the same job. Both clear AA. */
+  --label: var(--accent-soft);
+  --tool-active: var(--surface-strong);
+  height: 100dvh;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
-  gap: var(--space-2);
-}
-
-.colour {
-  display: grid;
-  gap: 0.3rem;
-  font-size: 0.74rem;
-  color: var(--text-muted);
-}
-
-.colour input[type="color"] {
-  appearance: none;
-  width: 100%;
-  height: 2rem;
-  padding: 0;
-  border: 1px solid var(--border-soft);
-  border-radius: 0.5rem;
-  background: transparent;
-  cursor: pointer;
-}
-
-.colour input[type="color"]::-webkit-color-swatch-wrapper {
-  padding: 2px;
-}
-
-.colour input[type="color"]::-webkit-color-swatch {
-  border: 0;
-  border-radius: 0.35rem;
-}
-
-select,
-input[type="number"] {
-  width: 100%;
-  min-height: 2.5rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.6rem;
-  border: 1px solid var(--border-soft);
-  background: var(--surface-strong);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  background: var(--page-bg);
   color: var(--text);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
 }
 
-select:focus-visible,
-input:focus-visible {
-  outline: 3px solid var(--accent-soft);
-  outline-offset: 2px;
+[data-theme="light"] .editor {
+  --label: #8a5a12;
+  --tool-active: rgba(196, 30, 58, 0.12);
 }
 
-input[type="range"] {
-  width: 100%;
-  accent-color: var(--accent);
-}
-
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-2);
-}
-
-.btn {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  min-height: 2.75rem;
-  padding: 0.5rem 1rem;
-  border: 0;
-  border-radius: 999px;
-  background: var(--accent);
-  color: #1a0b0e;
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.92rem;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-[data-theme="light"] .btn {
-  background: var(--cherry-600);
-  color: #fff8ec;
-}
-
-.btn--ghost {
-  background: transparent;
-  color: var(--heading);
-  border: 1px solid var(--border);
-}
-
-[data-theme="light"] .btn--ghost {
-  background: transparent;
-  color: var(--heading);
-}
-
-.btn:focus-visible {
-  outline: 3px solid var(--accent-soft);
-  outline-offset: 2px;
-}
-
-.btn[disabled] {
-  opacity: 0.5;
-  cursor: progress;
+/* Room for the fixed site nav, which floats over this row. */
+.nav-gutter {
+  height: calc(var(--safe-t) + 3.9rem);
 }
 
 /* ---------- stage ---------- */
 
 .stage {
+  min-height: 0;
   display: grid;
-  gap: var(--space-3);
+  grid-template-rows: minmax(0, 1fr);
   justify-items: center;
+  padding: 0 var(--space-4) var(--space-3);
 }
 
+/* Caption and status travel with the artwork, so the whole block sits
+ * optically centred in whatever room is left rather than drifting apart. */
 .stage-frame {
+  min-height: 0;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.stage-caption {
   display: grid;
-  place-items: center;
-  padding: var(--space-5);
-  border-radius: var(--radius);
-  background: var(--surface);
-  border: 1px solid var(--border-soft);
-  min-height: 22rem;
+  justify-items: center;
+  gap: var(--space-1);
+  width: 100%;
 }
 
 .artboard {
   position: relative;
-  max-width: 100%;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
   touch-action: none;
   cursor: grab;
   overflow: hidden;
@@ -305,19 +96,759 @@ input[type="range"] {
 .stage-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2) var(--space-4);
+  gap: 0 var(--space-3);
   align-items: center;
   justify-content: center;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
   color: var(--text-muted);
+  margin: 0;
 }
 
-.stage-status {
-  min-height: 1.2rem;
-  font-size: 0.82rem;
-  color: var(--accent-soft);
+.stage-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* One line does for both: a message when there is one, the gesture hint when
+ * there is not. Stacking them keeps the artwork from shifting either way. */
+.stage-foot {
+  display: grid;
+  width: 100%;
+}
+
+.stage-foot > * {
+  grid-area: 1 / 1;
+}
+
+.stage-status,
+.stage-hint {
+  margin: 0;
+  min-height: 1.15rem;
+  font-size: 0.78rem;
+  text-align: center;
+  color: var(--label);
 }
 
 .stage-status[data-tone="error"] {
   color: #ffb4a8;
 }
+
+.stage-hint {
+  color: var(--text-muted);
+  opacity: 0.86;
+  transition: opacity 260ms ease;
+}
+
+.stage-hint[data-spent="true"] {
+  opacity: 0;
+}
+
+/* While a tool is open the hint has done its job; the line it was holding
+ * goes back to the artwork, and a real message can still take it. */
+body.is-editing .stage-hint {
+  display: none;
+}
+
+body.is-editing .stage-status:empty {
+  min-height: 0;
+}
+
+/* ---------- tray: sheet + dock ---------- */
+
+.tray {
+  display: grid;
+  padding: 0 var(--space-3) calc(var(--safe-b) + var(--space-3));
+  gap: var(--space-2);
+  justify-items: center;
+}
+
+/* The open sheet takes height from the stage rather than covering it, so the
+ * artwork shrinks to make room instead of hiding under the controls. The
+ * height is animated in JS from a measurement, which is the one way this
+ * stays exact whatever the sheet contains. */
+.sheet-wrap {
+  width: min(100%, 40rem);
+  height: 0;
+  overflow: hidden;
+  transition: height 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sheet-wrap.is-settled {
+  overflow: visible;
+}
+
+/* focused only to move the keyboard into the panel; the title says where you are */
+.sheet:focus {
+  outline: none;
+}
+
+.sheet-card {
+  border-radius: 1.15rem;
+  border: 1px solid var(--border-soft);
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.sheet-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.76rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+
+.sheet-done {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--heading);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.86rem;
+  min-height: 2.25rem;
+  padding: 0 0.5rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.sheet-done:focus-visible,
+.dock-btn:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+/* The sheet may take at most two thirds of the window minus the fixed chrome,
+ * which leaves the artwork a floor of roughly a third at every height. Past
+ * that the sheet scrolls inside itself; the dock and Export never move. */
+.sheet-body {
+  padding: var(--space-4);
+  max-height: min(44dvh, calc(66dvh - 15.5rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.group {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.group[hidden] {
+  display: none;
+}
+
+/* ---------- dock ---------- */
+
+.dock {
+  width: min(100%, 40rem);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr) 1.35fr;
+  align-items: stretch;
+  gap: 0.35rem;
+  padding: 0.35rem;
+  border-radius: 1.15rem;
+  border: 1px solid var(--border-soft);
+  background: var(--nav-bg);
+  backdrop-filter: blur(14px);
+}
+
+.dock-btn {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.68rem;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  min-height: 3.25rem;
+  padding: 0.4rem 0.2rem;
+  border-radius: 0.9rem;
+  cursor: pointer;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.32rem;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.dock-btn svg {
+  width: 1.3rem;
+  height: 1.3rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dock-btn svg .fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+.dock-btn span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dock-btn[aria-expanded="true"] {
+  background: var(--tool-active);
+  color: var(--heading);
+}
+
+.dock-btn--primary {
+  background: var(--accent);
+  color: #1a0b0e;
+}
+
+[data-theme="light"] .dock-btn--primary {
+  background: var(--cherry-600);
+  color: #fff8ec;
+}
+
+.dock-btn--primary[aria-expanded="true"] {
+  background: var(--accent-soft);
+  color: #1a0b0e;
+}
+
+[data-theme="light"] .dock-btn--primary[aria-expanded="true"] {
+  background: var(--cherry-800);
+  color: #fff8ec;
+}
+
+/* ---------- fields ---------- */
+
+/* .row and friends set a display, which would otherwise beat [hidden] */
+[hidden] {
+  display: none !important;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field > label:not(.well):not(.stack),
+.field > .field-label {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--label);
+}
+
+.field-note {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  opacity: 0.88;
+  line-height: 1.45;
+}
+
+.seg--full {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  width: 100%;
+}
+
+.seg--full button {
+  min-width: 0;
+  min-height: 2.35rem;
+}
+
+/* colourways: one horizontal run, so no vertical space is spent on choice */
+.swatches {
+  display: flex;
+  align-items: start;
+  gap: var(--space-3);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+}
+
+.swatches::-webkit-scrollbar {
+  display: none;
+}
+
+.swatch {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  flex: 0 0 auto;
+  width: 3.9rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+
+/* a miniature of the mark itself: ring ramp outside, disc ramp inside, so the
+ * choice shows what it will do rather than naming four hex values */
+.swatch .chips {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  box-shadow: 0 0 0 1px var(--border-soft);
+  transition: box-shadow 160ms ease;
+}
+
+.swatch-label {
+  display: block;
+  min-height: 2.3em;
+}
+
+.swatch[aria-pressed="true"] {
+  color: var(--heading);
+}
+
+.swatch[aria-pressed="true"] .chips {
+  border-color: var(--nav-bg);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.swatch:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 3px;
+  border-radius: 0.6rem;
+}
+
+/* colour pickers: five wells on one line */
+.wells {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
+}
+
+.well {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  font-size: 0.66rem;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.well input[type="color"] {
+  appearance: none;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.well input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 2px;
+}
+
+.well input[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: 999px;
+}
+
+.well input[type="color"]::-moz-color-swatch {
+  border: 0;
+  border-radius: 999px;
+}
+
+.bg-row {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.well--wide {
+  grid-template-columns: 2.4rem 1fr;
+  justify-items: start;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: left;
+}
+
+.stack {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+select,
+input[type="number"] {
+  width: 100%;
+  min-height: 2.6rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.7rem;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-strong);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+}
+
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+.slider {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.9rem;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+input[type="range"] {
+  width: 100%;
+  min-height: 2.25rem;
+  accent-color: var(--accent);
+}
+
+.slider-value {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #1a0b0e;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn--wide {
+  width: 100%;
+}
+
+[data-theme="light"] .btn {
+  background: var(--cherry-600);
+  color: #fff8ec;
+}
+
+.btn--ghost,
+[data-theme="light"] .btn--ghost {
+  background: transparent;
+  color: var(--heading);
+  border: 1px solid var(--border);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+.btn[disabled] {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+/* ---------- wider screens ----------
+ * Same instrument, more air: the dock and sheet stay a centred island and the
+ * artwork keeps the rest of the window. Nothing moves to a second model.
+ */
+
+@media (min-width: 48rem) {
+  .stage {
+    padding: 0 var(--space-6) var(--space-4);
+  }
+
+  .tray {
+    padding: 0 var(--space-4) calc(var(--safe-b) + var(--space-5));
+    gap: var(--space-3);
+  }
+
+  .sheet-body {
+    padding: var(--space-5);
+    max-height: 40dvh;
+  }
+
+  .dock-btn {
+    font-size: 0.76rem;
+    min-height: 3.5rem;
+  }
+
+  .dock-btn svg {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .swatch {
+    width: auto;
+    font-size: 0.7rem;
+  }
+
+  .swatch .chips {
+    width: 3.1rem;
+    height: 3.1rem;
+  }
+
+  .well {
+    font-size: 0.72rem;
+  }
+
+  .well input[type="color"] {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .bg-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 14rem);
+    align-items: center;
+  }
+
+  .stage-meta,
+  .stage-status,
+  .stage-hint {
+    font-size: 0.82rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .sheet-wrap,
+  .dock {
+    width: min(100%, 58rem);
+  }
+
+  .stage {
+    padding: 0 var(--space-6) var(--space-5);
+  }
+}
+
+/* Wide windows have width to spare, so the bottom tray lays a sheet's fields
+ * out side by side: shorter tray, bigger artwork. Short windows use the side
+ * tray below instead, where the sheet is narrow and stays stacked. */
+@media (min-width: 64rem) and (min-height: 35rem) {
+  .group {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: var(--space-6);
+  }
+
+  .group[data-group="colour"] {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  }
+
+  .group[data-group="export"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  }
+
+  .swatches {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: var(--space-2);
+  }
+
+  .swatch .chips {
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-wrap,
+  .artboard,
+  .stage-hint,
+  .dock-btn,
+  .swatch .chips {
+    transition: none;
+  }
+}
+
+/* Short windows: trim the chrome, never the artwork. */
+@media (max-height: 34rem) {
+  .nav-gutter {
+    height: calc(var(--safe-t) + 3.2rem);
+  }
+
+  .stage {
+    padding-bottom: var(--space-2);
+  }
+
+  /* the gesture hint goes; a real message still has somewhere to appear */
+  .stage-hint {
+    display: none;
+  }
+
+  .stage-status:empty {
+    min-height: 0;
+  }
+
+  .dock-btn {
+    min-height: 2.6rem;
+    font-size: 0.66rem;
+    gap: 0.22rem;
+  }
+
+  .dock-btn svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .sheet-head {
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .sheet-body {
+    padding: var(--space-3);
+    max-height: min(50dvh, calc(70dvh - 9rem));
+  }
+
+  .tray {
+    gap: var(--space-1);
+    padding-bottom: calc(var(--safe-b) + var(--space-2));
+  }
+}
+
+/* A landscape phone has width to spare and almost no height, so the tray moves
+ * to the side. Same object, same rules: nothing scrolls to be reached, the
+ * artwork keeps the rest. */
+@media (max-height: 34rem) and (min-width: 40rem) {
+  .editor {
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .nav-gutter {
+    grid-column: 1 / -1;
+  }
+
+  .stage {
+    grid-column: 1;
+    grid-row: 2;
+    padding: 0 var(--space-3) var(--space-3) var(--space-4);
+  }
+
+  .tray {
+    grid-column: 2;
+    grid-row: 2;
+    width: auto;
+    grid-template-columns: auto auto;
+    align-items: stretch;
+    gap: var(--space-2);
+    padding: 0 var(--space-3) var(--space-3) 0;
+  }
+
+  /* height is the bottom tray's business; here the sheet is simply there or not */
+  .sheet-wrap {
+    width: 20rem;
+    height: auto !important;
+    align-self: stretch;
+    display: flex;
+  }
+
+  body:not(.is-editing) .sheet-wrap {
+    display: none;
+  }
+
+  .sheet,
+  .sheet-card {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .sheet-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .dock {
+    width: auto;
+    grid-template-columns: none;
+    grid-auto-rows: 1fr;
+    align-content: center;
+  }
+
+  .dock-btn {
+    width: 4.6rem;
+  }
+
+  .group {
+    grid-auto-flow: row;
+    grid-template-columns: none;
+    gap: var(--space-4);
+  }
+
+  .swatches {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    gap: var(--space-3);
+  }
+
+  .swatch {
+    width: 3.9rem;
+  }
+
+  .swatch .chips {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .bg-row {
+    grid-template-columns: none;
+  }
+}
+

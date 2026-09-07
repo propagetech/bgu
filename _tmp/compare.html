@@ -1,0 +1,19 @@
+<!doctype html><meta charset=utf-8><title>sun compare</title>
+<style>
+ body{margin:0;background:#3a0a12;color:#fff8ec;font:14px system-ui;padding:16px}
+ .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+ figure{margin:0}
+ figcaption{padding:6px 2px;font-weight:700;letter-spacing:.04em}
+ img{width:100%;display:block;background:#140407;border-radius:12px}
+ .light{background:#fff8ec}
+ .zoom{overflow:hidden;border-radius:12px;background:#140407}
+ .zoom img{width:300%;margin:-90% 0 0 -100%}
+</style>
+<div class=row>
+ <figure><figcaption>traced (current)</figcaption><img src="english-traced.svg"></figure>
+ <figure><figcaption>native vector</figcaption><img src="english-native.svg"></figure>
+</div>
+<div class=row style="margin-top:16px">
+ <figure><figcaption>traced &mdash; top-left edge at 3x</figcaption><div class=zoom><img src="english-traced.svg"></div></figure>
+ <figure><figcaption>native &mdash; top-left edge at 3x</figcaption><div class=zoom><img src="english-native.svg"></div></figure>
+</div>

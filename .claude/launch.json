@@ -22,6 +22,15 @@
         "dist"
       ],
       "port": 8732
+    },
+    {
+      "name": "logo-board-fresh",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-c",
+        "import http.server as h\nclass H(h.SimpleHTTPRequestHandler):\n    def end_headers(self):\n        self.send_header('Cache-Control','no-store')\n        h.SimpleHTTPRequestHandler.end_headers(self)\nh.test(HandlerClass=H, port=8733)\n"
+      ],
+      "port": 8733
     }
   ]
 }

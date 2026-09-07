@@ -240,9 +240,14 @@
   function layout() {
     if (!art) return;
     var b = board(), px = boardPx(b);
-    var frame = el.frame.clientWidth - 64;
-    var tall = Math.max(260, Math.min(window.innerHeight * 0.62, 680));
-    var k = Math.min(frame / px.w, tall / px.h);
+    /* Fit the board to the space the controls are not using. The frame is a
+     * grid cell, so when a sheet opens this shrinks and the mark stays whole
+     * instead of sliding under the controls. */
+    var pad = 24;
+    var caption = el.caption ? el.caption.offsetHeight + 12 : 0;
+    var availW = Math.max(64, el.frame.clientWidth - pad);
+    var availH = Math.max(64, el.frame.clientHeight - pad - caption);
+    var k = Math.min(availW / px.w, availH / px.h);
     var dw = px.w * k, dh = px.h * k;
 
     el.artboard.style.width = dw + 'px';
@@ -259,6 +264,10 @@
     el.dims.textContent = b.w + ' x ' + b.h + ' ' + b.unit +
       (b.unit === 'mm' ? '  (' + Math.round(px.w) + ' x ' + Math.round(px.h) + ' px at 96 dpi)' : '');
     el.schemeName.textContent = state.custom ? 'Custom colours' : preset(state.scheme).label;
+  }
+
+  function showSize() {
+    if (el.sizeValue) el.sizeValue.textContent = Math.round(state.size * 100) + '%';
   }
 
   /* ---------- export ---------- */
@@ -303,6 +312,8 @@
     el.status.textContent = msg || '';
     if (tone) el.status.setAttribute('data-tone', tone);
     else el.status.removeAttribute('data-tone');
+    // status and hint share one line; a message takes precedence over the hint
+    if (el.hint) el.hint.hidden = !!msg;
   }
 
   function exportSvg() {
@@ -342,8 +353,10 @@
     var b = board(), pt = boardPt(b), box = artBox(pt.w, pt.h);
     el.pdf.disabled = true;
     status('Building the PDF...');
-    // yield a frame so the disabled state paints before the main-thread work
-    requestAnimationFrame(function () {
+    // Yield so the disabled state paints before the main-thread work. A timer,
+    // not requestAnimationFrame: rAF never fires in a background tab, which
+    // would leave the button disabled for good.
+    setTimeout(function () {
       Promise.resolve().then(function () {
         return window.SvgToPdf.export(art, {
           page: pt,
@@ -359,7 +372,7 @@
       }).then(function () {
         el.pdf.disabled = false;
       });
-    });
+    }, 32);
   }
 
   /* ---------- controls ---------- */
@@ -368,6 +381,19 @@
     root.querySelectorAll('button[' + attr + ']').forEach(function (btn) {
       btn.setAttribute('aria-pressed', btn.getAttribute(attr) === value ? 'true' : 'false');
     });
+  }
+
+  /* A colourway thumbnail is a miniature of the mark: the disc ramp in the
+   * middle, the ring ramp around it. The choice previews itself. */
+  function thumb(p) {
+    var d = p.disc, r = p.ring;
+    var last = r[r.length - 1][1];
+    return 'radial-gradient(circle at 50% 50%, ' +
+      d[0][1] + ' 0%, ' +
+      d[d.length - 1][1] + ' 40%, ' +
+      r[0][1] + ' 44%, ' +
+      r[Math.min(1, r.length - 1)][1] + ' 62%, ' +
+      last + ' 100%)';
   }
 
   function buildSwatches() {
@@ -380,13 +406,12 @@
       btn.setAttribute('aria-pressed', p.id === state.scheme ? 'true' : 'false');
       var chips = document.createElement('span');
       chips.className = 'chips';
-      [p.ring[1][1], p.disc[1][1], p.ink, p.accent].forEach(function (c) {
-        var s = document.createElement('span');
-        s.style.background = c;
-        chips.appendChild(s);
-      });
+      chips.style.background = thumb(p);
+      var label = document.createElement('span');
+      label.className = 'swatch-label';
+      label.textContent = p.label;
       btn.appendChild(chips);
-      btn.appendChild(document.createTextNode(p.label));
+      btn.appendChild(label);
       btn.addEventListener('click', function () {
         state.scheme = p.id;
         state.custom = null;
@@ -446,25 +471,151 @@
   }
 
   function initDrag() {
-    var start = null;
+    var start = null, moved = false;
     el.artboard.addEventListener('pointerdown', function (e) {
       start = { x: e.clientX, y: e.clientY, cx: state.cx, cy: state.cy,
                 w: el.artboard.clientWidth, h: el.artboard.clientHeight };
+      moved = false;
       el.artboard.setPointerCapture(e.pointerId);
       el.artboard.classList.add('is-dragging');
     });
     el.artboard.addEventListener('pointermove', function (e) {
       if (!start) return;
+      if (Math.abs(e.clientX - start.x) > 5 || Math.abs(e.clientY - start.y) > 5) {
+        if (!moved) spendHint();
+        moved = true;
+      }
       state.cx = Math.min(1.25, Math.max(-0.25, start.cx + (e.clientX - start.x) / start.w));
       state.cy = Math.min(1.25, Math.max(-0.25, start.cy + (e.clientY - start.y) / start.h));
       layout();
     });
     ['pointerup', 'pointercancel'].forEach(function (t) {
       el.artboard.addEventListener(t, function () {
+        // a tap on the artwork puts the tools away, the way a tap on a canvas does
+        if (start && !moved && openTool.current) closeTool();
         start = null;
         el.artboard.classList.remove('is-dragging');
       });
     });
+  }
+
+  /* ---------- the tool dock ----------
+   * One row of tools, always on screen. Opening one takes height from the
+   * stage rather than covering it, so every edit is visible while it is made
+   * and Export is never more than one tap away.
+   */
+
+  function toolButtons() {
+    return Array.prototype.slice.call(el.dock.querySelectorAll('.dock-btn'));
+  }
+
+  function toolLabel(name) {
+    var btn = el.dock.querySelector('.dock-btn[data-tool="' + name + '"]');
+    var span = btn && btn.querySelector('span');
+    return span ? span.textContent : '';
+  }
+
+  var sheetTimer = null;
+  var stillPlease = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* Animate the sheet between 0 and its measured height, then hand the height
+   * back to the content so it can grow (the custom artboard fields, a longer
+   * note) without a second measurement. */
+  function slideSheet(open) {
+    var wrap = el.sheetWrap;
+    var to = open ? el.sheet.scrollHeight : 0;
+    if (sheetTimer) clearTimeout(sheetTimer);
+    wrap.classList.remove('is-settled');
+
+    if (stillPlease && stillPlease.matches) {
+      wrap.style.height = open ? 'auto' : '0px';
+      if (open) wrap.classList.add('is-settled');
+      layout();
+      return;
+    }
+
+    wrap.style.height = wrap.getBoundingClientRect().height + 'px';
+    void wrap.offsetHeight;                      // commit the start height
+    wrap.style.height = to + 'px';
+    sheetTimer = setTimeout(function () {
+      wrap.style.height = open ? 'auto' : '0px';
+      if (open) wrap.classList.add('is-settled');
+      layout();
+    }, 300);
+  }
+
+  function openTool(name) {
+    var already = !!openTool.current;
+    toolButtons().forEach(function (btn) {
+      btn.setAttribute('aria-expanded', btn.getAttribute('data-tool') === name ? 'true' : 'false');
+    });
+    el.groups.forEach(function (g) {
+      g.hidden = g.getAttribute('data-group') !== name;
+    });
+    el.sheetTitle.textContent = toolLabel(name);
+    el.sheet.removeAttribute('inert');
+    el.sheet.removeAttribute('aria-hidden');
+    openTool.current = name;
+    document.body.classList.add('is-editing');
+    // swapping tools is instant; opening from closed slides
+    if (already) el.sheetWrap.style.height = 'auto';
+    else slideSheet(true);
+    el.sheet.focus({ preventScroll: true });
+  }
+
+  function closeTool(refocus) {
+    var last = openTool.current;
+    toolButtons().forEach(function (btn) {
+      btn.setAttribute('aria-expanded', 'false');
+    });
+    el.sheet.setAttribute('inert', '');
+    el.sheet.setAttribute('aria-hidden', 'true');
+    openTool.current = null;
+    document.body.classList.remove('is-editing');
+    slideSheet(false);
+    if (refocus && last) {
+      var btn = el.dock.querySelector('.dock-btn[data-tool="' + last + '"]');
+      if (btn) btn.focus();
+    }
+  }
+
+  function spendHint() {
+    if (!el.hint || el.hint.getAttribute('data-spent') === 'true') return;
+    el.hint.setAttribute('data-spent', 'true');
+    try { localStorage.setItem('bgu-editor-hint', 'spent'); } catch (e) {}
+  }
+
+  function initShell() {
+    closeTool();
+
+    el.dock.addEventListener('click', function (e) {
+      var btn = e.target.closest('.dock-btn');
+      if (!btn) return;
+      var name = btn.getAttribute('data-tool');
+      if (openTool.current === name) closeTool(true);
+      else openTool(name);
+    });
+
+    el.sheetDone.addEventListener('click', function () { closeTool(true); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && openTool.current) closeTool(true);
+    });
+
+    try {
+      if (localStorage.getItem('bgu-editor-hint') === 'spent') spendHint();
+    } catch (e) {}
+
+    // Keep the sheet heading in step with the language toggle in the site nav.
+    new MutationObserver(function () {
+      if (openTool.current) el.sheetTitle.textContent = toolLabel(openTool.current);
+    }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-lang'] });
+
+    // The frame is the single source of truth for how much room the art has:
+    // sheet open or shut, window resized, keyboard up, it reports the change.
+    if (window.ResizeObserver) {
+      new ResizeObserver(function () { layout(); }).observe(el.frame);
+    }
   }
 
   function show(lockup) {
@@ -498,6 +649,15 @@
       pdf: document.getElementById('btn-pdf'),
       status: document.getElementById('status'),
       dims: document.getElementById('stage-dims'),
+      caption: document.getElementById('stage-caption'),
+      hint: document.getElementById('hint'),
+      dock: document.querySelector('.dock'),
+      sheet: document.getElementById('sheet'),
+      sheetWrap: document.getElementById('sheet-wrap'),
+      sheetTitle: document.getElementById('sheet-title'),
+      sheetDone: document.getElementById('sheet-done'),
+      groups: Array.prototype.slice.call(document.querySelectorAll('.group')),
+      sizeValue: document.getElementById('size-value'),
       schemeName: document.getElementById('stage-scheme'),
       sun: document.getElementById('c-sun'),
       edge: document.getElementById('c-edge'),
@@ -512,6 +672,8 @@
     buildBoards();
     buildPngChoices();
     initDrag();
+    initShell();
+    showSize();
 
     document.getElementById('ctl-lockup').addEventListener('click', function (e) {
       var btn = e.target.closest('button[data-lockup]');
@@ -550,6 +712,7 @@
     el.board.addEventListener('change', function () {
       state.board = this.value;
       el.customBoard.hidden = state.board !== 'custom';
+      if (openTool.current) el.sheetWrap.style.height = 'auto';
       buildPngChoices();
       layout();
     });
@@ -565,12 +728,14 @@
 
     el.size.addEventListener('input', function () {
       state.size = parseInt(this.value, 10) / 100;
+      showSize();
       layout();
     });
 
     document.getElementById('btn-fit').addEventListener('click', function () {
       state.size = 0.88;
       el.size.value = 88;
+      showSize();
       layout();
     });
 
