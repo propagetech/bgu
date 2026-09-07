@@ -19,9 +19,9 @@
    into a photo thumbnail. Photo frames are sized 3:2 so real images can take
    over as the hero material without a redesign.
 
-   Palette is the BGU cherry and gold system from css/main.css. Pure gold
-   #d9b441 fails AA as body text on cream, so --accent-deep (#9a6418, 4.78:1
-   on #fff8ec) carries it on the paper sheets.
+   Palette is the BGU cherry and gold system from css/main.css. Gold is never
+   asked to carry body text on cream: --accent-soft does that, and each theme
+   block gives it a value that passes on the ground it actually sits on.
 
    Type by register:
      statement  Cinzel 700 / 900   (display, all caps)
@@ -47,25 +47,66 @@
 @font-face { font-family:"Baloo Tamma 2"; font-style:normal; font-weight:800; font-display:swap; src:url("../fonts-web/BalooTamma2-800.woff2") format("woff2"); }
 @font-face { font-family:"Noto Sans Kannada"; font-style:normal; font-weight:700; font-display:swap; src:url("../fonts-web/NotoSansKannada-700.woff2") format("woff2"); }
 
+/* ---- Themes -------------------------------------------------------------
+   The page alternates two grounds, "strong" and "soft", and the theme decides
+   which register that alternation plays in. Each theme is internally
+   consistent: light is light throughout, dark is dark throughout, and the
+   alternation survives in both as a tonal rhythm rather than a hard flip.
+
+   Light is on bare :root so a device with no preference, and any browser that
+   does not report one, still gets a complete palette. Dark arrives through
+   prefers-color-scheme, guarded with :not([data-theme="light"]) so an explicit
+   choice always beats the device, and is repeated for [data-theme="dark"] so
+   the footer control wins in both directions. No colour is ever defined only
+   inside a media query.
+
+   Contrast, measured against the ground each colour actually sits on. Every
+   pair is AA or better; the worst in the system is 4.72:1.
+     light  body on strong   #3a0a12 on #f7e7c8  13.98:1
+            body on soft     #3a0a12 on #fff8ec  16.14:1
+            muted on strong  #6b0f1e on #f7e7c8  10.06:1
+            accent on strong #7a4e12 on #f7e7c8   5.88:1
+            solid pill       #f7e7c8 on #7a4e12   5.88:1, hover 8.17:1
+     dark   body on strong   #fff8ec on #1a0508  18.60:1
+            body on soft     #3a0a12 on #fff8ec  16.14:1
+            muted on strong  #d9c4a0 on #1a0508  11.56:1
+            accent on strong #d9b441 on #1a0508   9.87:1
+            accent on soft   #9a6418 on #fff8ec   4.72:1
+     Cherry blocks (the solid pill, the frame tiles) stay dark in both themes,
+     so their labels are pinned to --ground-soft instead of riding --on-strong,
+     which is dark cherry under the light theme.
+   -------------------------------------------------------------------------- */
+
 :root {
-  --ink: #1a0508;
-  --ink-raise: #2a080f;
+  /* Light: cream page, warm gold-cream for the assertive sheets, cherry ink. */
+  --ground-strong: #f7e7c8;
+  --ground-strong-raise: #fdf3dd;
   --cherry: #6b0f1e;
   --cherry-deep: #3a0a12;
-  --paper: #fff8ec;
-  --paper-raise: #fffdf7;
+  --ground-soft: #fff8ec;
+  --ground-soft-raise: #fffdf7;
 
-  --accent: #d9b441;
-  --accent-lift: #efd489;
-  --accent-deep: #9a6418;
+  --accent-strong: #7a4e12;
+  /* In the light theme the hover state deepens rather than lightens, so
+     --accent-lift goes darker than --accent-strong. #9a6418 lightened it and
+     dropped the solid pill's label to 4.09:1. */
+  --accent-lift: #5e3b0d;
+  --accent-soft: #7a4e12;
 
-  --on-dark: #fff8ec;
-  --on-dark-mute: #d9c4a0;
-  --on-light: #3a0a12;
-  --on-light-mute: #6b0f1e;
+  --on-strong: #3a0a12;
+  --on-strong-mute: #6b0f1e;
+  --on-soft: #3a0a12;
+  --on-soft-mute: #6b0f1e;
 
-  --line-dark: rgba(255, 248, 236, 0.18);
-  --line-light: rgba(58, 10, 18, 0.16);
+  --line-strong: rgba(58, 10, 18, 0.18);
+  --line-soft: rgba(58, 10, 18, 0.16);
+
+  --nav-bg: rgba(255, 248, 236, 0.9);
+  --hero-top: #fffdf7;
+  --hero-glow: rgba(201, 147, 47, 0.3);
+  --pill-ghost-border: rgba(58, 10, 18, 0.32);
+  --shadow-card: 0 12px 30px rgba(58, 10, 18, 0.14);
+  --shadow-mark: drop-shadow(0 16px 40px rgba(58, 10, 18, 0.2));
 
   --font-display: "Cinzel", "Times New Roman", Georgia, serif;
   --font-label: "Baloo Tamma 2", "Noto Sans Kannada", system-ui, sans-serif;
@@ -82,6 +123,63 @@
   color-scheme: dark;
 }
 
+/* Dark, from the device. The guard means a reader who has chosen Light in the
+   footer keeps it on a dark-set device. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+  --ground-strong: #1a0508;
+  --ground-strong-raise: #2a080f;
+  --ground-soft: #fff8ec;
+  --ground-soft-raise: #fffdf7;
+
+  --accent-strong: #d9b441;
+  --accent-lift: #efd489;
+  --accent-soft: #9a6418;
+
+  --on-strong: #fff8ec;
+  --on-strong-mute: #d9c4a0;
+  --on-soft: #3a0a12;
+  --on-soft-mute: #6b0f1e;
+
+  --line-strong: rgba(255, 248, 236, 0.18);
+  --line-soft: rgba(58, 10, 18, 0.16);
+
+  --nav-bg: rgba(26, 5, 8, 0.9);
+  --hero-top: #3a0a12;
+  --hero-glow: rgba(196, 30, 58, 0.55);
+  --pill-ghost-border: rgba(255, 248, 236, 0.34);
+  --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-mark: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.5));
+  }
+}
+
+/* Dark, chosen explicitly. Same values, so the control wins on a light device. */
+:root[data-theme="dark"] {
+  --ground-strong: #1a0508;
+  --ground-strong-raise: #2a080f;
+  --ground-soft: #fff8ec;
+  --ground-soft-raise: #fffdf7;
+
+  --accent-strong: #d9b441;
+  --accent-lift: #efd489;
+  --accent-soft: #9a6418;
+
+  --on-strong: #fff8ec;
+  --on-strong-mute: #d9c4a0;
+  --on-soft: #3a0a12;
+  --on-soft-mute: #6b0f1e;
+
+  --line-strong: rgba(255, 248, 236, 0.18);
+  --line-soft: rgba(58, 10, 18, 0.16);
+
+  --nav-bg: rgba(26, 5, 8, 0.9);
+  --hero-top: #3a0a12;
+  --hero-glow: rgba(196, 30, 58, 0.55);
+  --pill-ghost-border: rgba(255, 248, 236, 0.34);
+  --shadow-card: 0 18px 40px rgba(0, 0, 0, 0.45);
+  --shadow-mark: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.5));
+}
+
 /* ---- Reset -------------------------------------------------------------- */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -94,8 +192,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--ink);
-  color: var(--on-dark);
+  background: var(--ground-strong);
+  color: var(--on-strong);
   font-family: var(--font-body);
   font-weight: 400;
   font-size: 16px;
@@ -112,12 +210,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 a { color: inherit; text-decoration: none; }
 
-::selection { background: var(--accent); color: var(--ink); }
+::selection { background: var(--accent-strong); color: var(--ground-strong); }
 
 section { scroll-margin-top: 76px; }
 
 :focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid var(--accent-strong);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -129,8 +227,8 @@ section { scroll-margin-top: 76px; }
   left: -9999px;
   top: 0;
   z-index: 200;
-  background: var(--accent);
-  color: var(--ink);
+  background: var(--accent-strong);
+  color: var(--ground-strong);
   padding: 14px 22px;
   font-size: 13px;
   font-weight: 800;
@@ -163,10 +261,10 @@ section { scroll-margin-top: 76px; }
   flex-wrap: wrap;
   gap: 12px;
   padding: 0 var(--pad-x);
-  background: rgba(26, 5, 8, 0.9);
+  background: var(--nav-bg);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line-dark);
+  border-bottom: 1px solid var(--line-strong);
 }
 
 .site-nav__logo { display: flex; align-items: center; gap: 12px; }
@@ -177,7 +275,7 @@ section { scroll-margin-top: 76px; }
   font-size: 13px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
 .site-nav__links {
@@ -191,18 +289,18 @@ section { scroll-margin-top: 76px; }
 }
 
 .site-nav__link {
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
   padding: 6px 2px;
   text-transform: uppercase;
   transition: color 0.25s ease;
 }
-.site-nav__link:hover { color: var(--accent); }
+.site-nav__link:hover { color: var(--accent-strong); }
 
 .site-nav__cta {
   display: inline-flex;
   align-items: center;
-  background: var(--accent);
-  color: var(--ink);
+  background: var(--accent-strong);
+  color: var(--ground-strong);
   padding: 12px 26px;
   border-radius: var(--r-pill);
   font-size: 12px;
@@ -230,8 +328,8 @@ section { scroll-margin-top: 76px; }
   text-transform: uppercase;
   margin-bottom: 18px;
 }
-.eyebrow--dark  { color: var(--accent); }
-.eyebrow--light { color: var(--accent-deep); }
+.eyebrow--strong  { color: var(--accent-strong); }
+.eyebrow--soft { color: var(--accent-soft); }
 
 .headline {
   font-family: var(--font-display);
@@ -249,6 +347,11 @@ section { scroll-margin-top: 76px; }
   max-width: 60ch;
 }
 
+/* Replaces an inline style: the photos sheet needs air under its lede. */
+.lede--gap { margin-bottom: 44px; }
+
+.when__notice .pill-row { margin-top: 18px; }
+
 .split {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
@@ -261,11 +364,11 @@ section { scroll-margin-top: 76px; }
    read yet. */
 .sheet { position: relative; overflow: hidden; }
 
-.sheet--dark  { background: var(--ink);  color: var(--on-dark); }
-.sheet--paper { background: var(--paper); color: var(--on-light); }
+.sheet--strong  { background: var(--ground-strong);  color: var(--on-strong); }
+.sheet--soft { background: var(--ground-soft); color: var(--on-soft); }
 
-.sheet--dark .lede  { color: var(--on-dark-mute); }
-.sheet--paper .lede { color: var(--on-light-mute); }
+.sheet--strong .lede  { color: var(--on-strong-mute); }
+.sheet--soft .lede { color: var(--on-soft-mute); }
 
 .seam-down {
   clip-path: polygon(0 4vw, 100% 0, 100% 100%, 0 100%);
@@ -294,17 +397,17 @@ section { scroll-margin-top: 76px; }
   text-transform: uppercase;
   transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
-.pill--accent { background: var(--accent); color: var(--ink); }
-.pill--accent:hover { background: var(--accent-lift); }
+.pill--solid { background: var(--accent-strong); color: var(--ground-strong); }
+.pill--solid:hover { background: var(--accent-lift); }
 
-.pill--ink { background: var(--cherry); color: var(--on-dark); }
-.pill--ink:hover { background: var(--cherry-deep); }
+.pill--cherry { background: var(--cherry); color: var(--ground-soft); }
+.pill--cherry:hover { background: var(--cherry-deep); }
 
-.pill--ghost-dark { border: 1px solid rgba(255, 248, 236, 0.34); color: var(--on-dark); }
-.pill--ghost-dark:hover { border-color: var(--accent); color: var(--accent); }
+.pill--ghost-strong { border: 1px solid var(--pill-ghost-border); color: var(--on-strong); }
+.pill--ghost-strong:hover { border-color: var(--accent-strong); color: var(--accent-strong); }
 
-.pill--ghost-light { border: 1px solid var(--line-light); color: var(--on-light); }
-.pill--ghost-light:hover { border-color: var(--on-light); background: rgba(58, 10, 18, 0.05); }
+.pill--ghost-soft { border: 1px solid var(--line-soft); color: var(--on-soft); }
+.pill--ghost-soft:hover { border-color: var(--on-soft); background: rgba(58, 10, 18, 0.05); }
 
 .pill-row { display: flex; flex-wrap: wrap; gap: 14px; }
 
@@ -316,10 +419,10 @@ section { scroll-margin-top: 76px; }
   grid-template-columns: 56px 1fr;
   gap: 24px;
   padding: 26px 0;
-  border-top: 1px solid var(--line-dark);
+  border-top: 1px solid var(--line-strong);
 }
-.row:last-child { border-bottom: 1px solid var(--line-dark); }
-.sheet--paper .row { border-color: var(--line-light); }
+.row:last-child { border-bottom: 1px solid var(--line-strong); }
+.sheet--soft .row { border-color: var(--line-soft); }
 
 .row__key {
   font-family: var(--font-label);
@@ -327,15 +430,15 @@ section { scroll-margin-top: 76px; }
   font-size: 15px;
   letter-spacing: 0.1em;
   padding-top: 4px;
-  color: var(--accent);
+  color: var(--accent-strong);
 }
-.sheet--paper .row__key { color: var(--accent-deep); }
+.sheet--soft .row__key { color: var(--accent-soft); }
 
 .row__title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
 
 .row__text { font-size: 15px; line-height: 1.75; }
-.sheet--dark .row__text  { color: var(--on-dark-mute); }
-.sheet--paper .row__text { color: var(--on-light-mute); }
+.sheet--strong .row__text  { color: var(--on-strong-mute); }
+.sheet--soft .row__text { color: var(--on-soft-mute); }
 
 /* ---- Hero --------------------------------------------------------------- */
 /* The mark is the material. Not a watermark and not a fake photograph: it is
@@ -344,8 +447,8 @@ section { scroll-margin-top: 76px; }
 
 .hero {
   background:
-    radial-gradient(ellipse 80% 60% at 78% 30%, rgba(196, 30, 58, 0.55), transparent 62%),
-    linear-gradient(180deg, var(--cherry-deep), var(--ink) 78%);
+    radial-gradient(ellipse 80% 60% at 78% 30%, var(--hero-glow), transparent 62%),
+    linear-gradient(180deg, var(--hero-top), var(--ground-strong) 78%);
 }
 
 .hero .wrap {
@@ -369,7 +472,7 @@ section { scroll-margin-top: 76px; }
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--accent-strong);
   flex-shrink: 0;
   animation: bgublink 2.6s ease-in-out infinite;
 }
@@ -379,7 +482,7 @@ section { scroll-margin-top: 76px; }
   font-weight: 800;
   letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
 }
 
 .hero__title {
@@ -391,7 +494,7 @@ section { scroll-margin-top: 76px; }
   text-transform: uppercase;
   animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.08s both;
 }
-.hero__title em { font-style: normal; color: var(--accent); }
+.hero__title em { font-style: normal; color: var(--accent-strong); }
 
 .hero__kn {
   font-family: var(--font-kn);
@@ -407,7 +510,7 @@ section { scroll-margin-top: 76px; }
 .hero__sub {
   font-size: 17px;
   line-height: 1.8;
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
   max-width: 46ch;
   margin-top: 24px;
   animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
@@ -429,7 +532,7 @@ section { scroll-margin-top: 76px; }
   width: 100%;
   max-width: 420px;
   margin-left: auto;
-  filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.5));
+  filter: var(--shadow-mark);
 }
 
 /* ---- When: the five days ------------------------------------------------ */
@@ -447,11 +550,11 @@ section { scroll-margin-top: 76px; }
 }
 
 .when__notice {
-  border: 1px solid var(--line-dark);
-  border-left: 3px solid var(--accent);
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--accent-strong);
   border-radius: 0 var(--r-card) var(--r-card) 0;
   padding: 22px 26px;
-  background: var(--ink-raise);
+  background: var(--ground-strong-raise);
 }
 .when__notice strong {
   display: block;
@@ -459,10 +562,10 @@ section { scroll-margin-top: 76px; }
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
   margin-bottom: 8px;
 }
-.when__notice span { font-size: 15px; line-height: 1.7; color: var(--on-dark-mute); }
+.when__notice span { font-size: 15px; line-height: 1.7; color: var(--on-strong-mute); }
 
 .days { display: flex; flex-direction: column; }
 
@@ -472,12 +575,12 @@ section { scroll-margin-top: 76px; }
   gap: 28px;
   align-items: baseline;
   padding: 26px 0;
-  border-top: 1px solid var(--line-dark);
+  border-top: 1px solid var(--line-strong);
 }
-.day:last-child { border-bottom: 1px solid var(--line-dark); }
+.day:last-child { border-bottom: 1px solid var(--line-strong); }
 
 .day--finale .day__num,
-.day--finale .day__title { color: var(--accent); }
+.day--finale .day__title { color: var(--accent-strong); }
 
 .day__num {
   font-family: var(--font-label);
@@ -485,7 +588,7 @@ section { scroll-margin-top: 76px; }
   font-size: 12px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
 }
 
 .day__title {
@@ -497,7 +600,7 @@ section { scroll-margin-top: 76px; }
   text-transform: uppercase;
 }
 
-.day__note { font-size: 14px; line-height: 1.7; color: var(--on-dark-mute); margin-top: 6px; }
+.day__note { font-size: 14px; line-height: 1.7; color: var(--on-strong-mute); margin-top: 6px; }
 
 /* Empty until the calendar is published. Styled as a waiting slot rather
    than hidden, so the page states plainly what is still to come. */
@@ -506,7 +609,7 @@ section { scroll-margin-top: 76px; }
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
   opacity: 0.65;
   text-align: right;
 }
@@ -520,8 +623,8 @@ section { scroll-margin-top: 76px; }
   margin-top: 56px;
 }
 
-.fact { padding: 22px 0 0; border-top: 2px solid var(--accent-deep); }
-.sheet--dark .fact { border-color: var(--accent); }
+.fact { padding: 22px 0 0; border-top: 2px solid var(--accent-soft); }
+.sheet--strong .fact { border-color: var(--accent-strong); }
 
 .fact__num {
   font-family: var(--font-display);
@@ -530,17 +633,17 @@ section { scroll-margin-top: 76px; }
   line-height: 1;
   color: var(--cherry);
 }
-.sheet--dark .fact__num { color: var(--accent); }
+.sheet--strong .fact__num { color: var(--accent-strong); }
 
 .fact__label {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--on-light-mute);
+  color: var(--on-soft-mute);
   margin-top: 12px;
 }
-.sheet--dark .fact__label { color: var(--on-dark-mute); }
+.sheet--strong .fact__label { color: var(--on-strong-mute); }
 
 /* ---- Photo frames ------------------------------------------------------- */
 /* There are no festival photographs in this repo, so these are not dressed
@@ -562,13 +665,13 @@ section { scroll-margin-top: 76px; }
   aspect-ratio: 3 / 2;
   border-radius: var(--r-card);
   overflow: hidden;
-  border: 1px solid var(--line-dark);
+  border: 1px solid var(--line-strong);
   background:
     radial-gradient(ellipse 65% 65% at 50% 40%, rgba(239, 212, 137, 0.18), transparent 62%),
     linear-gradient(158deg, var(--cherry), var(--cherry-deep));
   transition: transform 0.35s ease, border-color 0.35s ease;
 }
-.frame__box:hover { transform: translateY(-4px); border-color: var(--accent); }
+.frame__box:hover { transform: translateY(-4px); border-color: var(--accent-strong); }
 
 .frame__box img {
   width: 40%;
@@ -585,7 +688,7 @@ section { scroll-margin-top: 76px; }
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: var(--accent-strong);
   margin-top: 5px;
 }
 
@@ -593,12 +696,12 @@ section { scroll-margin-top: 76px; }
 
 .band {
   margin-top: 72px;
-  border: 1px solid var(--line-light);
+  border: 1px solid var(--line-soft);
   border-radius: var(--r-card);
   padding: clamp(40px, 6vw, 64px) clamp(24px, 5vw, 56px);
   text-align: center;
 }
-.sheet--dark .band { border-color: var(--line-dark); }
+.sheet--strong .band { border-color: var(--line-strong); }
 
 .band__title {
   font-family: var(--font-display);
@@ -612,22 +715,22 @@ section { scroll-margin-top: 76px; }
 }
 
 .band__title .stroke {
-  color: var(--ink);
-  background: var(--accent);
+  color: var(--ground-strong);
+  background: var(--accent-strong);
   padding: 0 0.1em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
-.sheet--dark .band__title .stroke { background: none; color: var(--accent); padding: 0; }
+.sheet--strong .band__title .stroke { background: none; color: var(--accent-strong); padding: 0; }
 
 .band__text {
   font-size: 16px;
   line-height: 1.75;
-  color: var(--on-light-mute);
+  color: var(--on-soft-mute);
   margin: 22px auto 0;
   max-width: 54ch;
 }
-.sheet--dark .band__text { color: var(--on-dark-mute); }
+.sheet--strong .band__text { color: var(--on-strong-mute); }
 
 /* ---- Segments ----------------------------------------------------------- */
 
@@ -638,11 +741,11 @@ section { scroll-margin-top: 76px; }
   margin-top: 40px;
 }
 
-.segment { padding: 24px 0; border-top: 1px solid var(--line-light); }
-.sheet--dark .segment { border-color: var(--line-dark); }
+.segment { padding: 24px 0; border-top: 1px solid var(--line-soft); }
+.sheet--strong .segment { border-color: var(--line-strong); }
 .segment__title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
-.segment__text { font-size: 14px; line-height: 1.7; color: var(--on-light-mute); }
-.sheet--dark .segment__text { color: var(--on-dark-mute); }
+.segment__text { font-size: 14px; line-height: 1.7; color: var(--on-soft-mute); }
+.sheet--strong .segment__text { color: var(--on-strong-mute); }
 
 /* ---- About -------------------------------------------------------------- */
 
@@ -656,8 +759,8 @@ section { scroll-margin-top: 76px; }
 .about__portrait {
   border-radius: var(--r-card);
   overflow: hidden;
-  border: 1px solid var(--line-light);
-  background: linear-gradient(160deg, var(--paper-raise), #f7e7c8);
+  border: 1px solid var(--line-soft);
+  background: linear-gradient(160deg, var(--ground-soft-raise), #f7e7c8);
   padding: 20px;
 }
 
@@ -666,14 +769,14 @@ section { scroll-margin-top: 76px; }
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--on-light-mute);
+  color: var(--on-soft-mute);
   margin-top: 14px;
 }
 
 .about__body p {
   font-size: 16px;
   line-height: 1.8;
-  color: var(--on-light-mute);
+  color: var(--on-soft-mute);
   margin-bottom: 16px;
   max-width: 60ch;
 }
@@ -686,11 +789,11 @@ section { scroll-margin-top: 76px; }
   flex-direction: column;
   gap: 10px;
   font-size: 15px;
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
   margin-top: 32px;
 }
-.seva__lines a { color: var(--on-dark); font-weight: 700; padding: 3px 0; }
-.seva__lines a:hover { color: var(--accent); }
+.seva__lines a { color: var(--on-strong); font-weight: 700; padding: 3px 0; }
+.seva__lines a:hover { color: var(--accent-strong); }
 .seva__lines .addr { line-height: 1.7; }
 
 .seva__actions { align-self: start; }
@@ -699,12 +802,12 @@ section { scroll-margin-top: 76px; }
 
 .qr-frame {
   display: inline-block;
-  background: var(--paper);
+  background: var(--ground-soft);
   border-radius: var(--r-card);
   padding: 18px 18px 12px;
   margin-bottom: 26px;
   text-align: center;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: var(--shadow-card);
 }
 .qr-frame img { width: clamp(150px, 20vw, 200px); border-radius: 8px; }
 .qr-frame figcaption {
@@ -712,11 +815,11 @@ section { scroll-margin-top: 76px; }
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--on-light-mute);
+  color: var(--on-soft-mute);
   margin-top: 12px;
 }
 
-.volunteer { margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--line-dark); }
+.volunteer { margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--line-strong); }
 
 .volunteer__title {
   font-family: var(--font-display);
@@ -730,14 +833,14 @@ section { scroll-margin-top: 76px; }
 .volunteer__text {
   font-size: 15px;
   line-height: 1.75;
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
   margin-bottom: 20px;
   max-width: 50ch;
 }
 
 /* ---- Footer ------------------------------------------------------------- */
 
-.site-footer { background: var(--ink); border-top: 1px solid var(--line-dark); }
+.site-footer { background: var(--ground-strong); border-top: 1px solid var(--line-strong); }
 
 .site-footer__inner {
   max-width: var(--wrap);
@@ -750,6 +853,14 @@ section { scroll-margin-top: 76px; }
   flex-wrap: wrap;
 }
 
+/* The preferences sit on their own row under a divider, so they read as
+   controls rather than as more footer content. */
+.site-footer__inner--prefs {
+  border-top: 1px solid var(--line-strong);
+  padding-top: 24px;
+}
+.site-footer__inner:first-child { padding-bottom: 24px; }
+
 .site-footer__logo { height: 38px; width: auto; opacity: 0.9; }
 
 .site-footer__tagline {
@@ -757,7 +868,7 @@ section { scroll-margin-top: 76px; }
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
 }
 
 .site-footer__social {
@@ -770,23 +881,145 @@ section { scroll-margin-top: 76px; }
   text-transform: uppercase;
 }
 .site-footer__social a {
-  border: 1px solid var(--line-dark);
+  border: 1px solid var(--line-strong);
   border-radius: var(--r-pill);
   padding: 9px 18px;
-  color: var(--on-dark-mute);
+  color: var(--on-strong-mute);
   transition: color 0.25s ease, border-color 0.25s ease;
 }
-.site-footer__social a:hover { color: var(--accent); border-color: var(--accent); }
+.site-footer__social a:hover { color: var(--accent-strong); border-color: var(--accent-strong); }
 
 .site-footer__signoff {
   font-family: var(--font-kn);
   font-weight: 700;
   font-size: 15px;
   letter-spacing: 0.04em;
-  color: var(--accent);
+  color: var(--accent-strong);
 }
 
-.site-footer__copyright { font-size: 12px; font-weight: 400; color: var(--on-dark-mute); }
+.site-footer__copyright { font-size: 12px; font-weight: 400; color: var(--on-strong-mute); }
+
+
+/* ---- Footer preferences -------------------------------------------------
+   Language and theme, as two segmented controls. Real <button>s in a
+   role="group", state carried on aria-pressed so it reaches assistive tech
+   rather than living only in a class.
+   -------------------------------------------------------------------------- */
+
+.site-footer__prefs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 26px;
+  align-items: center;
+}
+
+.pref {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pref__label {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--on-strong-mute);
+}
+
+.pref__set {
+  display: flex;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-pill);
+  padding: 3px;
+  gap: 2px;
+}
+
+.pref__btn {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* Never below the 24px tap-target floor, nor the 12px text floor. */
+  min-height: 28px;
+  padding: 5px 13px;
+  border: 0;
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--on-strong-mute);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.pref__btn:hover { color: var(--on-strong); }
+
+.pref__btn[aria-pressed="true"] {
+  background: var(--accent-strong);
+  color: var(--ground-strong);
+}
+
+/* ---- Kannada -----------------------------------------------------------
+   Cinzel carries no Kannada at all, so the display face has to change with
+   the language or every heading falls back to whatever the OS offers. Baloo
+   Tamma 2 is the Kannada member of its family and covers the script at 400,
+   700 and 800.
+
+   Two further corrections the script needs. Cinzel headings run at
+   line-height 1.06, which clips Kannada vowel signs and conjuncts, so
+   Kannada headings get room. And the wide tracking that suits Latin small
+   caps pulls Kannada clusters apart, so it is dialled back wherever it was
+   set for the label register.
+   -------------------------------------------------------------------------- */
+
+:root[data-lang="kn"] {
+  --font-display: "Baloo Tamma 2", "Noto Sans Kannada", system-ui, sans-serif;
+}
+
+[data-lang="kn"] .hero__title,
+[data-lang="kn"] .headline,
+[data-lang="kn"] .day__title,
+[data-lang="kn"] .band__title,
+[data-lang="kn"] .volunteer__title,
+[data-lang="kn"] .fact__num {
+  line-height: 1.32;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Baloo Tamma 2 stops at 800, so the 900 hero title would be synthesised. */
+[data-lang="kn"] .hero__title,
+[data-lang="kn"] .fact__num { font-weight: 800; }
+
+[data-lang="kn"] .eyebrow,
+[data-lang="kn"] .hero__eyebrow span,
+[data-lang="kn"] .site-nav__links,
+[data-lang="kn"] .pref__label,
+[data-lang="kn"] .pref__btn,
+[data-lang="kn"] .pill,
+[data-lang="kn"] .site-nav__link,
+[data-lang="kn"] .site-nav__cta,
+[data-lang="kn"] .site-nav__wordmark,
+[data-lang="kn"] .day__num,
+[data-lang="kn"] .day__when,
+[data-lang="kn"] .fact__label,
+[data-lang="kn"] .frame__where,
+[data-lang="kn"] .about__caption,
+[data-lang="kn"] .qr-frame figcaption,
+[data-lang="kn"] .when__notice strong,
+[data-lang="kn"] .site-footer__tagline,
+[data-lang="kn"] .site-footer__social,
+[data-lang="kn"] .skip-link {
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+/* The hero's second line carries the name in the other language, so it keeps
+   Latin shaping while the page is in Kannada. */
+[data-lang="kn"] .hero__kn {
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
 
 /* ---- Tablet ------------------------------------------------------------- */
 

@@ -1,28 +1,415 @@
 /* Bellandur Ganesha Utsava v2.
 
-   Almost nothing. The sheet-stacking scroll engine that seeded this page was
-   cut: it measurably covered content before it could be read, and it carried
-   a sticky-position layout pass, a scrim ramp, ghost parallax and an anchor
-   correction that only existed to work around itself. Sections now follow one
-   another in normal flow, so smooth anchor scrolling is the browser's job and
-   scroll position needs no JavaScript at all.
+   Three jobs: the language switch, the theme switch, and the phone accordions.
+   No scroll engine. The sheet-stacking machinery this page started with was
+   cut, so scroll position and anchor navigation are the browser's own.
 
-   What is left is the one behaviour a stylesheet cannot express: on phones the
-   detail rows collapse, and tapping a title expands it. */
+   Kannada strings marked (approved) are lifted verbatim from the dictionary
+   already shipping in js/main.js on the live site. The rest were written for
+   this layout's copy, composed from that same approved vocabulary, and still
+   want a native-speaker read before go-live. */
 (function () {
   'use strict';
 
+  var THEME_KEY = 'bgu-theme';   // shared with index.html
+  var LANG_KEY = 'bgu-lang';     // shared with index.html
+  var root = document.documentElement;
+
+  /* ---- Strings --------------------------------------------------------- */
+
+  var STRINGS = {
+    en: {
+      'skip': 'Skip to content',
+      'nav.wordmark': 'Bellandur Ganesha Utsava',
+      'nav.brandAria': 'Bellandur Ganesha Utsava, back to top',
+      'nav.when': 'When',
+      'nav.festival': 'The festival',
+      'nav.photos': 'Photos',
+      'nav.visarjan': 'Visarjan',
+      'nav.visit': 'Visit',
+      'nav.resources': 'Resources',
+      'nav.donate': 'Donate',
+
+      'hero.eyebrow': 'Bellandur · Bengaluru',
+      'hero.title': 'Five days.<br />One street.<br /><em>Tenth year.</em>',
+      'hero.altName': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ',
+      'hero.sub': 'A community Ganesha festival in Bellandur, known for one of the tallest and richest idols in the area. Run by the neighbourhood, for the neighbourhood, for ten years.',
+      'hero.ctaWhen': 'When is it',
+      'hero.ctaDonate': 'Donate',
+      'hero.markAlt': 'Bellandur Ganesha Utsava tenth year emblem',
+
+      'when.eyebrow': 'When',
+      'when.title': 'Five days, from Ganesh Chaturthi.',
+      'when.lede': 'The shape is the same every year. Chaturthi opens it, three days of poojas carry it, and the visarjan closes it.',
+      'when.noticeTitle': 'Dates for this year',
+      'when.noticeBody': 'The calendar dates and daily timings are announced closer to the festival. They are posted on Instagram and Facebook first.',
+      'when.follow': 'Follow for dates',
+      'when.d1num': 'Day 1',
+      'when.d2num': 'Day 2',
+      'when.d3num': 'Day 3',
+      'when.d4num': 'Day 4',
+      'when.d5num': 'Day 5',
+      'when.d1title': 'Ganesh Chaturthi',
+      'when.d1note': 'The idol is installed and the first rituals are performed.',
+      'when.dPooja': 'Pooja and aarti',
+      'when.dPoojaNote': 'Daily poojas and community rituals around the idol.',
+      'when.d5title': 'Procession and visarjan',
+      'when.d5note': 'The idol leaves the pandal for the immersion that ends the festival.',
+      'when.tbd': 'Date to come',
+
+      'fact.yearNum': '10th',
+      'fact.yearLabel': 'Year in Bellandur',
+      'fact.daysNum': '5',
+      'fact.daysLabel': 'Days of the festival',
+      'fact.freeNum': 'Free',
+      'fact.freeLabel': 'Open to everyone',
+
+      'fest.eyebrow': 'The festival',
+      'fest.title': 'The pooja is the point.',
+      'fest.lede': 'The idol is why the crowds come, but the daily rituals are what the five days actually are. Nobody needs an invitation to stand in them.',
+      'fest.cta': 'Plan your visit',
+      'fest.aTitle': 'The idol',
+      'fest.aText': 'One of the tallest and richest Ganesha idols in the area, installed in the pandal near Shri Venkateshwara Swamy Temple.',
+      'fest.bTitle': 'Daily poojas and aarti',
+      'fest.bText': 'Poojas, aarti and community rituals every day of the five, performed in front of the idol and open to everyone present.',
+      'fest.cTitle': 'The neighbourhood',
+      'fest.cText': 'For a week the pandal is a community space, and Bellandur turns up in large numbers across all five days.',
+      'fest.dTitle': 'Seva',
+      'fest.dText': 'Pooja arrangements, the idol and the community seva are handled by Sri Vinayaka Seva Mandali and Classic Boys, and funded by the area itself.',
+
+      'photos.eyebrow': 'Photos and videos',
+      'photos.title': 'Where the pictures live.',
+      'photos.lede': 'The festival is documented as it happens, by the mandali and by everyone who attends. These are the three places it all ends up.',
+      'photos.albumAria': 'Open the Bellandur Ganesha Utsava photo album',
+      'photos.albumCap': 'The festival album',
+      'photos.albumWhere': 'Google Photos',
+      'photos.igAria': 'Bellandur Ganesha Utsava on Instagram',
+      'photos.igCap': 'Day by day, as it happens',
+      'photos.igWhere': 'Instagram',
+      'photos.fbAria': 'Bellandur Ganesha Utsava videos on Facebook',
+      'photos.fbCap': 'Procession and visarjan video',
+      'photos.fbWhere': 'Facebook',
+
+      'vis.eyebrow': 'The final day',
+      'vis.title': 'Out on the street, one last time.',
+      'vis.lede': 'The idol leaves the pandal and moves through Bellandur before the immersion. It is the single biggest crowd of the five days.',
+      'vis.cta': 'Support the festival',
+      'vis.aTitle': 'The procession',
+      'vis.aText': 'A grand procession on day five, through the streets around the pandal.',
+      'vis.bTitle': 'The visarjan',
+      'vis.bText': 'The immersion that closes the festival, and draws the largest turnout of the week.',
+      'vis.cTitle': 'Route and timing',
+      'vis.cText': 'Announced closer to the day, on Instagram and Facebook. Check there rather than relying on last year.',
+      'band.title': 'One mandali. One street. <span class="stroke">Ten years running.</span>',
+      'band.text': 'Sri Vinayaka Seva Mandali and Classic Boys have run this festival in Bellandur for a decade. Same organisers, same neighbourhood, same five days.',
+
+      'visit.eyebrow': 'Plan your visit',
+      'visit.title': 'Before you come.',
+      'visit.lede': 'Anything still marked to come is published on Instagram and Facebook closer to the festival.',
+      'visit.whereT': 'Where',
+      'visit.whereB': 'Near Shri Venkateshwara Swamy Temple, 12th B Cross Rd, Bellandur, Bengaluru, Karnataka 560103.',
+      'visit.gettingT': 'Getting there',
+      'visit.gettingB': 'Bellandur is in east Bengaluru, on the Outer Ring Road. The pandal is in the lanes off 12th B Cross Road.',
+      'visit.entryT': 'Entry',
+      'visit.entryB': 'Free and open to everyone. There is no ticket, pass or registration.',
+      'visit.timingsT': 'Timings',
+      'visit.timingsB': 'Daily pooja and aarti timings are announced with the dates.',
+      'visit.crowdsT': 'Crowds',
+      'visit.crowdsB': 'Expect a large local turnout across all five days, and the heaviest of it around the procession.',
+      'visit.updatedT': 'Stay updated',
+      'visit.updatedB': 'Follow bellanduru_ganesha_utsava on Instagram, or the festival page on Facebook, for dates, timings and the route.',
+
+      'about.eyebrow': 'The mandali',
+      'about.title': 'Run by the neighbourhood.',
+      'about.portraitAlt': 'Bellandur Ganesha Utsava Kannada emblem',
+      'about.caption': 'Sri Vinayaka Seva Mandali & Classic Boys',
+      'about.p1': 'Bellandur Ganesha Utsava is organised by Sri Vinayaka Seva Mandali and Classic Boys. This is the tenth year of the festival in Bellandur.',
+      'about.p2': 'The pandal, the idol, the pooja arrangements and the community seva are all handled by the two groups and paid for by contributions from the area. There is no ticket, because the neighbourhood already funds it.',
+      'about.p3': 'The pandal sits near Shri Venkateshwara Swamy Temple on 12th B Cross Road, and for five days every year it is the busiest spot in Bellandur.',
+
+      'seva.eyebrow': 'Seva',
+      'seva.title': 'Put something into the pooja.',
+      'seva.lede': 'Support the mandali with pooja arrangements, the idol and community seva. Scan the QR to pay by UPI, or use the VPA directly from your bank app.',
+      'seva.upi': 'UPI: 9845111817@kbl',
+      'seva.org': 'Sri Vinayaka Seva Mandali',
+      'seva.addr': 'Near Shri Venkateshwara Swamy Temple<br />12th B Cross Rd, Bellandur<br />Bengaluru, Karnataka 560103',
+      'seva.qrAlt': 'UPI donation QR for Sri Vinayaka Seva Mandali',
+      'seva.qrCap': 'Scan to pay',
+      'seva.payCta': 'Pay by UPI',
+      'vol.title': 'Volunteer',
+      'vol.text': 'The five days are run by people from the area. If you want to help with the pandal, the poojas or the procession, reach the mandali through Instagram or Facebook.',
+      'vol.cta': 'Reach the mandali',
+
+      'foot.logoAlt': 'Bellandur Ganesha Utsava',
+      'foot.tagline': 'Pooja · Aarti · Procession · Visarjan',
+      'foot.ig': 'Instagram',
+      'foot.fb': 'Facebook',
+      'foot.res': 'Resources',
+      'foot.copyright': '© 2026 Sri Vinayaka Seva Mandali & Classic Boys.',
+      'pref.language': 'Language',
+      'pref.theme': 'Theme',
+      'pref.system': 'System',
+      'pref.light': 'Light',
+      'pref.dark': 'Dark',
+
+      'doc.title': 'Bellandur Ganesha Utsava | Five Days, Tenth Year, Bengaluru',
+      'doc.desc': 'Bellandur Ganesha Utsava is a five day community festival in Bellandur, Bengaluru, organised by Sri Vinayaka Seva Mandali and Classic Boys. Daily poojas, a landmark Ganesha idol, and a grand visarjan. Tenth year.'
+    },
+
+    kn: {
+      'skip': 'ವಿಷಯಕ್ಕೆ ಹೋಗಿ',
+      'nav.wordmark': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ',
+      'nav.brandAria': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ, ಮೇಲಕ್ಕೆ',
+      'nav.when': 'ಯಾವಾಗ',
+      'nav.festival': 'ಉತ್ಸವ',
+      'nav.photos': 'ಚಿತ್ರಗಳು',
+      'nav.visarjan': 'ವಿಸರ್ಜನೆ',
+      'nav.visit': 'ಭೇಟಿ',
+      'nav.resources': 'ಸಂಪನ್ಮೂಲಗಳು',
+      'nav.donate': 'ದಾನ',
+
+      'hero.eyebrow': 'ಬೆಳಂದೂರು · ಬೆಂಗಳೂರು',
+      'hero.title': 'ಐದು ದಿನ.<br />ಒಂದು ಬೀದಿ.<br /><em>೧೦ನೇ ವರ್ಷ.</em>',
+      'hero.altName': 'Bellandur Ganesha Utsava',
+      'hero.sub': 'ಬೆಳಂದೂರಿನ ಸಮುದಾಯ ಗಣೇಶ ಉತ್ಸವ. ಈ ಪ್ರದೇಶದ ಅತಿ ಎತ್ತರದ ಮತ್ತು ಸಂಪನ್ನ ಗಣೇಶ ಮೂರ್ತಿಗಳಲ್ಲಿ ಒಂದಕ್ಕೆ ಹೆಸರುವಾಸಿ. ಹತ್ತು ವರ್ಷಗಳಿಂದ ನೆರೆಹೊರೆಯವರಿಂದಲೇ ನಡೆಸಲಾಗುತ್ತಿದೆ.',
+      'hero.ctaWhen': 'ಯಾವಾಗ',
+      'hero.ctaDonate': 'ದಾನ',
+      'hero.markAlt': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ ೧೦ನೇ ವರ್ಷದ ಲಾಂಛನ',
+
+      'when.eyebrow': 'ಯಾವಾಗ',
+      'when.title': 'ಗಣೇಶ ಚತುರ್ಥಿಯಿಂದ ಐದು ದಿನಗಳು.',
+      'when.lede': 'ಪ್ರತಿ ವರ್ಷವೂ ಸ್ವರೂಪ ಒಂದೇ. ಚತುರ್ಥಿಯಿಂದ ಆರಂಭ, ಮೂರು ದಿನ ಪೂಜೆಗಳು, ವಿಸರ್ಜನೆಯೊಂದಿಗೆ ಸಮಾಪ್ತಿ.',
+      'when.noticeTitle': 'ಈ ವರ್ಷದ ದಿನಾಂಕಗಳು',
+      'when.noticeBody': 'ಕ್ಯಾಲೆಂಡರ್ ದಿನಾಂಕಗಳು ಮತ್ತು ದೈನಂದಿನ ಸಮಯಗಳನ್ನು ಉತ್ಸವದ ಹತ್ತಿರ ಪ್ರಕಟಿಸಲಾಗುತ್ತದೆ. ಮೊದಲು Instagram ಮತ್ತು Facebook ನಲ್ಲಿ ಪ್ರಕಟವಾಗುತ್ತದೆ.',
+      'when.follow': 'ದಿನಾಂಕಗಳಿಗೆ ಅನುಸರಿಸಿ',
+      'when.d1num': 'ದಿನ ೧',
+      'when.d2num': 'ದಿನ ೨',
+      'when.d3num': 'ದಿನ ೩',
+      'when.d4num': 'ದಿನ ೪',
+      'when.d5num': 'ದಿನ ೫',
+      'when.d1title': 'ಗಣೇಶ ಚತುರ್ಥಿ',
+      'when.d1note': 'ಮೂರ್ತಿ ಪ್ರತಿಷ್ಠಾಪನೆ ಮತ್ತು ಮೊದಲ ಆಚರಣೆಗಳು.',
+      'when.dPooja': 'ಪೂಜೆ ಮತ್ತು ಆರತಿ',
+      'when.dPoojaNote': 'ಮೂರ್ತಿಯ ಸುತ್ತ ದೈನಂದಿನ ಪೂಜೆಗಳು ಮತ್ತು ಸಮುದಾಯ ಆಚರಣೆಗಳು.',
+      'when.d5title': 'ಮೆರವಣಿಗೆ ಮತ್ತು ವಿಸರ್ಜನೆ',
+      'when.d5note': 'ಉತ್ಸವವನ್ನು ಮುಗಿಸುವ ವಿಸರ್ಜನೆಗಾಗಿ ಮೂರ್ತಿ ಪಂದಾಲಿನಿಂದ ಹೊರಡುತ್ತದೆ.',
+      'when.tbd': 'ದಿನಾಂಕ ಶೀಘ್ರದಲ್ಲೇ',
+
+      'fact.yearNum': '೧೦ನೇ',
+      'fact.yearLabel': 'ಬೆಳಂದೂರಿನಲ್ಲಿ ವರ್ಷ',
+      'fact.daysNum': '೫',
+      'fact.daysLabel': 'ಉತ್ಸವದ ದಿನಗಳು',
+      'fact.freeNum': 'ಉಚಿತ',
+      'fact.freeLabel': 'ಎಲ್ಲರಿಗೂ ಮುಕ್ತ',
+
+      'fest.eyebrow': 'ಉತ್ಸವ',
+      'fest.title': 'ಪೂಜೆಯೇ ಮುಖ್ಯ.',
+      'fest.lede': 'ಮೂರ್ತಿಯಿಂದಾಗಿ ಜನ ಬರುತ್ತಾರೆ, ಆದರೆ ಈ ಐದು ದಿನಗಳ ನಿಜವಾದ ಸಾರ ದೈನಂದಿನ ಆಚರಣೆಗಳು. ಅವುಗಳಲ್ಲಿ ಪಾಲ್ಗೊಳ್ಳಲು ಆಮಂತ್ರಣ ಬೇಕಿಲ್ಲ.',
+      'fest.cta': 'ಭೇಟಿಯ ಯೋಜನೆ',
+      'fest.aTitle': 'ಮೂರ್ತಿ',
+      'fest.aText': 'ಈ ಪ್ರದೇಶದ ಅತಿ ಎತ್ತರದ ಮತ್ತು ಸಂಪನ್ನ ಗಣೇಶ ಮೂರ್ತಿಗಳಲ್ಲಿ ಒಂದು, ಶ್ರೀ ವೆಂಕಟೇಶ್ವರ ಸ್ವಾಮಿ ದೇವಸ್ಥಾನದ ಹತ್ತಿರದ ಪಂದಾಲಿನಲ್ಲಿ ಪ್ರತಿಷ್ಠಾಪಿಸಲಾಗಿದೆ.',
+      'fest.bTitle': 'ದೈನಂದಿನ ಪೂಜೆ ಮತ್ತು ಆರತಿ',
+      'fest.bText': 'ಐದೂ ದಿನ ಪೂಜೆ, ಆರತಿ ಮತ್ತು ಸಮುದಾಯ ಆಚರಣೆಗಳು, ಮೂರ್ತಿಯ ಮುಂದೆ, ಹಾಜರಿರುವ ಎಲ್ಲರಿಗೂ ಮುಕ್ತ.',
+      'fest.cTitle': 'ನೆರೆಹೊರೆ',
+      'fest.cText': 'ಒಂದು ವಾರ ಪಂದಾಲ್ ಸಮುದಾಯದ ಸ್ಥಳವಾಗುತ್ತದೆ, ಮತ್ತು ಐದೂ ದಿನ ಬೆಳಂದೂರು ದೊಡ್ಡ ಸಂಖ್ಯೆಯಲ್ಲಿ ಸೇರುತ್ತದೆ.',
+      'fest.dTitle': 'ಸೇವೆ',
+      'fest.dText': 'ಪೂಜಾ ವ್ಯವಸ್ಥೆ, ಮೂರ್ತಿ ಮತ್ತು ಸಮುದಾಯ ಸೇವೆಯನ್ನು ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ನಿರ್ವಹಿಸುತ್ತಾರೆ, ಮತ್ತು ಈ ಪ್ರದೇಶವೇ ಹಣ ಒದಗಿಸುತ್ತದೆ.',
+
+      'photos.eyebrow': 'ಫೋಟೋ ಮತ್ತು ವೀಡಿಯೊಗಳು',
+      'photos.title': 'ಚಿತ್ರಗಳು ಎಲ್ಲಿವೆ.',
+      'photos.lede': 'ಉತ್ಸವ ನಡೆಯುತ್ತಿರುವಂತೆಯೇ ಮಂಡಲಿ ಮತ್ತು ಬಂದವರೆಲ್ಲ ದಾಖಲಿಸುತ್ತಾರೆ. ಎಲ್ಲವೂ ಸೇರುವ ಮೂರು ಸ್ಥಳಗಳು ಇವು.',
+      'photos.albumAria': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ ಫೋಟೋ ಆಲ್ಬಮ್ ತೆರೆಯಿರಿ',
+      'photos.albumCap': 'ಉತ್ಸವದ ಫೋಟೋ ಆಲ್ಬಮ್',
+      'photos.albumWhere': 'Google Photos',
+      'photos.igAria': 'Instagram ನಲ್ಲಿ ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ',
+      'photos.igCap': 'ದಿನದಿಂದ ದಿನಕ್ಕೆ, ನಡೆಯುತ್ತಿರುವಂತೆ',
+      'photos.igWhere': 'Instagram',
+      'photos.fbAria': 'Facebook ನಲ್ಲಿ ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ ವೀಡಿಯೊಗಳು',
+      'photos.fbCap': 'ಮೆರವಣಿಗೆ ಮತ್ತು ವಿಸರ್ಜನೆ ವೀಡಿಯೊ',
+      'photos.fbWhere': 'Facebook',
+
+      'vis.eyebrow': 'ಕೊನೆಯ ದಿನ',
+      'vis.title': 'ಕೊನೆಯ ಬಾರಿ ಬೀದಿಯಲ್ಲಿ.',
+      'vis.lede': 'ಮೂರ್ತಿ ಪಂದಾಲಿನಿಂದ ಹೊರಟು ವಿಸರ್ಜನೆಗೆ ಮೊದಲು ಬೆಳಂದೂರಿನಲ್ಲಿ ಸಾಗುತ್ತದೆ. ಐದು ದಿನಗಳಲ್ಲಿ ಇದೇ ಅತಿ ದೊಡ್ಡ ಜನಸಂದಣಿ.',
+      'vis.cta': 'ಉತ್ಸವಕ್ಕೆ ಬೆಂಬಲ',
+      'vis.aTitle': 'ಮೆರವಣಿಗೆ',
+      'vis.aText': 'ಐದನೇ ದಿನ ಪಂದಾಲಿನ ಸುತ್ತಿನ ಬೀದಿಗಳಲ್ಲಿ ವಿಶಾಲ ಮೆರವಣಿಗೆ.',
+      'vis.bTitle': 'ವಿಸರ್ಜನೆ',
+      'vis.bText': 'ಉತ್ಸವವನ್ನು ಮುಗಿಸುವ ವಿಸರ್ಜನೆ, ವಾರದ ಅತಿ ದೊಡ್ಡ ಭಾಗವಹಿಸುವಿಕೆ.',
+      'vis.cTitle': 'ಮಾರ್ಗ ಮತ್ತು ಸಮಯ',
+      'vis.cText': 'ದಿನದ ಹತ್ತಿರ Instagram ಮತ್ತು Facebook ನಲ್ಲಿ ಪ್ರಕಟಿಸಲಾಗುತ್ತದೆ. ಕಳೆದ ವರ್ಷದ ಮೇಲೆ ಅವಲಂಬಿಸದೆ ಅಲ್ಲಿ ನೋಡಿ.',
+      'band.title': 'ಒಂದು ಮಂಡಲಿ. ಒಂದು ಬೀದಿ. <span class="stroke">ಹತ್ತು ವರ್ಷಗಳಿಂದ.</span>',
+      'band.text': 'ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಒಂದು ದಶಕದಿಂದ ಬೆಳಂದೂರಿನಲ್ಲಿ ಈ ಉತ್ಸವವನ್ನು ನಡೆಸುತ್ತಿದ್ದಾರೆ. ಅದೇ ಆಯೋಜಕರು, ಅದೇ ನೆರೆಹೊರೆ, ಅದೇ ಐದು ದಿನಗಳು.',
+
+      'visit.eyebrow': 'ಭೇಟಿಯ ಯೋಜನೆ',
+      'visit.title': 'ಬರುವ ಮೊದಲು.',
+      'visit.lede': 'ಶೀಘ್ರದಲ್ಲೇ ಎಂದು ಗುರುತಿಸಿರುವ ಮಾಹಿತಿಯನ್ನು ಉತ್ಸವದ ಹತ್ತಿರ Instagram ಮತ್ತು Facebook ನಲ್ಲಿ ಪ್ರಕಟಿಸಲಾಗುತ್ತದೆ.',
+      'visit.whereT': 'ಸ್ಥಳ',
+      'visit.whereB': 'ಶ್ರೀ ವೆಂಕಟೇಶ್ವರ ಸ್ವಾಮಿ ದೇವಸ್ಥಾನದ ಹತ್ತಿರ, ೧೨ನೇ ಬಿ ಕ್ರಾಸ್ ರಸ್ತೆ, ಬೆಳಂದೂರು, ಬೆಂಗಳೂರು, ಕರ್ನಾಟಕ ೫೬೦೧೦೩',
+      'visit.gettingT': 'ತಲುಪುವುದು ಹೇಗೆ',
+      'visit.gettingB': 'ಬೆಳಂದೂರು ಪೂರ್ವ ಬೆಂಗಳೂರಿನಲ್ಲಿ, ಹೊರ ವರ್ತುಲ ರಸ್ತೆಯಲ್ಲಿದೆ. ಪಂದಾಲ್ ೧೨ನೇ ಬಿ ಕ್ರಾಸ್ ರಸ್ತೆಯ ಒಳಗಿನ ಬೀದಿಗಳಲ್ಲಿದೆ.',
+      'visit.entryT': 'ಪ್ರವೇಶ',
+      'visit.entryB': 'ಉಚಿತ ಮತ್ತು ಎಲ್ಲರಿಗೂ ಮುಕ್ತ. ಟಿಕೆಟ್, ಪಾಸ್ ಅಥವಾ ನೋಂದಣಿ ಇಲ್ಲ.',
+      'visit.timingsT': 'ಸಮಯ',
+      'visit.timingsB': 'ದೈನಂದಿನ ಪೂಜೆ ಮತ್ತು ಆರತಿಯ ಸಮಯಗಳನ್ನು ದಿನಾಂಕಗಳ ಜೊತೆ ಪ್ರಕಟಿಸಲಾಗುತ್ತದೆ.',
+      'visit.crowdsT': 'ಜನಸಂದಣಿ',
+      'visit.crowdsB': 'ಐದೂ ದಿನ ದೊಡ್ಡ ಸ್ಥಳೀಯ ಭಾಗವಹಿಸುವಿಕೆ ನಿರೀಕ್ಷಿಸಿ, ಮೆರವಣಿಗೆಯ ಸಮಯದಲ್ಲಿ ಅತಿ ಹೆಚ್ಚು.',
+      'visit.updatedT': 'ಮಾಹಿತಿ ಪಡೆಯಿರಿ',
+      'visit.updatedB': 'ದಿನಾಂಕ, ಸಮಯ ಮತ್ತು ಮಾರ್ಗಕ್ಕಾಗಿ Instagram ನಲ್ಲಿ bellanduru_ganesha_utsava ಅಥವಾ Facebook ಪುಟವನ್ನು ಅನುಸರಿಸಿ.',
+
+      'about.eyebrow': 'ಮಂಡಲಿ',
+      'about.title': 'ನೆರೆಹೊರೆಯಿಂದಲೇ ನಡೆಸಲಾಗುತ್ತದೆ.',
+      'about.portraitAlt': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ ಕನ್ನಡ ಲಾಂಛನ',
+      'about.caption': 'ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್',
+      'about.p1': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವವನ್ನು ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಆಯೋಜಿಸುತ್ತಾರೆ. ಇದು ಬೆಳಂದೂರಿನಲ್ಲಿ ಉತ್ಸವದ ೧೦ನೇ ವರ್ಷ.',
+      'about.p2': 'ಪಂದಾಲ್, ಮೂರ್ತಿ, ಪೂಜಾ ವ್ಯವಸ್ಥೆ ಮತ್ತು ಸಮುದಾಯ ಸೇವೆ ಎಲ್ಲವನ್ನೂ ಈ ಎರಡು ಗುಂಪುಗಳು ನಿರ್ವಹಿಸುತ್ತವೆ, ಮತ್ತು ಈ ಪ್ರದೇಶದ ದೇಣಿಗೆಯಿಂದ ನಡೆಯುತ್ತದೆ. ನೆರೆಹೊರೆಯೇ ಹಣ ಒದಗಿಸುವುದರಿಂದ ಟಿಕೆಟ್ ಇಲ್ಲ.',
+      'about.p3': 'ಪಂದಾಲ್ ೧೨ನೇ ಬಿ ಕ್ರಾಸ್ ರಸ್ತೆಯಲ್ಲಿ ಶ್ರೀ ವೆಂಕಟೇಶ್ವರ ಸ್ವಾಮಿ ದೇವಸ್ಥಾನದ ಹತ್ತಿರ ಇದೆ, ಮತ್ತು ಪ್ರತಿ ವರ್ಷ ಐದು ದಿನ ಅದು ಬೆಳಂದೂರಿನ ಅತಿ ಜನನಿಬಿಡ ಸ್ಥಳ.',
+
+      'seva.eyebrow': 'ಸೇವೆ',
+      'seva.title': 'ಪೂಜೆಗೆ ನಿಮ್ಮ ಕೊಡುಗೆ.',
+      'seva.lede': 'ಪೂಜಾ ವ್ಯವಸ್ಥೆ, ಮೂರ್ತಿ ಮತ್ತು ಸಮುದಾಯ ಸೇವೆಗೆ ಮಂಡಲಿಗೆ ಬೆಂಬಲಿಸಿ. UPI ಮೂಲಕ ಪಾವತಿಸಲು QR ಸ್ಕ್ಯಾನ್ ಮಾಡಿ, ಅಥವಾ ನಿಮ್ಮ ಬ್ಯಾಂಕ್ ಆ್ಯಪ್‌ನಲ್ಲಿ VPA ಬಳಸಿ.',
+      'seva.upi': 'UPI: 9845111817@kbl',
+      'seva.org': 'ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ',
+      'seva.addr': 'ಶ್ರೀ ವೆಂಕಟೇಶ್ವರ ಸ್ವಾಮಿ ದೇವಸ್ಥಾನದ ಹತ್ತಿರ<br />೧೨ನೇ ಬಿ ಕ್ರಾಸ್ ರಸ್ತೆ, ಬೆಳಂದೂರು<br />ಬೆಂಗಳೂರು, ಕರ್ನಾಟಕ ೫೬೦೧೦೩',
+      'seva.qrAlt': 'ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ UPI ದಾನ QR',
+      'seva.qrCap': 'ಪಾವತಿಸಲು ಸ್ಕ್ಯಾನ್ ಮಾಡಿ',
+      'seva.payCta': 'UPI ಮೂಲಕ ಪಾವತಿಸಿ',
+      'vol.title': 'ಸ್ವಯಂಸೇವಕರಾಗಿ',
+      'vol.text': 'ಈ ಐದು ದಿನಗಳನ್ನು ಈ ಪ್ರದೇಶದ ಜನರೇ ನಡೆಸುತ್ತಾರೆ. ಪಂದಾಲ್, ಪೂಜೆ ಅಥವಾ ಮೆರವಣಿಗೆಯಲ್ಲಿ ಸಹಾಯ ಮಾಡಲು Instagram ಅಥವಾ Facebook ಮೂಲಕ ಮಂಡಲಿಯನ್ನು ಸಂಪರ್ಕಿಸಿ.',
+      'vol.cta': 'ಮಂಡಲಿಯನ್ನು ಸಂಪರ್ಕಿಸಿ',
+
+      'foot.logoAlt': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ',
+      'foot.tagline': 'ಪೂಜೆ · ಆರತಿ · ಮೆರವಣಿಗೆ · ವಿಸರ್ಜನೆ',
+      'foot.ig': 'Instagram',
+      'foot.fb': 'Facebook',
+      'foot.res': 'ಸಂಪನ್ಮೂಲಗಳು',
+      'foot.copyright': '© ೨೦೨೬ ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್.',
+      'pref.language': 'ಭಾಷೆ',
+      'pref.theme': 'ಥೀಮ್',
+      'pref.system': 'ಸಾಧನದಂತೆ',
+      'pref.light': 'ಬೆಳಕು',
+      'pref.dark': 'ಕತ್ತಲೆ',
+
+      'doc.title': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ | ಐದು ದಿನ, ೧೦ನೇ ವರ್ಷ, ಬೆಂಗಳೂರು',
+      'doc.desc': 'ಬೆಳಂದೂರು ಗಣೇಶ ಉತ್ಸವವು ಶ್ರೀ ವಿನಾಯಕ ಸೇವಾ ಮಂಡಲಿ ಮತ್ತು ಕ್ಲಾಸಿಕ್ ಬಾಯ್ಸ್ ಆಯೋಜಿಸುವ ಐದು ದಿನಗಳ ಸಮುದಾಯ ಉತ್ಸವ. ದೈನಂದಿನ ಪೂಜೆಗಳು, ವಿಶೇಷ ಗಣೇಶ ಮೂರ್ತಿ ಮತ್ತು ವಿಶಾಲ ವಿಸರ್ಜನೆ.'
+    }
+  };
+
+  /* ---- Language -------------------------------------------------------- */
+
+  var lang = 'en';
+
+  function applyLang(next) {
+    lang = STRINGS[next] ? next : 'en';
+    var dict = STRINGS[lang];
+    var other = lang === 'en' ? 'kn' : 'en';
+
+    root.setAttribute('lang', lang);
+    root.setAttribute('data-lang', lang);
+
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var v = dict[el.getAttribute('data-i18n')];
+      if (v != null) el.textContent = v;
+    });
+
+    /* innerHTML only for the three strings that carry markup of their own (a
+       line break, an <em>, the highlighted span). Every value comes from the
+       dictionary above, never from anything a visitor can supply. */
+    document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+      var v = dict[el.getAttribute('data-i18n-html')];
+      if (v != null) el.innerHTML = v;
+    });
+
+    document.querySelectorAll('[data-i18n-alt]').forEach(function (el) {
+      var v = dict[el.getAttribute('data-i18n-alt')];
+      if (v != null) el.setAttribute('alt', v);
+    });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+      var v = dict[el.getAttribute('data-i18n-aria')];
+      if (v != null) el.setAttribute('aria-label', v);
+    });
+
+    /* This one holds the name in the language the page is NOT in, so its own
+       lang attribute has to move the opposite way for correct shaping and
+       for screen readers. */
+    document.querySelectorAll('[data-i18n-altlang]').forEach(function (el) {
+      el.setAttribute('lang', other);
+    });
+
+    if (dict['doc.title']) document.title = dict['doc.title'];
+    var desc = document.querySelector('meta[name="description"]');
+    if (desc && dict['doc.desc']) desc.setAttribute('content', dict['doc.desc']);
+
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-set-lang') === lang ? 'true' : 'false');
+    });
+
+    try { localStorage.setItem(LANG_KEY, lang); } catch (e) {}
+  }
+
+  /* ---- Theme ----------------------------------------------------------- */
+  /* Three states. "system" removes the attribute entirely so the stylesheet's
+     prefers-color-scheme query decides; light and dark pin it. */
+
+  var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+
+  function paintMeta() {
+    if (!themeMeta) return;
+    var dark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.hasAttribute('data-theme') && systemDark.matches);
+    themeMeta.setAttribute('content', dark ? '#1a0508' : '#fff8ec');
+  }
+
+  function applyTheme(mode) {
+    if (mode !== 'light' && mode !== 'dark') mode = 'system';
+    if (mode === 'system') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', mode);
+
+    document.querySelectorAll('[data-set-theme]').forEach(function (b) {
+      b.setAttribute('aria-pressed', b.getAttribute('data-set-theme') === mode ? 'true' : 'false');
+    });
+
+    paintMeta();
+    try { localStorage.setItem(THEME_KEY, mode); } catch (e) {}
+  }
+
+  /* While on "system", follow the device if it changes under us. */
+  systemDark.addEventListener('change', function () {
+    if (!root.hasAttribute('data-theme')) paintMeta();
+  });
+
+  /* ---- Wire up --------------------------------------------------------- */
+
+  var storedLang = 'en', storedTheme = 'system';
+  try {
+    storedLang = localStorage.getItem(LANG_KEY) || 'en';
+    storedTheme = localStorage.getItem(THEME_KEY) || 'system';
+  } catch (e) {}
+
+  applyLang(storedLang);
+  applyTheme(storedTheme);
+
+  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+    b.addEventListener('click', function () { applyLang(b.getAttribute('data-set-lang')); });
+  });
+  document.querySelectorAll('[data-set-theme]').forEach(function (b) {
+    b.addEventListener('click', function () { applyTheme(b.getAttribute('data-set-theme')); });
+  });
+
+  /* ---- Phone: detail rows collapse ------------------------------------- */
+
   var mqPhone = window.matchMedia('(max-width: 640px)');
   var rows = Array.prototype.slice.call(document.querySelectorAll('.row'));
-  if (!rows.length) return;
 
   function toggleRow(row) {
     var open = row.classList.toggle('is-open');
     row.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
 
-  /* The rows are only interactive at phone widths, so the button semantics
-     have to come and go with the media query rather than sit in the markup. */
+  /* Only interactive at phone widths, so the button semantics come and go
+     with the media query rather than sitting in the markup. */
   function syncRowRoles() {
     rows.forEach(function (row) {
       if (mqPhone.matches) {
