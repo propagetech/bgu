@@ -57,7 +57,7 @@ artwork is never covered by the controls.
 | `editor.js` | state, the tool dock, layout fitting, PNG and SVG export |
 | `svg2pdf.js` | the PDF writer, standalone and reusable |
 | `art/*.svg` | base artwork, generated |
-| `scripts/build_editor_art.py` | regenerates `art/` from `../vector/` |
+| `scripts/build_editor_art.py` | regenerates `art/` from `../vector/` and the native sun |
 
 ## The PDF is real vector art
 
@@ -90,6 +90,24 @@ into `crown-side` and `crown-center` groups so the editor can toggle them, and
 the layer fills are left on the neutral trace colours for the editor to set.
 Layer order is `ring`, `dotpatch`, `head`, `ink`, `text`, `crown-side`,
 `crown-center`.
+
+The `ring` is the exception: it is not traced. It comes from the native
+Illustrator original via `../vector-native/scripts/extract_sun.py`, so the
+brush is real vector rather than an auto-trace of a JPEG. Two details make
+that work, both explained in the build script:
+
+- The brush has the Ganesha knocked out of it, leaving elephant-shaped gaps.
+  The 8th-edition file carries that same elephant in register on the same page,
+  so painting it back in with the ring's own gradient fills each gap with
+  exactly the colour its surroundings already have.
+- The native sun is drawn tighter around its own mark than the 10th-edition
+  disc is, so `SUN_SCALE` opens it out until the disc no longer escapes past
+  the brush on any of 720 sampled rays, for both lockups.
+
+The fit is baked into the coordinates rather than carried on a nested
+transform, so the group still looks like every other layer: one transform, one
+`url(#ringG)` fill, flat `<path>` children. That keeps the gradient correct and
+keeps `svg2pdf.js`, which reads only top-level groups, working unchanged.
 
 ## Not there yet
 

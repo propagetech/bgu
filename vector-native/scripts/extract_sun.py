@@ -91,38 +91,58 @@ VIGNETTE = (368, 180, 468, 232)
 FACE_INK, FACE_ACCENT = "#102448", "#D82427"
 
 
-def fmt(v):
-    s = f"{v:.3f}".rstrip("0").rstrip(".")
-    return "0" if s in ("-0", "") else s
+def fmt(v, places=3):
+    s = f"{v:.{places}f}".rstrip("0").rstrip(".") if places else f"{v:.0f}"
+    return "0" if s in ("-0", "", "-0.0") else s
 
 
-def path_d(items, close):
-    """Serialise one PDF path. The originals use only lines and cubics."""
+def path_d(items, close, matrix=None, places=3):
+    """Serialise one PDF path. The originals use only lines and cubics.
+
+    `matrix` is an optional (a, b, c, d, e, f) affine baked into the
+    coordinates, for callers that cannot wrap the result in a transform.
+    `places` is the decimals kept; a caller working in a large coordinate
+    space wants fewer, and the file gets a lot smaller for it.
+    """
+    if matrix is None:
+        def at(p):
+            return fmt(p.x, places) + " " + fmt(p.y, places)
+        def pt(p):
+            return (p.x, p.y)
+    else:
+        a, b, c, d, e, f = matrix
+        def at(p):
+            return (fmt(a * p.x + c * p.y + e, places) + " "
+                    + fmt(b * p.x + d * p.y + f, places))
+        def pt(p):
+            return (a * p.x + c * p.y + e, b * p.x + d * p.y + f)
+
     out, cur = [], None
 
     def move(p):
-        if cur is None or abs(p.x - cur.x) > 1e-6 or abs(p.y - cur.y) > 1e-6:
-            out.append(f"M{fmt(p.x)} {fmt(p.y)}")
+        q = pt(p)
+        if cur is None or abs(q[0] - cur[0]) > 1e-6 or abs(q[1] - cur[1]) > 1e-6:
+            out.append("M" + at(p))
 
     for it in items:
         kind = it[0]
         if kind == "l":
             move(it[1])
-            out.append(f"L{fmt(it[2].x)} {fmt(it[2].y)}")
-            cur = it[2]
+            out.append("L" + at(it[2]))
+            cur = pt(it[2])
         elif kind == "c":
             move(it[1])
-            out.append(f"C{fmt(it[2].x)} {fmt(it[2].y)} {fmt(it[3].x)} {fmt(it[3].y)} "
-                       f"{fmt(it[4].x)} {fmt(it[4].y)}")
-            cur = it[4]
+            out.append("C" + at(it[2]) + " " + at(it[3]) + " " + at(it[4]))
+            cur = pt(it[4])
         elif kind == "re":
             r = it[1]
-            out.append(f"M{fmt(r.x0)} {fmt(r.y0)}H{fmt(r.x1)}V{fmt(r.y1)}H{fmt(r.x0)}Z")
+            corners = [fitz.Point(r.x0, r.y0), fitz.Point(r.x1, r.y0),
+                       fitz.Point(r.x1, r.y1), fitz.Point(r.x0, r.y1)]
+            out.append("M" + at(corners[0]) + "".join("L" + at(c) for c in corners[1:]) + "Z")
             cur = None
         elif kind == "qu":
             q = it[1]
-            out.append(f"M{fmt(q.ul.x)} {fmt(q.ul.y)}L{fmt(q.ur.x)} {fmt(q.ur.y)}"
-                       f"L{fmt(q.lr.x)} {fmt(q.lr.y)}L{fmt(q.ll.x)} {fmt(q.ll.y)}Z")
+            out.append("M" + at(q.ul) + "L" + at(q.ur) + "L" + at(q.lr) + "L" + at(q.ll) + "Z")
             cur = None
         else:                                    # nothing else occurs in these files
             raise ValueError("unhandled path item: " + kind)
@@ -185,7 +205,7 @@ def render(groups, fit, fills, ring_only):
             + "".join(body) + "</g></svg>")
 
 
-def background(src=SRC_FACE, page_no=PAGE_FACE):
+def background(src=SRC_FACE, page_no=PAGE_FACE, matrix=None, places=3):
     """Sun and elephant face from one page, so the gaps are filled by register.
 
     Returns the sun layers, the face paths tagged ink/accent and whether each
@@ -206,7 +226,7 @@ def background(src=SRC_FACE, page_no=PAGE_FACE):
         # artefact and does not render in the source
         if not page_box.contains(r) or (len(p["items"]) == 1 and p["items"][0][0] == "re"):
             continue
-        d, eo = path_d(p["items"], p["closePath"]), p["even_odd"]
+        d, eo = path_d(p["items"], p["closePath"], matrix, places), p["even_odd"]
         layer = sun_of.get(tuple(round(x, 3) for x in (p["fill"] or ())))
         if layer:
             if layer == "disc" and d.count("M") > 200:
@@ -239,12 +259,14 @@ def render_background(sun, face, box, fills, drop_vignette):
 
 
 def layer_svg(gid, fill, items):
+    """One tonal layer. `fill` of None leaves the colour to the parent group."""
     nz = [d for d, e in items if not e]
     eo = [d for d, e in items if e]
     inner = "".join(f'<path d="{d}"/>' for d in nz)
     if eo:
         inner += '<g fill-rule="evenodd">' + "".join(f'<path d="{d}"/>' for d in eo) + "</g>"
-    return f'<g id="{gid}" fill="{fill}">{inner}</g>'
+    paint = "" if fill is None else f' fill="{fill}"'
+    return f'<g id="{gid}"{paint}>{inner}</g>'
 
 
 def main():
