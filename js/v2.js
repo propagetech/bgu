@@ -91,6 +91,19 @@
       'slot.d5t2': '6:00 pm onwards',
       'slot.d5w2': 'Grand procession and visarjan',
 
+      'poster.eyebrow': 'The poster',
+      'poster.title': 'All five days on one sheet',
+      'poster.text': 'The programme exactly as the mandali published it. Open it full size, then share it with your street.',
+      'poster.cta': 'View and share',
+      'poster.openAria': 'Open the 2026 programme poster full size, with a share option',
+      'poster.modalTitle': 'Bellandur Ganesha Utsava 2026 programme',
+      'poster.close': 'Close the poster',
+      'poster.share': 'Share',
+      'poster.download': 'Download',
+      'poster.alt': 'Programme poster for the tenth Bellandur Ganesha Utsava, 14 to 18 September 2026, at Sri Venkateshwara Swamy Temple, Bellandur. Every timing on it is written out in the programme above.',
+      'poster.shareText': 'Bellandur Ganesha Utsava, 14 to 18 September 2026. The full programme.',
+      'poster.copied': 'Link copied. Paste it wherever you like.',
+      'poster.shareFail': 'Sharing is not available in this browser. Use Download instead.',
       'fact.yearNum': '10th',
       'fact.yearLabel': 'Year in Bellandur',
       'fact.daysNum': '5',
@@ -263,6 +276,19 @@
       'slot.d5t2': 'ಸಂಜೆ ೬:೦೦ ರಿಂದ',
       'slot.d5w2': 'ಭವ್ಯ ಮೆರವಣಿಗೆ ಮತ್ತು ವಿಸರ್ಜನೆ',
 
+      'poster.eyebrow': 'ಪೋಸ್ಟರ್',
+      'poster.title': 'ಐದೂ ದಿನಗಳ ಕಾರ್ಯಕ್ರಮ ಒಂದೇ ಹಾಳೆಯಲ್ಲಿ',
+      'poster.text': 'ಮಂಡಲಿ ಪ್ರಕಟಿಸಿದಂತೆಯೇ ಇರುವ ಕಾರ್ಯಕ್ರಮ ಪಟ್ಟಿ. ಪೂರ್ಣ ಗಾತ್ರದಲ್ಲಿ ತೆರೆದು ನಿಮ್ಮ ಬೀದಿಯವರೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳಿ.',
+      'poster.cta': 'ನೋಡಿ ಮತ್ತು ಹಂಚಿಕೊಳ್ಳಿ',
+      'poster.openAria': '೨೦೨೬ ರ ಕಾರ್ಯಕ್ರಮ ಪೋಸ್ಟರ್ ಅನ್ನು ಪೂರ್ಣ ಗಾತ್ರದಲ್ಲಿ ತೆರೆಯಿರಿ, ಹಂಚಿಕೊಳ್ಳುವ ಆಯ್ಕೆಯೊಂದಿಗೆ',
+      'poster.modalTitle': 'ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ ೨೦೨೬ ಕಾರ್ಯಕ್ರಮ',
+      'poster.close': 'ಪೋಸ್ಟರ್ ಮುಚ್ಚಿ',
+      'poster.share': 'ಹಂಚಿಕೊಳ್ಳಿ',
+      'poster.download': 'ಡೌನ್‌ಲೋಡ್',
+      'poster.alt': 'ಹತ್ತನೇ ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವದ ಕಾರ್ಯಕ್ರಮ ಪೋಸ್ಟರ್, ೧೪ ರಿಂದ ೧೮ ಸೆಪ್ಟೆಂಬರ್ ೨೦೨೬, ಶ್ರೀ ವೆಂಕಟೇಶ್ವರ ಸ್ವಾಮಿ ದೇವಸ್ಥಾನ, ಬೆಳ್ಳಂದೂರು. ಇದರಲ್ಲಿನ ಎಲ್ಲ ಸಮಯಗಳನ್ನು ಮೇಲಿನ ಕಾರ್ಯಕ್ರಮ ಪಟ್ಟಿಯಲ್ಲಿ ಬರೆಯಲಾಗಿದೆ.',
+      'poster.shareText': 'ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ, ೧೪ ರಿಂದ ೧೮ ಸೆಪ್ಟೆಂಬರ್ ೨೦೨೬. ಪೂರ್ಣ ಕಾರ್ಯಕ್ರಮ.',
+      'poster.copied': 'ಲಿಂಕ್ ನಕಲಾಗಿದೆ. ಬೇಕಾದಲ್ಲಿ ಅಂಟಿಸಿ.',
+      'poster.shareFail': 'ಈ ಬ್ರೌಸರ್‌ನಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳುವ ಸೌಲಭ್ಯವಿಲ್ಲ. ಬದಲಿಗೆ ಡೌನ್‌ಲೋಡ್ ಬಳಸಿ.',
       'fact.yearNum': '೧೦ನೇ',
       'fact.yearLabel': 'ಬೆಳ್ಳಂದೂರಿನಲ್ಲಿ ವರ್ಷ',
       'fact.daysNum': '೫',
@@ -366,6 +392,7 @@
   /* ---- Language -------------------------------------------------------- */
 
   var lang = 'en';
+  var posterStatusKey = '';   // set by the poster share, re-rendered on a language switch
 
   function applyLang(next) {
     lang = STRINGS[next] ? next : 'en';
@@ -404,6 +431,9 @@
     document.querySelectorAll('[data-i18n-altlang]').forEach(function (el) {
       el.setAttribute('lang', other);
     });
+
+    /* Declared further down, so it is undefined on the first call. */
+    if (posterStatus && posterStatusKey) posterStatus.textContent = dict[posterStatusKey] || '';
 
     if (dict['doc.title']) document.title = dict['doc.title'];
     var desc = document.querySelector('meta[name="description"]');
@@ -508,4 +538,103 @@
 
   syncRowRoles();
   mqPhone.addEventListener('change', syncRowRoles);
+
+  /* ---- Poster: view and share ------------------------------------------ */
+  /* The card opens the mandali's own programme sheet. <dialog> carries the
+     modal semantics, the focus trap and Esc, so there is nothing to hand
+     roll. Share offers the image file first, because what people forward on
+     WhatsApp is the poster itself and not a link; where files cannot be
+     shared it offers the page URL, and with no Web Share API at all it
+     copies that URL. The timetable in the page stays the accessible copy. */
+
+  var posterModal = document.getElementById('poster-modal');
+  var posterImg = document.getElementById('poster-modal-img');
+  var posterStatus = document.querySelector('[data-poster-status]');
+  var POSTER_FILENAME = 'bellandur-ganesha-utsava-2026-programme.jpg';
+
+  function posterSay(key) {
+    posterStatusKey = key || '';
+    if (posterStatus) posterStatus.textContent = key ? (STRINGS[lang][key] || '') : '';
+  }
+
+  function pageUrl() { return location.origin + location.pathname; }
+
+  /* Resolves to a File when the browser can share files, and to null on any
+     other outcome, so the caller can simply fall through to the URL share. */
+  function posterAsFile() {
+    if (!navigator.canShare || typeof File !== 'function') return Promise.resolve(null);
+    return fetch(posterImg.getAttribute('data-src'))
+      .then(function (r) { return r.ok ? r.blob() : null; })
+      .then(function (blob) {
+        if (!blob) return null;
+        var file = new File([blob], POSTER_FILENAME, { type: blob.type || 'image/jpeg' });
+        return navigator.canShare({ files: [file] }) ? file : null;
+      })
+      ['catch'](function () { return null; });
+  }
+
+  function copyPageLink() {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) { posterSay('poster.shareFail'); return; }
+    navigator.clipboard.writeText(pageUrl()).then(
+      function () { posterSay('poster.copied'); },
+      function () { posterSay('poster.shareFail'); }
+    );
+  }
+
+  function sharePoster() {
+    var dict = STRINGS[lang];
+    var title = dict['poster.modalTitle'];
+    var text = dict['poster.shareText'];
+
+    if (!navigator.share) { copyPageLink(); return; }
+
+    posterAsFile().then(function (file) {
+      return file
+        ? navigator.share({ files: [file], title: title, text: text })
+        : navigator.share({ title: title, text: text, url: pageUrl() });
+    }).then(function () {
+      posterSay('');
+    })['catch'](function (err) {
+      /* The reader dismissed the share sheet. Nothing to report. */
+      if (err && err.name === 'AbortError') { posterSay(''); return; }
+      copyPageLink();
+    });
+  }
+
+  var posterOpeners = document.querySelectorAll('[data-poster-open]');
+  var canDialog = posterModal && posterImg && typeof posterModal.showModal === 'function';
+
+  posterOpeners.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      /* The full poster is a third of a megabyte, so it is fetched on the
+         first open rather than with the page. */
+      if (canDialog && !posterImg.getAttribute('src')) {
+        posterImg.setAttribute('src', posterImg.getAttribute('data-src'));
+      }
+      if (!canDialog) { window.open('imgs/programme-2026.jpg', '_blank', 'noopener'); return; }
+      posterSay('');
+      posterModal.showModal();
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  if (canDialog) {
+    document.querySelectorAll('[data-poster-close]').forEach(function (btn) {
+      btn.addEventListener('click', function () { posterModal.close(); });
+    });
+
+    /* A click that lands on the dialog element itself, rather than on the
+       panel inside it, is a click on the backdrop. */
+    posterModal.addEventListener('click', function (e) {
+      if (e.target === posterModal) posterModal.close();
+    });
+
+    /* Fires for the close button, the backdrop and Esc alike. */
+    posterModal.addEventListener('close', function () {
+      document.body.style.overflow = '';
+    });
+
+    var posterShareBtn = document.querySelector('[data-poster-share]');
+    if (posterShareBtn) posterShareBtn.addEventListener('click', sharePoster);
+  }
 })();

@@ -633,6 +633,32 @@
           </div>
         </div>
 
+        <!-- The mandali's own programme sheet. The timetable above is the
+             accessible copy of it; this is the thing people forward on
+             WhatsApp, so it opens full size with a share action. -->
+        <div class="poster">
+          <button class="poster__card" type="button" data-poster-open
+            data-i18n-aria="poster.openAria"
+            aria-label="Open the 2026 programme poster full size, with a share option">
+            <span class="poster__thumb">
+              <picture>
+                <source srcset="imgs/programme-2026-thumb.webp" type="image/webp" />
+                <img src="imgs/programme-2026-thumb.jpg" width="440" height="660" alt=""
+                  loading="lazy" decoding="async" />
+              </picture>
+            </span>
+            <span class="poster__body">
+              <span class="poster__eyebrow" data-i18n="poster.eyebrow">The poster</span>
+              <span class="poster__title" data-i18n="poster.title">All five days on one sheet</span>
+              <span class="poster__text" data-i18n="poster.text">
+                The programme exactly as the mandali published it. Open it full size,
+                then share it with your street.
+              </span>
+            </span>
+            <span class="poster__cta" data-i18n="poster.cta">View and share</span>
+          </button>
+        </div>
+
         <div class="facts">
           <div class="fact">
             <p class="fact__num" data-i18n="fact.yearNum">10th</p>
@@ -1004,6 +1030,36 @@
       <p class="site-footer__signoff kn" lang="kn">ಗಣೇಶ ಉತ್ಸವ</p>
     </div>
   </footer>
+
+  <!-- Poster viewer. <dialog> carries the modal semantics, focus trap and
+       Esc handling itself, so js/v2.js only wires open, close and share. -->
+  <dialog class="poster-modal" id="poster-modal" aria-labelledby="poster-modal-title">
+    <div class="poster-modal__inner">
+      <div class="poster-modal__head">
+        <h2 class="poster-modal__title" id="poster-modal-title" data-i18n="poster.modalTitle">
+          Bellandur Ganesha Utsava 2026 programme
+        </h2>
+        <button class="poster-modal__close" type="button" data-poster-close
+          data-i18n-aria="poster.close" aria-label="Close the poster">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <img class="poster-modal__img" id="poster-modal-img" width="1024" height="1536"
+        data-src="imgs/programme-2026.jpg" data-i18n-alt="poster.alt" alt="" src="" />
+
+      <div class="poster-modal__bar">
+        <div class="poster-modal__actions">
+          <button class="pill pill--solid" type="button" data-poster-share
+            data-i18n="poster.share">Share</button>
+          <a class="pill pill--ghost-strong" href="imgs/programme-2026.jpg"
+            download="bellandur-ganesha-utsava-2026-programme.jpg"
+            data-i18n="poster.download">Download</a>
+        </div>
+        <p class="poster-modal__status" data-poster-status role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </dialog>
 
   <script src="js/v2.js" defer></script>
 </body>

@@ -673,6 +673,172 @@ section { scroll-margin-top: 76px; }
   color: var(--on-strong-mute);
 }
 
+/* ---- Programme poster --------------------------------------------------- */
+/* The mandali's own sheet, offered as one large control: the whole card is
+   the button, so the tap target is the card and not a small link inside it.
+   The timetable above stays the accessible copy of the same information. */
+
+.poster { margin-top: 56px; }
+
+.poster__card {
+  display: grid;
+  grid-template-columns: clamp(128px, 15vw, 188px) minmax(0, 1fr) auto;
+  gap: clamp(20px, 3vw, 34px);
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  padding: clamp(18px, 2.4vw, 26px);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-card);
+  background: var(--ground-strong-raise);
+  cursor: pointer;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.poster__card:hover { border-color: var(--accent-strong); }
+.poster__card:hover .poster__thumb { transform: translateY(-2px); }
+.poster__card:hover .poster__cta { color: var(--accent-strong); }
+
+.poster__thumb {
+  display: block;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
+  transition: transform 0.25s ease;
+}
+.poster__thumb img { width: 100%; }
+
+.poster__body { display: block; }
+
+.poster__eyebrow {
+  display: block;
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-lift);
+}
+
+.poster__title {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(19px, 2.1vw, 25px);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.poster__text {
+  display: block;
+  margin-top: 10px;
+  max-width: 48ch;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--on-strong-mute);
+}
+
+/* Styled as a pill but it is not a control of its own: the whole card is the
+   button, so this only has to look like the thing you are about to press. */
+.poster__cta {
+  justify-self: end;
+  padding: 16px 30px;
+  border: 1px solid var(--pill-ghost-border);
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--on-strong);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+.poster__card:hover .poster__cta { border-color: var(--accent-strong); }
+
+/* ---- Poster viewer ------------------------------------------------------ */
+/* <dialog> brings the modal semantics, the focus trap and Esc with it, so the
+   script only opens it, closes it and runs the share. */
+
+.poster-modal {
+  width: min(560px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-card);
+  background: var(--ground-strong);
+  color: var(--on-strong);
+  overflow: hidden;
+}
+.poster-modal::backdrop { background: rgba(12, 2, 5, 0.78); }
+
+.poster-modal__inner {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 32px);
+}
+
+.poster-modal__head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 16px 14px 22px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.poster-modal__title {
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.poster-modal__close {
+  margin-left: auto;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  font: inherit;
+  font-size: 26px;
+  line-height: 1;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--on-strong);
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.poster-modal__close:hover { border-color: var(--accent-strong); color: var(--accent-strong); }
+
+.poster-modal__img {
+  width: 100%;
+  min-height: 0;
+  object-fit: contain;
+  background: var(--ground-strong-raise);
+}
+
+.poster-modal__bar {
+  padding: 16px 22px 20px;
+  border-top: 1px solid var(--line-strong);
+}
+
+.poster-modal__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.poster-modal__actions .pill { padding: 14px 26px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.poster-modal__actions button.pill { border: 1px solid transparent; }
+
+/* Empty until the share runs, so it takes no room in the resting state. */
+.poster-modal__status {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--on-strong-mute);
+}
+.poster-modal__status:not(:empty) { margin-top: 12px; }
+
 /* ---- Facts strip -------------------------------------------------------- */
 
 .facts {
@@ -932,6 +1098,9 @@ section { scroll-margin-top: 76px; }
 
 .site-footer__social {
   display: flex;
+  /* Three pills do not fit on one line at 360px, where body overflow-x: clip
+     was silently cutting the third one off. */
+  flex-wrap: wrap;
   gap: 10px;
   align-items: center;
   font-size: 12px;
@@ -1037,6 +1206,7 @@ section { scroll-margin-top: 76px; }
 [data-lang="kn"] .hero__title,
 [data-lang="kn"] .headline,
 [data-lang="kn"] .day__title,
+[data-lang="kn"] .poster__title,
 [data-lang="kn"] .band__title,
 [data-lang="kn"] .volunteer__title,
 [data-lang="kn"] .fact__num {
@@ -1064,6 +1234,9 @@ section { scroll-margin-top: 76px; }
 [data-lang="kn"] .frame__where,
 [data-lang="kn"] .about__caption,
 [data-lang="kn"] .qr-frame figcaption,
+[data-lang="kn"] .poster__eyebrow,
+[data-lang="kn"] .poster__cta,
+[data-lang="kn"] .poster-modal__title,
 [data-lang="kn"] .slot__time,
 [data-lang="kn"] .hero__dates-range,
 [data-lang="kn"] .when__notice strong,
@@ -1092,6 +1265,11 @@ section { scroll-margin-top: 76px; }
   .hero .wrap { grid-template-columns: 1fr; }
   .hero__mark { order: -1; }
   .hero__mark img { max-width: 250px; margin: 0; }
+  /* Below this width the copy and a right hand pill fight for room, so the
+     call to action moves under the text. */
+  .poster__card { grid-template-columns: clamp(120px, 18vw, 170px) minmax(0, 1fr); }
+  .poster__cta { grid-column: 2; justify-self: start; }
+
   /* The date column shrinks to its content rather than dropping below the
      programme, so every day still opens with "Day N ... Mon 14 Sep". */
   .day { grid-template-columns: 84px minmax(0, 1fr) auto; gap: 20px; }
@@ -1122,6 +1300,14 @@ section { scroll-margin-top: 76px; }
   .row__text,
   .day__note,
   .seva__lines { font-size: 14px; }
+
+  /* The thumbnail keeps its own row so the copy is not squeezed into
+     half the screen. */
+  .poster__card { grid-template-columns: 1fr; gap: 20px; }
+  .poster__thumb { max-width: 210px; }
+  .poster__cta { grid-column: 1; justify-self: stretch; text-align: center; }
+  .poster__text { font-size: 14px; }
+  .poster-modal__actions .pill { flex: 1 1 auto; text-align: center; }
 
   .day {
     grid-template-columns: minmax(0, 1fr) auto;
