@@ -507,6 +507,31 @@ section { scroll-margin-top: 76px; }
   animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.14s both;
 }
 
+/* The date is the one fact a festival visitor came for, so it sits directly
+   under the name rather than waiting in the When section. */
+.hero__dates {
+  margin-top: 22px;
+  padding-left: 16px;
+  border-left: 3px solid var(--accent-strong);
+  animation: bgurise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.17s both;
+}
+.hero__dates-range {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(19px, 2.2vw, 27px);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.hero__dates-note {
+  display: block;
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--on-strong-mute);
+}
+
 .hero__sub {
   font-size: 17px;
   line-height: 1.8;
@@ -537,9 +562,9 @@ section { scroll-margin-top: 76px; }
 
 /* ---- When: the five days ------------------------------------------------ */
 /* Promoted to second, immediately after the hero. For a festival site the
-   date is the single most valuable thing on the page. Each day carries an
-   empty slot for its calendar date and timings, so publishing them later is
-   a content edit and not a layout change. */
+   date is the single most valuable thing on the page. Each day carries its
+   calendar date and its programme, so publishing next year's is a content
+   edit and not a layout change. */
 
 .when__head {
   display: grid;
@@ -602,16 +627,50 @@ section { scroll-margin-top: 76px; }
 
 .day__note { font-size: 14px; line-height: 1.7; color: var(--on-strong-mute); margin-top: 6px; }
 
-/* Empty until the calendar is published. Styled as a waiting slot rather
-   than hidden, so the page states plainly what is still to come. */
+/* The day's calendar date, right aligned so the five stack into a column. */
 .day__when {
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--on-strong-mute);
-  opacity: 0.65;
   text-align: right;
+}
+
+/* The day's programme. Times sit in their own column so the five days read
+   as one timetable rather than five paragraphs. */
+.slots {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.slot {
+  display: grid;
+  grid-template-columns: 152px minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+}
+
+.slot__time {
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-lift);
+  font-variant-numeric: tabular-nums;
+}
+
+.slot__what { font-size: 15px; line-height: 1.5; }
+
+.slot__sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--on-strong-mute);
 }
 
 /* ---- Facts strip -------------------------------------------------------- */
@@ -1005,6 +1064,8 @@ section { scroll-margin-top: 76px; }
 [data-lang="kn"] .frame__where,
 [data-lang="kn"] .about__caption,
 [data-lang="kn"] .qr-frame figcaption,
+[data-lang="kn"] .slot__time,
+[data-lang="kn"] .hero__dates-range,
 [data-lang="kn"] .when__notice strong,
 [data-lang="kn"] .site-footer__tagline,
 [data-lang="kn"] .site-footer__social,
@@ -1012,6 +1073,10 @@ section { scroll-margin-top: 76px; }
   letter-spacing: 0.04em;
   text-transform: none;
 }
+
+/* Kannada times read "evening 7:00 to night 10:00", so the column needs
+   more room than the English "7:00 to 10:00 pm". */
+[data-lang="kn"] .slot { grid-template-columns: 208px minmax(0, 1fr); }
 
 /* The hero's second line carries the name in the other language, so it keeps
    Latin shaping while the page is in Kannada. */
@@ -1027,8 +1092,9 @@ section { scroll-margin-top: 76px; }
   .hero .wrap { grid-template-columns: 1fr; }
   .hero__mark { order: -1; }
   .hero__mark img { max-width: 250px; margin: 0; }
-  .day { grid-template-columns: 84px minmax(0, 1fr); }
-  .day__when { grid-column: 2; text-align: left; opacity: 0.75; }
+  /* The date column shrinks to its content rather than dropping below the
+     programme, so every day still opens with "Day N ... Mon 14 Sep". */
+  .day { grid-template-columns: 84px minmax(0, 1fr) auto; gap: 20px; }
 }
 
 @media (max-width: 900px) {
@@ -1057,8 +1123,20 @@ section { scroll-margin-top: 76px; }
   .day__note,
   .seva__lines { font-size: 14px; }
 
-  .day { grid-template-columns: 1fr; gap: 6px; }
-  .day__when { grid-column: 1; }
+  .day {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 14px;
+    align-items: baseline;
+  }
+  .day__num { grid-column: 1; grid-row: 1; }
+  .day__when { grid-column: 2; grid-row: 1; }
+  .day > div { grid-column: 1 / -1; grid-row: 2; }
+
+  /* Two columns leave the programme names on two or three lines each at this
+     width, so the time moves above what it belongs to. */
+  .slot,
+  [data-lang="kn"] .slot { grid-template-columns: 1fr; gap: 2px; }
+  .slots { gap: 16px; margin-top: 16px; }
 
   .fact__num { font-size: 32px; }
 
