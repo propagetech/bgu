@@ -191,6 +191,7 @@
       'partners.eyebrow': 'Health partner',
       'partners.title': 'Kauvery Hospital.',
       'partners.lede': 'Health partner for the tenth year of Bellandur Ganesha Utsava.',
+      'partners.kauveryAlt': 'Kauvery Hospital logo',
 
       'foot.logoAlt': 'Bellandur Ganesha Utsava',
       'foot.tagline': 'Pooja · Aarti · Procession · Visarjan',
@@ -381,6 +382,7 @@
       'partners.eyebrow': 'ಆರೋಗ್ಯ ಪಾಲುದಾರ',
       'partners.title': 'ಕೌವರಿ ಆಸ್ಪತ್ರೆ.',
       'partners.lede': 'ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವದ ೧೦ನೇ ವರ್ಷದ ಆರೋಗ್ಯ ಪಾಲುದಾರ.',
+      'partners.kauveryAlt': 'ಕೌವರಿ ಆಸ್ಪತ್ರೆ ಲಾಂಛನ',
 
       'foot.logoAlt': 'ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ',
       'foot.tagline': 'ಪೂಜೆ · ಆರತಿ · ಮೆರವಣಿಗೆ · ವಿಸರ್ಜನೆ',

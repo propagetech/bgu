@@ -1046,9 +1046,22 @@ section { scroll-margin-top: 76px; }
 
 .volunteer { margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--line-strong); }
 
-/* ---- Partners: festival mark + Kauvery --------------------------------- */
-/* One composition, no cards. The two marks sit on the soft sheet the way the
-   branding slide does: side by side, centred, plenty of air. */
+/* ---- Partners: Kauvery health partner ---------------------------------- */
+
+.partners__mark {
+  margin: 0;
+  display: grid;
+  place-items: start;
+}
+
+.partners__mark img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(280px, 70vw);
+  max-height: 120px;
+  object-fit: contain;
+}
 
 .volunteer__title {
   font-family: var(--font-display);
