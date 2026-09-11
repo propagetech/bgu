@@ -1048,31 +1048,19 @@ section { scroll-margin-top: 76px; }
 
 /* ---- Partners: Kauvery health partner ---------------------------------- */
 
-.partners {
-  display: grid;
-  grid-template-columns: minmax(160px, 280px) minmax(0, 1fr);
-  gap: clamp(28px, 5vw, 64px);
-  align-items: center;
-}
-
 .partners__mark {
   margin: 0;
   display: grid;
-  place-items: center start;
+  place-items: start;
 }
 
 .partners__mark img {
   display: block;
   width: auto;
   height: auto;
-  max-width: 100%;
+  max-width: min(280px, 70vw);
   max-height: 120px;
   object-fit: contain;
-}
-
-.partners__copy .lede {
-  margin-bottom: 0;
-  max-width: 42ch;
 }
 
 .volunteer__title {
@@ -1307,11 +1295,6 @@ section { scroll-margin-top: 76px; }
 @media (max-width: 900px) {
   .about__grid { grid-template-columns: 1fr; }
   .about__portrait { max-width: 220px; }
-  .partners {
-    grid-template-columns: 1fr;
-    gap: 28px;
-  }
-  .partners__mark img { max-height: 96px; }
 }
 
 /* ---- Phone -------------------------------------------------------------- */
