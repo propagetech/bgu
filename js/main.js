@@ -378,7 +378,7 @@
 
     var logo = document.querySelectorAll("[data-brand-logo]");
     logo.forEach(function (el) {
-      el.setAttribute("src", assetBase() + (next === "kn" ? "imgs/logo-kn.svg" : "imgs/logo-en.svg"));
+      el.setAttribute("src", assetBase() + "imgs/logo.webp");
       if (el.closest(".nav-brand")) {
         el.setAttribute("alt", "");
       } else {

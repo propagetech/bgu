@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Branding | Bellandur Ganesha Utsava × Kauvery Hospital</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: #fff8ec;
+    }
+    body {
+      display: grid;
+      place-items: center;
+      min-height: 100dvh;
+      padding: clamp(24px, 6vw, 72px);
+    }
+    .slide {
+      width: min(100%, 1920px);
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(40px, 7vw, 140px);
+      background: #fff8ec;
+    }
+    .slide img {
+      display: block;
+      width: auto;
+      height: auto;
+      max-height: 56%;
+      object-fit: contain;
+    }
+    .slide img.ganesha {
+      max-height: 62%;
+      max-width: 42%;
+    }
+    .slide img.kauvery {
+      max-height: 34%;
+      max-width: 42%;
+    }
+    @media (max-width: 720px) {
+      .slide {
+        flex-direction: column;
+        aspect-ratio: auto;
+        min-height: 100dvh;
+        gap: 48px;
+      }
+      .slide img.ganesha,
+      .slide img.kauvery {
+        max-width: 78%;
+        max-height: none;
+        width: min(320px, 78vw);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="slide" aria-label="Branding logos">
+    <img
+      class="ganesha"
+      src="./10th%20Year%20BGU%20VR%202026.png"
+      alt="Bellandur Ganesha Utsava 10th year logo"
+      width="3762"
+      height="3762"
+    />
+    <img
+      class="kauvery"
+      src="./Kauvery-Logo-white.png"
+      alt="Kauvery Hospital logo"
+      width="2000"
+      height="1481"
+    />
+  </main>
+</body>
+</html>

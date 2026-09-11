@@ -1046,6 +1046,40 @@ section { scroll-margin-top: 76px; }
 
 .volunteer { margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--line-strong); }
 
+/* ---- Partners: festival mark + Kauvery --------------------------------- */
+/* One composition, no cards. The two marks sit on the soft sheet the way the
+   branding slide does: side by side, centred, plenty of air. */
+
+.partners {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(40px, 8vw, 120px);
+}
+
+.partners__mark {
+  margin: 0;
+  display: grid;
+  place-items: center;
+}
+
+.partners__mark img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(280px, 42vw);
+  max-height: 280px;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 28px rgba(58, 10, 18, 0.12));
+}
+
+.partners__mark--kauvery img {
+  max-width: min(340px, 52vw);
+  max-height: 160px;
+  filter: none;
+}
+
 .volunteer__title {
   font-family: var(--font-display);
   font-weight: 700;
@@ -1291,6 +1325,16 @@ section { scroll-margin-top: 76px; }
   .hero__cta .pill { text-align: center; }
 
   .headline { font-size: 7.8vw; line-height: 1.14; }
+
+  .partners {
+    flex-direction: column;
+    gap: 36px;
+  }
+  .partners__mark img,
+  .partners__mark--kauvery img {
+    max-width: min(240px, 70vw);
+    max-height: none;
+  }
 
   .lede,
   .about__body p,

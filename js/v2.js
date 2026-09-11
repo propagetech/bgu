@@ -27,6 +27,7 @@
       'nav.photos': 'Photos',
       'nav.visarjan': 'Visarjan',
       'nav.visit': 'Visit',
+      'nav.partners': 'Partners',
       'nav.resources': 'Resources',
       'nav.donate': 'Donate',
 
@@ -187,6 +188,12 @@
       'vol.text': 'The five days are run by people from the area. If you want to help with the pandal, the poojas or the procession, reach the mandali through Instagram or Facebook.',
       'vol.cta': 'Reach the mandali',
 
+      'partners.eyebrow': 'Partners',
+      'partners.title': 'Carried with Kauvery Hospital.',
+      'partners.lede': 'The tenth year of Bellandur Ganesha Utsava, marked with Kauvery Hospital.',
+      'partners.bguAlt': 'Bellandur Ganesha Utsava tenth year emblem',
+      'partners.kauveryAlt': 'Kauvery Hospital logo',
+
       'foot.logoAlt': 'Bellandur Ganesha Utsava',
       'foot.tagline': 'Pooja · Aarti · Procession · Visarjan',
       'foot.ig': 'Instagram',
@@ -212,6 +219,7 @@
       'nav.photos': 'ಚಿತ್ರಗಳು',
       'nav.visarjan': 'ವಿಸರ್ಜನೆ',
       'nav.visit': 'ಭೇಟಿ',
+      'nav.partners': 'ಪಾಲುದಾರರು',
       'nav.resources': 'ಸಂಪನ್ಮೂಲಗಳು',
       'nav.donate': 'ದಾನ',
 
@@ -371,6 +379,12 @@
       'vol.title': 'ಸ್ವಯಂಸೇವಕರಾಗಿ',
       'vol.text': 'ಈ ಐದು ದಿನಗಳನ್ನು ಈ ಪ್ರದೇಶದ ಜನರೇ ನಡೆಸುತ್ತಾರೆ. ಪಂದಾಲ್, ಪೂಜೆ ಅಥವಾ ಮೆರವಣಿಗೆಯಲ್ಲಿ ಸಹಾಯ ಮಾಡಲು Instagram ಅಥವಾ Facebook ಮೂಲಕ ಮಂಡಲಿಯನ್ನು ಸಂಪರ್ಕಿಸಿ.',
       'vol.cta': 'ಮಂಡಲಿಯನ್ನು ಸಂಪರ್ಕಿಸಿ',
+
+      'partners.eyebrow': 'ಪಾಲುದಾರರು',
+      'partners.title': 'ಕೌವರಿ ಆಸ್ಪತ್ರೆಯೊಂದಿಗೆ.',
+      'partners.lede': 'ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವದ ೧೦ನೇ ವರ್ಷ, ಕೌವರಿ ಆಸ್ಪತ್ರೆಯೊಂದಿಗೆ.',
+      'partners.bguAlt': 'ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ ೧೦ನೇ ವರ್ಷದ ಲಾಂಛನ',
+      'partners.kauveryAlt': 'ಕೌವರಿ ಆಸ್ಪತ್ರೆ ಲಾಂಛನ',
 
       'foot.logoAlt': 'ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ',
       'foot.tagline': 'ಪೂಜೆ · ಆರತಿ · ಮೆರವಣಿಗೆ · ವಿಸರ್ಜನೆ',
