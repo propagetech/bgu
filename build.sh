@@ -9,8 +9,10 @@ OUT="dist"
 # Public files and directories, relative to the repo root.
 PUBLIC=(
   index.html
+  404.html
   robots.txt
   sitemap.xml
+  llms.txt
   _headers
   css
   js

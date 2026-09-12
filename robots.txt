@@ -1,4 +1,10 @@
+# Public festival site. Cloudflare may prepend Managed Content (AI bot rules)
+# ahead of this file; adjust those in the Cloudflare dashboard if needed.
+
 User-Agent: *
 Allow: /
+
+# Tool and archive pages are crawlable but marked noindex in HTML / headers.
+# Do not list them in the sitemap.
 
 Sitemap: https://bgu.propage.in/sitemap.xml

@@ -8,6 +8,7 @@
     en: {
       "nav.resources": "Resources",
       "nav.home": "Back to home",
+      "crumbs.home": "Home",
       "theme.toLight": "Light",
       "theme.toDark": "Dark",
       "home.sub": "ಬೆಳ್ಳಂದೂರು ಗಣೇಶ ಉತ್ಸವ",
@@ -161,6 +162,7 @@
     kn: {
       "nav.resources": "ಸಂಪನ್ಮೂಲಗಳು",
       "nav.home": "ಮುಖಪುಟಕ್ಕೆ",
+      "crumbs.home": "ಮುಖಪುಟ",
       "theme.toLight": "ಬೆಳಕು",
       "theme.toDark": "ಕತ್ತಲೆ",
       "home.sub": "Bellandur Ganesha Utsava",
