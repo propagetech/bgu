@@ -916,19 +916,24 @@ section { scroll-margin-top: 76px; }
 }
 .frame__box:hover img { transform: scale(1.04); }
 
-/* Instagram QR sits in the same 3:2 tile as the other frames. */
+/* Instagram QR: cropped white card, sized large inside the shared 3:2 tile. */
+.frame__box--qr {
+  background:
+    radial-gradient(ellipse 65% 65% at 50% 40%, rgba(239, 212, 137, 0.12), transparent 62%),
+    linear-gradient(158deg, var(--cherry), var(--cherry-deep));
+}
 .frame__box--qr img {
   position: absolute;
   inset: 0;
   width: auto;
   height: auto;
-  max-width: 46%;
-  max-height: 90%;
+  max-width: 72%;
+  max-height: 88%;
   margin: auto;
   object-fit: contain;
   opacity: 1;
-  border-radius: 12px;
-  box-shadow: 0 8px 22px rgba(12, 2, 5, 0.3);
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(12, 2, 5, 0.32);
 }
 .frame__box--qr:hover img { transform: scale(1.03); }
 
