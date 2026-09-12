@@ -571,7 +571,7 @@
   var posterImg = document.getElementById('poster-modal-img');
   var posterStatus = document.querySelector('[data-poster-status]');
   var POSTER_FILENAME = 'bellandur-ganesha-utsava-2026-poster.png';
-  var POSTER_ORIGINAL = (posterImg && posterImg.getAttribute('data-original')) || 'imgs/poster-2026.png';
+  var POSTER_ORIGINAL = (posterImg && posterImg.getAttribute('data-original')) || 'imgs/bgu-poster.png';
   var POSTER_VIEW = (posterImg && posterImg.getAttribute('data-src')) || 'imgs/poster-2026.webp';
   var POSTER_VIEW_FALLBACK = (posterImg && posterImg.getAttribute('data-src-fallback')) || 'imgs/poster-2026.jpg';
 
