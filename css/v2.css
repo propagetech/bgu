@@ -706,7 +706,7 @@ section { scroll-margin-top: 76px; }
   border-radius: 10px;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28);
   transition: transform 0.25s ease;
-  aspect-ratio: 1024 / 651;
+  aspect-ratio: 1122 / 1402;
   background: #1a0a0c;
 }
 .poster__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -765,7 +765,7 @@ section { scroll-margin-top: 76px; }
    script only opens it, closes it and runs the share. */
 
 .poster-modal {
-  width: min(560px, calc(100vw - 32px));
+  width: min(420px, calc(100vw - 32px));
   max-width: none;
   max-height: calc(100vh - 32px);
   padding: 0;

@@ -644,8 +644,8 @@
             aria-label="Open the 2026 programme poster full size, with a share option">
             <span class="poster__thumb">
               <picture>
-                <source srcset="imgs/programme-2026-thumb.webp" type="image/webp" />
-                <img src="imgs/programme-2026-thumb.jpg" width="880" height="559" alt=""
+                <source srcset="imgs/poster-2026-thumb.webp" type="image/webp" />
+                <img src="imgs/poster-2026-thumb.jpg" width="352" height="440" alt=""
                   loading="lazy" decoding="async" />
               </picture>
             </span>
@@ -1078,15 +1078,18 @@
         </button>
       </div>
 
-      <img class="poster-modal__img" id="poster-modal-img" width="1024" height="651"
-        data-src="imgs/programme-2026.jpg" data-i18n-alt="poster.alt" alt="" src="" />
+      <img class="poster-modal__img" id="poster-modal-img" width="898" height="1122"
+        data-src="imgs/poster-2026.webp"
+        data-src-fallback="imgs/poster-2026.jpg"
+        data-original="imgs/poster-2026.png"
+        data-i18n-alt="poster.alt" alt="" src="" />
 
       <div class="poster-modal__bar">
         <div class="poster-modal__actions">
           <button class="pill pill--solid" type="button" data-poster-share
             data-i18n="poster.share">Share</button>
-          <a class="pill pill--ghost-strong" href="imgs/programme-2026.jpg"
-            download="bellandur-ganesha-utsava-2026-programme.jpg"
+          <a class="pill pill--ghost-strong" href="imgs/poster-2026.png"
+            download="bellandur-ganesha-utsava-2026-poster.png"
             data-i18n="poster.download">Download</a>
         </div>
         <p class="poster-modal__status" data-poster-status role="status" aria-live="polite"></p>

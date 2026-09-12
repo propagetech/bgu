@@ -570,7 +570,10 @@
   var posterModal = document.getElementById('poster-modal');
   var posterImg = document.getElementById('poster-modal-img');
   var posterStatus = document.querySelector('[data-poster-status]');
-  var POSTER_FILENAME = 'bellandur-ganesha-utsava-2026-programme.jpg';
+  var POSTER_FILENAME = 'bellandur-ganesha-utsava-2026-poster.png';
+  var POSTER_ORIGINAL = (posterImg && posterImg.getAttribute('data-original')) || 'imgs/poster-2026.png';
+  var POSTER_VIEW = (posterImg && posterImg.getAttribute('data-src')) || 'imgs/poster-2026.webp';
+  var POSTER_VIEW_FALLBACK = (posterImg && posterImg.getAttribute('data-src-fallback')) || 'imgs/poster-2026.jpg';
 
   function posterSay(key) {
     posterStatusKey = key || '';
@@ -580,14 +583,15 @@
   function pageUrl() { return location.origin + location.pathname; }
 
   /* Resolves to a File when the browser can share files, and to null on any
-     other outcome, so the caller can simply fall through to the URL share. */
+     other outcome, so the caller can simply fall through to the URL share.
+     Share sends the original PNG so WhatsApp gets the same file as Download. */
   function posterAsFile() {
     if (!navigator.canShare || typeof File !== 'function') return Promise.resolve(null);
-    return fetch(posterImg.getAttribute('data-src'))
+    return fetch(POSTER_ORIGINAL)
       .then(function (r) { return r.ok ? r.blob() : null; })
       .then(function (blob) {
         if (!blob) return null;
-        var file = new File([blob], POSTER_FILENAME, { type: blob.type || 'image/jpeg' });
+        var file = new File([blob], POSTER_FILENAME, { type: blob.type || 'image/png' });
         return navigator.canShare({ files: [file] }) ? file : null;
       })
       ['catch'](function () { return null; });
@@ -626,12 +630,18 @@
 
   posterOpeners.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      /* The full poster is a third of a megabyte, so it is fetched on the
-         first open rather than with the page. */
+      /* The display asset is under 200KB, so it is fetched on the first open
+         rather than with the page. Download still points at the original PNG. */
       if (canDialog && !posterImg.getAttribute('src')) {
-        posterImg.setAttribute('src', posterImg.getAttribute('data-src'));
+        posterImg.onerror = function () {
+          if (posterImg.getAttribute('src') !== POSTER_VIEW_FALLBACK) {
+            posterImg.onerror = null;
+            posterImg.setAttribute('src', POSTER_VIEW_FALLBACK);
+          }
+        };
+        posterImg.setAttribute('src', POSTER_VIEW);
       }
-      if (!canDialog) { window.open('imgs/programme-2026.jpg', '_blank', 'noopener'); return; }
+      if (!canDialog) { window.open(POSTER_ORIGINAL, '_blank', 'noopener'); return; }
       posterSay('');
       posterModal.showModal();
       document.body.style.overflow = 'hidden';
